@@ -232,6 +232,6 @@ function ihcEditor(){
 // ---------- boot ----------
 $('#navHome').onclick=home; $('#navReports').onclick=reportsScreen; $('#navData').onclick=dataScreen;
 (async()=>{ try{ await loadBundle(false); home(); }catch(e){ app.innerHTML=`<div class="card"><h3>Templates not loaded</h3><p>${esc(e.message)}. Connect to the internet once to download the templates.</p></div>`; } })();
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+if('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}); let rl=false; navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(!rl){rl=true; location.reload();} }); }
 if(navigator.storage&&navigator.storage.persist) navigator.storage.persist();
 })();
