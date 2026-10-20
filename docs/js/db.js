@@ -12,8 +12,8 @@ const DB=(function(){
     put:(s,v)=>tx(s,'readwrite',st=>st.put(v)),
     del:(s,id)=>tx(s,'readwrite',st=>st.delete(id)),
     clear:s=>tx(s,'readwrite',st=>st.clear()),
-    async exportAll(){ const o={app:'Path Reporter WS',kind:'backup',exported:new Date().toISOString(),version:1}; for(const s of STORES) o[s]=await this.all(s); return o; },
+    async exportAll(){ const o={app:'Path Reporter WS',kind:'backup',exported:new Date().toISOString(),version:1}; for(const s of ['reports','diagnoses']) o[s]=await this.all(s); return o; /* templates bundle is re-downloadable; not part of backups */ },
     async importAll(o,mode){ if(!o||o.app!=='Path Reporter WS'||o.kind!=='backup') throw new Error('Not a Path Reporter WS backup file');
-      for(const s of STORES){ if(mode==='replace') await this.clear(s); for(const v of (o[s]||[])) await this.put(s,v); } }
+      for(const s of ['reports','diagnoses']){ if(mode==='replace') await this.clear(s); for(const v of (o[s]||[])) await this.put(s,v); } }
   };
 })();

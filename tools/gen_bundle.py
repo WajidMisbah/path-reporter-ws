@@ -18,8 +18,8 @@ with contextlib.redirect_stdout(io.StringIO()):
     _sp=_u.spec_from_file_location('gr_texts',GR+'/texts.py'); texts=_u.module_from_spec(_sp); _sp.loader.exec_module(texts)
 
 OUTDIR=ROOT+'/docs/templates'; os.makedirs(OUTDIR, exist_ok=True)
-LAYOUTS={'histo':'Histopathology Template.dotx','cap':'Cancer CAP Template.dotx'}
-for k,f in LAYOUTS.items(): shutil.copy(B.B+f, OUTDIR+'/'+('histopathology' if k=='histo' else 'cancer-cap')+'.dotx')
+LAYOUTS={'histo':('Histopathology Template.dotx','histopathology'),'cap':('Cancer CAP Template.dotx','cancer-cap'),'ihc':('IHC Template.dotx','ihc')}
+for k,(f,o) in LAYOUTS.items(): shutil.copy(B.B+f, OUTDIR+'/'+o+'.dotx')
 
 # ---------- specimens (gross library) ----------
 def gb_src(kind):
@@ -54,7 +54,7 @@ L=json.load(open(CT+'/manifest.json'))
 for p,name,i,s in L:
     base=name[:-5]
     if base in B.SKIP or p.startswith(SKIP_PREFIX) or (p,name) in B.OTHER_BUILDERS: continue
-    if p.split('/')[0] in B.fluid.FLUID_FOLDERS or ('_FNAC_' in name): continue
+    if p.split('/')[0] in B.fluid.FLUID_FOLDERS or ('_FNAC_' in name) or ('_IHC_' in name): continue  # IHC panels come from ihc_cases/ihc_breast2
     try:
         with contextlib.redirect_stdout(io.StringIO()):
             case=parse(B.CASES+p+'/'+name)
@@ -90,12 +90,22 @@ for p,name,i,s in L:
         'micro':items(micro),'finalDiagnosis':items(fd),'comment':items(B.comment_items(case)),'cap':cap,
         'exampleGross':({'containers':[{'text':c,'gross':g} for c,g in zip(gp[0],gp[1])],'sections':gp[2]} if gp else None)})
 
+def ihc_panels():
+    out=[]
+    for f in (CT+'/ihc_cases/cases.json',CT+'/ihc_breast2/cases.json'):
+        for c in json.load(open(f)):
+            parts=c['rel'].split('/'); name=parts[-1][:-5]
+            out.append({'id':'ihc-'+hashlib.sha1(c['src'].encode()).hexdigest()[:10],'type':'ihc','name':name,'site':parts[2],'nature':parts[3],'path':c['src'],
+              'block':c['block'],'results':c['results'],'scoring':c.get('scoring'),'controls':c['controls'],
+              'impression':[{'label':c['imp'][0].strip(),'text':c['imp'][1]}] if c['imp'][0].strip() else [{'label':'','text':c['imp'][1]}],
+              'comment':[{'label':'','text':x} for x in c['comment']]})
+    return out
 bundle={'app':'Path Reporter WS','version':datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
  'generated':datetime.datetime.now().isoformat(timespec='seconds'),
- 'layouts':{'histo':'templates/histopathology.dotx','cap':'templates/cancer-cap.dotx'},
+ 'layouts':{'histo':'templates/histopathology.dotx','cap':'templates/cancer-cap.dotx','ihc':'templates/ihc.dotx'},'ihcPanels':ihc_panels(),
  'specimens':specimens,'diagnoses':diagnoses}
 json.dump(bundle,open(OUTDIR+'/bundle.json','w'),ensure_ascii=False,indent=0)
-print(len(specimens),'specimens',len(diagnoses),'diagnoses',sum(d['layout']=='cap' for d in diagnoses),'cap; skipped',len(skipped))
+print(len(specimens),'specimens',len(diagnoses),'diagnoses',len(bundle['ihcPanels']),'ihc',sum(d['layout']=='cap' for d in diagnoses),'cap; skipped',len(skipped))
 for s in skipped[:15]: print(' skip',s)
 for sp in specimens:
     n=sum(1 for d in diagnoses if re.search(sp['match'],d['path'],re.I))

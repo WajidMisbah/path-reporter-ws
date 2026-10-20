@@ -164,5 +164,56 @@ function buildDocx(templateBuf,report){
   const ct=zip.file('[Content_Types].xml').asText(); zip.file('[Content_Types].xml',ct.replace(DOTX_CT,DOCX_CT));
   return zip.generate({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
 }
-window.DocxFill={buildDocx};
+
+// ---------------- IHC (port of casetemplates/ihc_cases/build.py) ----------------
+const LANG='<w:lang w:val="en-IN"/>';
+const xesc=t=>String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function frag(doc,xml){ const d=new DOMParser().parseFromString(`<root xmlns:w="${W}">${xml}</root>`,'application/xml'); return doc.importNode(d.documentElement.firstElementChild,true); }
+function ihcRun(doc,t,b){ return frag(doc,`<w:r><w:rPr>${b?'<w:b/><w:bCs/>':''}${LANG}</w:rPr><w:t xml:space="preserve">${xesc(t)}</w:t></w:r>`); }
+const NONE=['top','left','bottom','right','insideH','insideV'].map(s=>`<w:${s} w:val="none" w:sz="0" w:space="0" w:color="auto"/>`).join('');
+function scoreTable(doc,title,cols,widths,data){
+  const bd=(top,bot)=>{const x=(top?'<w:top w:val="single" w:sz="18" w:space="0" w:color="auto"/>':'')+(bot?`<w:bottom w:val="single" w:sz="${bot}" w:space="0" w:color="auto"/>`:''); return x?`<w:tcBorders>${x}</w:tcBorders>`:'';};
+  const p=(t,b,after=60,keep=false)=>t?`<w:p><w:pPr>${keep?'<w:keepNext/>':''}<w:spacing w:after="${after}"/><w:jc w:val="left"/></w:pPr><w:r><w:rPr>${b?'<w:b/><w:bCs/>':''}${LANG}</w:rPr><w:t xml:space="preserve">${xesc(t)}</w:t></w:r></w:p>`:`<w:p><w:pPr><w:spacing w:after="${after}"/></w:pPr></w:p>`;
+  const c=(w,content,b,span=1)=>`<w:tc><w:tcPr><w:tcW w:w="${w}" w:type="dxa"/>${span>1?`<w:gridSpan w:val="${span}"/>`:''}${b}</w:tcPr>${content}</w:tc>`;
+  const tr=cs=>`<w:tr><w:trPr><w:cantSplit/><w:trHeight w:val="340"/></w:trPr>${cs}</w:tr>`;
+  const rows=[tr(c(9638,p(title,true,40,true),bd(false,18),cols.length))];
+  rows.push(tr(cols.map((h,i)=>c(widths[i],p(h,true),bd(true))).join('')));
+  data.forEach((r,i)=>{const last=i===data.length-1; rows.push(tr(cols.map((_,j)=>c(widths[j],p(r[j]||''),bd(false,last?4:null))).join('')));});
+  const g=widths.map(w=>`<w:gridCol w:w="${w}"/>`).join('');
+  return frag(doc,`<w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="9638" w:type="dxa"/><w:tblBorders>${NONE}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid>${g}</w:tblGrid>${rows.join('')}</w:tbl>`);
+}
+function fillLabels(doc,t,vals){
+  for(const tr of rows(t).slice(1)){ const p=desc(tr,'p')[0]; const lab=text(p).trim(); const v=vals[lab]??vals[lab.replace(/:$/,'')]; if(v) p.appendChild(ihcRun(doc,v)); }
+}
+function fillFree(doc,t,plist){
+  const tc=cells(rows(t)[1])[0]; const p0=kids(tc,'p')[0];
+  plist.filter(x=>x.some(([t])=>String(t).trim())).forEach((runs,i)=>{
+    let p=p0; if(i){ p=stripW14(p0.cloneNode(true)); kids(p,'r').forEach(r=>p.removeChild(r)); tc.appendChild(p); }
+    for(const [t,b] of runs) if(t) p.appendChild(ihcRun(doc,t,b));
+  });
+}
+function buildIhcDocx(templateBuf,R){
+  const zip=new PizZip(templateBuf); const P=new DOMParser();
+  const doc=P.parseFromString(zip.file('word/document.xml').asText(),'application/xml'); const body=desc(doc,'body')[0];
+  fillClinical(doc,table(body,'CLINICAL DETAILS'),R.clinical||[]);
+  fillLabels(doc,table(body,'SPECIMEN AND BLOCK DETAILS'),R.block||{});
+  fillLabels(doc,table(body,'CONTROLS'),R.controls||{});
+  const rt=table(body,'IMMUNOHISTOCHEMISTRY RESULTS'); const trs=rows(rt); const proto=trs[2];
+  trs.slice(2).forEach(r=>rt.removeChild(r));
+  const res=(R.results||[]).filter(r=>r.some(v=>String(v||'').trim()));
+  (res.length?res:[['','','']]).forEach(vals=>{ const r=proto.cloneNode(true); cells(r).forEach((tc,i)=>{ if(vals[i]) kids(tc,'p')[0].appendChild(ihcRun(doc,vals[i])); }); rt.appendChild(r); });
+  const sc=R.scoring;
+  if(sc&&sc.rows&&sc.rows.length){
+    let sp=rt.nextSibling; while(sp&&sp.nodeType!==1) sp=sp.nextSibling;
+    const st=scoreTable(doc,sc.title||'SCORING',sc.cols,sc.widths,sc.rows);
+    body.insertBefore(st,sp.nextSibling); body.insertBefore(sp.cloneNode(true),st.nextSibling);
+  }
+  fillFree(doc,table(body,'IMPRESSION'),(R.impression||[]).map(i=>i.label?[[i.label.endsWith(' ')?i.label:i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
+  fillFree(doc,table(body,'COMMENT'),(R.comment||[]).map(i=>i.label?[[i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
+  zip.file('word/document.xml',ser(doc));
+  for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){ const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,R.header||{}); zip.file(f,ser(h)); } }
+  zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
+  return zip.generate({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
+}
+window.DocxFill={buildDocx,buildIhcDocx};
 })();

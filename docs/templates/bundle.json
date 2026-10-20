@@ -1,11 +1,1196 @@
 {
 "app": "Path Reporter WS",
-"version": "20261020225327",
-"generated": "2026-10-20T22:53:27",
+"version": "20261020233913",
+"generated": "2026-10-20T23:39:13",
 "layouts": {
 "histo": "templates/histopathology.dotx",
-"cap": "templates/cancer-cap.dotx"
+"cap": "templates/cancer-cap.dotx",
+"ihc": "templates/ihc.dotx"
 },
+"ihcPanels": [
+{
+"id": "ihc-50d39cc326",
+"type": "ihc",
+"name": "Invasive Breast Carcinoma NST, ER PR HER2 Ki-67 Panel, Left Breast (Core Biopsy)",
+"site": "Breast",
+"nature": "Neoplastic",
+"path": "Breast/04 Immunohistochemistry/01_IHC_ER_PR_HER2_Ki67_Luminal_A_like_HER2_Low.docx",
+"block": {
+"Block tested:": "A2 (most representative core, tumour about 70% of tissue)",
+"Fixative:": "10% neutral buffered formalin; cold ischaemia time under 1 hour; fixation time 6 to 72 hours (within ASCO/CAP limits)",
+"Platform:": "Automated immunostainer, validated clones"
+},
+"results": [
+[
+"ER (SP1)",
+"Positive",
+"90% nuclei, strong"
+],
+[
+"PR (1E2)",
+"Positive",
+"40% nuclei, moderate"
+],
+[
+"HER2 (4B5)",
+"Score 1+ (negative, HER2-low)",
+"Faint, barely perceptible incomplete membrane staining in about 30% of tumour cells"
+],
+[
+"Ki-67 (30-9)",
+"Proliferation index",
+"15% of tumour nuclei (global count, about 500 cells)"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"ER",
+"Allred (proportion + intensity)",
+"8/8 (5+3)",
+"Positive"
+],
+[
+"ER",
+"H-score",
+"270",
+"Positive"
+],
+[
+"PR",
+"Allred (proportion + intensity)",
+"6/8 (4+2)",
+"Positive"
+],
+[
+"PR",
+"H-score",
+"80",
+"Positive"
+],
+[
+"HER2",
+"ASCO/CAP 2023 IHC score (0 to 3+)",
+"1+",
+"Negative (HER2-low)"
+],
+[
+"Ki-67",
+"Proliferation index (global count)",
+"15%",
+"Low"
+]
+]
+},
+"controls": {
+"External control:": "Tonsil and known breast carcinomas with defined ER/PR and HER2 0/1+/2+/3+ status stained appropriately.",
+"Internal control:": "Benign ducts and lobules show heterogeneous nuclear ER/PR staining as expected."
+},
+"impression": [
+{
+"label": "Left breast, core biopsy, invasive carcinoma NST:",
+"text": "Oestrogen receptor POSITIVE (90%, strong); progesterone receptor POSITIVE (40%, moderate); HER2 NEGATIVE, IHC score 1+ (HER2-low); Ki-67 15%."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "HER2 1+ falls in the HER2-low category, which is relevant for eligibility for HER2-directed antibody-drug conjugate therapy in the metastatic setting. Repeat biomarker testing on the excision specimen is advised if the result is discordant with morphology or if tumour heterogeneity is suspected."
+},
+{
+"label": "",
+"text": "HER2 ISH: not indicated. Surrogate molecular subtype: Luminal A-like (ER+, PR 20% or more, HER2-negative, Ki-67 low). Guideline: ASCO/CAP ER/PR 2020; ASCO/CAP HER2 2023 update."
+}
+]
+},
+{
+"id": "ihc-f54d9d6ba1",
+"type": "ihc",
+"name": "Colonic Adenocarcinoma, Mismatch Repair Deficient (MLH1 PMS2 Loss), BRAF V600E Positive, Ascending Colon (Right Hemicolectomy)",
+"site": "Gastrointestinal",
+"nature": "Neoplastic",
+"path": "Gastrointestinal/Colon/04_IHC_Mismatch_Repair_Panel_MLH1_PMS2_Loss_dMMR.docx",
+"block": {
+"Block tested:": "B4 (tumour with adjacent normal mucosa)",
+"Fixative:": "10% neutral buffered formalin",
+"Platform:": "Automated immunostainer, validated clones"
+},
+"results": [
+[
+"MLH1 (M1)",
+"Absent",
+"Loss of expression"
+],
+[
+"PMS2 (A16-4)",
+"Absent",
+"Loss of expression"
+],
+[
+"MSH2 (G219-1129)",
+"Retained, diffuse",
+"Intact"
+],
+[
+"MSH6 (SP93)",
+"Retained, diffuse",
+"Intact"
+],
+[
+"BRAF V600E (VE1)",
+"Positive (mutation-specific)",
+"Diffuse cytoplasmic staining; normal mucosa negative"
+]
+],
+"scoring": {
+"title": "MISMATCH REPAIR STATUS",
+"cols": [
+"Protein",
+"Tumour nuclei",
+"Internal control",
+"Status"
+],
+"widths": [
+2000,
+2400,
+2838,
+2400
+],
+"rows": [
+[
+"MLH1",
+"Absent",
+"Positive (stroma, lymphocytes, normal crypts)",
+"Loss"
+],
+[
+"PMS2",
+"Absent",
+"Positive",
+"Loss"
+],
+[
+"MSH2",
+"Retained, diffuse",
+"Positive",
+"Intact"
+],
+[
+"MSH6",
+"Retained, diffuse",
+"Positive",
+"Intact"
+],
+[
+"Overall MMR status",
+"Combined MLH1/PMS2 loss",
+"Interpretable",
+"Mismatch repair deficient (dMMR); predicts MSI-high"
+]
+]
+},
+"controls": {
+"External control:": "Tonsil and known MMR-proficient colon stained appropriately.",
+"Internal control:": "Non-neoplastic cells were positive for all four MMR proteins, so the loss in tumour cells is interpretable."
+},
+"impression": [
+{
+"label": "Ascending colon adenocarcinoma, MMR IHC:",
+"text": "Loss of MLH1 and PMS2 with intact MSH2 and MSH6, consistent with MISMATCH REPAIR DEFICIENCY (dMMR). BRAF V600E mutation-specific IHC POSITIVE."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Combined MLH1/PMS2 loss with BRAF V600E positivity strongly favours a sporadic tumour due to MLH1 promoter hypermethylation; Lynch syndrome is unlikely. MLH1 promoter methylation testing may be done for confirmation if clinically indicated. A dMMR/MSI-H status is relevant for prognosis and for immune checkpoint inhibitor eligibility."
+},
+{
+"label": "",
+"text": "Lynch syndrome likelihood: low; findings favour sporadic MLH1 promoter hypermethylation."
+}
+]
+},
+{
+"id": "ihc-edb2fe0c78",
+"type": "ihc",
+"name": "Metastatic Adenocarcinoma, Colorectal Primary Favoured, Liver (Core Biopsy)",
+"site": "Hepatobiliary",
+"nature": "Neoplastic",
+"path": "Hepatobiliary/Liver/01_IHC_Metastatic_Adenocarcinoma_Unknown_Primary_Colorectal_Favoured.docx",
+"block": {},
+"results": [
+[
+"CK7 (OV-TL 12/30)",
+"Negative",
+"No staining in tumour cells"
+],
+[
+"CK20 (Ks20.8)",
+"Positive",
+"Diffuse, strong cytoplasmic"
+],
+[
+"CDX2 (EPR2764Y)",
+"Positive",
+"Diffuse, strong nuclear"
+],
+[
+"SATB2 (EP281)",
+"Positive",
+"Diffuse nuclear"
+],
+[
+"TTF-1 (8G7G3/1)",
+"Negative",
+"No nuclear staining"
+],
+[
+"GATA3 (L50-823)",
+"Negative",
+"No nuclear staining"
+],
+[
+"PAX8 (MRQ-50)",
+"Negative",
+"No nuclear staining"
+],
+[
+"Arginase-1 / HepPar-1",
+"Negative in tumour",
+"Background hepatocytes positive (internal control)"
+]
+],
+"scoring": null,
+"controls": {
+"External control:": "Appropriate external positive and negative controls were run with each marker.",
+"Internal control:": "Background hepatocytes and bile ducts."
+},
+"impression": [
+{
+"label": "Liver, segment VI, core biopsy:",
+"text": "METASTATIC ADENOCARCINOMA; immunoprofile (CK7-/CK20+/CDX2+/SATB2+, TTF-1-, GATA3-, PAX8-) is consistent with a COLORECTAL PRIMARY."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Correlation with colonoscopy and imaging is recommended. If a colorectal primary is confirmed, MMR/MSI, RAS and BRAF testing can be done on this block for treatment planning."
+},
+{
+"label": "",
+"text": "Hepatocellular markers negative (excludes hepatocellular carcinoma). Differentials less likely: upper GI/pancreatobiliary (usually CK7 positive), lung, breast."
+}
+]
+},
+{
+"id": "ihc-bfeb2a4a34",
+"type": "ihc",
+"name": "Diffuse Large B-cell Lymphoma NOS, GCB Subtype, Left Cervical Lymph Node (Excision Biopsy)",
+"site": "Lymph Node",
+"nature": "Neoplastic",
+"path": "Lymph Node/05_IHC_DLBCL_GCB_Lymphoma_Panel.docx",
+"block": {
+"Block tested:": "A1 (representative nodal tissue, well fixed)",
+"Fixative:": "10% neutral buffered formalin",
+"Platform:": "Automated immunostainer, validated clones"
+},
+"results": [
+[
+"CD20 (L26)",
+"Positive",
+"Diffuse, strong membranous in large atypical cells"
+],
+[
+"PAX5 (DAK-Pax5)",
+"Positive",
+"Nuclear, in large cells (confirms B-lineage)"
+],
+[
+"CD3 (2GV6)",
+"Negative in large cells",
+"Highlights scattered small reactive T cells"
+],
+[
+"CD10 (SP67)",
+"Positive",
+"Membranous in more than 30% of tumour cells"
+],
+[
+"BCL6 (GI191E/A8)",
+"Positive",
+"Nuclear in about 70% of tumour cells"
+],
+[
+"MUM1 (MRQ-43)",
+"Negative",
+"Less than 30% of tumour cells"
+],
+[
+"BCL2 (124)",
+"Positive",
+"Cytoplasmic in about 60% of tumour cells"
+],
+[
+"c-MYC (Y69)",
+"Positive in 20%",
+"Below 40% threshold (not MYC-expressing)"
+],
+[
+"Ki-67 (30-9)",
+"Proliferation index",
+"About 80% of tumour nuclei"
+],
+[
+"CD5 / Cyclin D1 / CD30",
+"Negative",
+"Excludes CD5+ DLBCL and mantle cell lymphoma; CD30 negative"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Percentage of tumour cells",
+"Cut-off",
+"Interpretation"
+],
+"widths": [
+1900,
+2600,
+2338,
+2800
+],
+"rows": [
+[
+"CD10",
+"More than 30%",
+"30% (Hans)",
+"Positive (GCB)"
+],
+[
+"MUM1",
+"Less than 30%",
+"30% (Hans)",
+"Negative"
+],
+[
+"c-MYC",
+"20%",
+"40% (dual expressor)",
+"Not MYC-expressing"
+],
+[
+"BCL2",
+"About 60%",
+"50% (dual expressor)",
+"BCL2-expressing"
+],
+[
+"Ki-67",
+"About 80%",
+"",
+"Proliferation index"
+]
+]
+},
+"controls": {
+"External control:": "Tonsil stained appropriately for all markers.",
+"Internal control:": "Residual reactive T cells (CD3) and germinal centre remnants."
+},
+"impression": [
+{
+"label": "Left cervical lymph node, excision:",
+"text": "DIFFUSE LARGE B-CELL LYMPHOMA, NOT OTHERWISE SPECIFIED, GERMINAL CENTRE B-CELL (GCB) SUBTYPE (Hans algorithm: CD10+, BCL6+, MUM1-); BCL2 positive, MYC 20%, Ki-67 about 80%."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Cell-of-origin by IHC is a surrogate for gene-expression profiling. Because the tumour is GCB type, MYC/BCL2/BCL6 FISH is recommended (WHO 5th edition / ICC 2022) to exclude a high-grade B-cell lymphoma with MYC and BCL2 rearrangements. Staging with PET-CT and bone marrow assessment as clinically indicated."
+},
+{
+"label": "",
+"text": "Hans algorithm: mature B-cell lineage (CD20+, PAX5+, CD3-); step 1 CD10 positive, so step 2 (BCL6) not required; MUM1 negative (supportive). Dual expressor: no. EBV (EBER ISH): negative."
+}
+]
+},
+{
+"id": "ihc-f921e1e274",
+"type": "ihc",
+"name": "Leiomyosarcoma, Retroperitoneum (Core Biopsy)",
+"site": "Bone and Soft Tissue",
+"nature": "Neoplastic",
+"path": "Bone and Soft Tissue/Soft Tissue/02_IHC_Leiomyosarcoma_Spindle_Cell_Panel.docx",
+"block": {},
+"results": [
+[
+"SMA (1A4)",
+"Positive",
+"Diffuse, strong cytoplasmic"
+],
+[
+"Desmin (D33)",
+"Positive",
+"Diffuse cytoplasmic"
+],
+[
+"h-Caldesmon (h-CD)",
+"Positive",
+"Diffuse cytoplasmic"
+],
+[
+"S100 (polyclonal)",
+"Negative",
+"No nuclear or cytoplasmic staining in tumour cells"
+],
+[
+"SOX10 (SP267)",
+"Negative",
+"No nuclear staining"
+],
+[
+"CD34 (QBEnd/10)",
+"Negative in tumour",
+"Vessels positive (internal control)"
+],
+[
+"CD117 (YR145) / DOG1 (SP31)",
+"Negative",
+"Excludes GIST"
+],
+[
+"Pan-cytokeratin (AE1/AE3)",
+"Negative",
+"Excludes sarcomatoid carcinoma"
+],
+[
+"MDM2 (IF2)",
+"Negative",
+"Argues against dedifferentiated liposarcoma"
+],
+[
+"Ki-67 (30-9)",
+"Proliferation index",
+"About 30%"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"Ki-67",
+"Proliferation index",
+"About 30%",
+""
+]
+]
+},
+"controls": {
+"External control:": "External positive and negative controls stained appropriately.",
+"Internal control:": "Vessel walls (SMA, desmin, CD34 endothelium) and scattered mast cells (CD117)."
+},
+"impression": [
+{
+"label": "Retroperitoneal mass, core biopsy:",
+"text": "MALIGNANT SPINDLE CELL NEOPLASM WITH SMOOTH MUSCLE DIFFERENTIATION (SMA+, desmin+, h-caldesmon+; S100-, CD34-, CD117-, DOG1-, CK-, MDM2-), CONSISTENT WITH LEIOMYOSARCOMA."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Co-expression of three smooth muscle markers with negative S100/SOX10, CD34, CD117/DOG1, cytokeratin and MDM2 supports leiomyosarcoma over schwannoma/MPNST, solitary fibrous tumour, GIST, sarcomatoid carcinoma and dedifferentiated liposarcoma. Grading on a core biopsy may underestimate the grade; final FNCLCC grade and margins on the resection specimen. Referral to a sarcoma multidisciplinary team is advised."
+},
+{
+"label": "",
+"text": "FNCLCC grade (biopsy, provisional): grade 2 (differentiation 2, mitoses 2, necrosis 1; total 5). Final grading on resection specimen."
+}
+]
+},
+{
+"id": "ihc-e07b476d53",
+"type": "ihc",
+"name": "Non-small Cell Carcinoma, Favour Adenocarcinoma, Right Upper Lobe (Bronchoscopic Biopsy)",
+"site": "Respiratory",
+"nature": "Neoplastic",
+"path": "Respiratory/Lung/03_IHC_NSCLC_Favour_Adenocarcinoma_TTF1_p40.docx",
+"block": {},
+"results": [
+[
+"TTF-1 (8G7G3/1)",
+"Positive",
+"Diffuse, strong nuclear (about 80% of tumour cells)"
+],
+[
+"Napsin A (MRQ-60)",
+"Positive",
+"Granular cytoplasmic"
+],
+[
+"p40 (BC28)",
+"Negative",
+"No nuclear staining in tumour cells (basal cells of bronchial epithelium positive)"
+],
+[
+"CK5/6 (D5/16 B4)",
+"Negative",
+"No staining in tumour cells"
+],
+[
+"Mucicarmine (special stain)",
+"Focally positive",
+"Intracytoplasmic mucin in occasional cells"
+]
+],
+"scoring": null,
+"controls": {
+"External control:": "External controls stained appropriately.",
+"Internal control:": "Benign bronchial basal cells (p40, CK5/6) and entrapped type II pneumocytes (TTF-1, Napsin A)."
+},
+"impression": [
+{
+"label": "Right upper lobe, bronchoscopic biopsy:",
+"text": "NON-SMALL CELL CARCINOMA, FAVOUR ADENOCARCINOMA (TTF-1 positive, Napsin A positive, p40 negative)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "In small biopsies with solid morphology, the IASLC/WHO terminology 'NSCC, favour adenocarcinoma' is used when TTF-1 is positive and p40 is negative. The definitive subtype (e.g. solid adenocarcinoma) is assigned on resection. Remaining tissue has been preserved; reflex biomarker testing (molecular panel and PD-L1) is recommended for treatment planning."
+},
+{
+"label": "",
+"text": "Tissue stewardship: minimal two-marker panel used; tissue preserved for molecular testing. Molecular / predictive testing advised: EGFR, ALK, ROS1, KRAS, BRAF, MET, RET, NTRK (NGS) and PD-L1 (22C3)."
+}
+]
+},
+{
+"id": "ihc-75c12d9580",
+"type": "ihc",
+"name": "Invasive Breast Carcinoma NST Grade 1, Luminal A-like (ER+ PR+ HER2 0), Right Breast (Core Biopsy)",
+"site": "Breast",
+"nature": "Neoplastic",
+"path": "Breast/04 Immunohistochemistry/02_IHC_Breast_Luminal_A.docx",
+"block": {
+"Fixative:": "10% neutral buffered formalin; cold ischaemia time 40 minutes; fixation time 24 hours (within ASCO/CAP limits)",
+"Platform:": "Ventana BenchMark ULTRA"
+},
+"results": [
+[
+"ER (SP1)",
+"Positive",
+"95% of tumour nuclei, strong"
+],
+[
+"PR (1E2)",
+"Positive",
+"80% of tumour nuclei, strong"
+],
+[
+"HER2 (4B5)",
+"Negative",
+"Score 0 (no staining)"
+],
+[
+"Ki-67 (MIB-1)",
+"Proliferation index",
+"10% of tumour nuclei (global count)"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"ER",
+"Allred (proportion + intensity)",
+"8/8",
+"Positive"
+],
+[
+"ER",
+"H-score",
+"280",
+"Positive"
+],
+[
+"PR",
+"Allred (proportion + intensity)",
+"8/8",
+"Positive"
+],
+[
+"PR",
+"H-score",
+"240",
+"Positive"
+],
+[
+"HER2",
+"ASCO/CAP 2023 IHC score (0 to 3+)",
+"0",
+"Negative (not HER2-low)"
+],
+[
+"Ki-67",
+"Proliferation index (global count)",
+"10%",
+"Low"
+]
+]
+},
+"controls": {
+"External control:": "On-slide external positive controls stained appropriately for all markers.",
+"Internal control:": "Internal controls valid for all markers."
+},
+"impression": [
+{
+"label": "Right breast, upper outer quadrant, core needle biopsy:",
+"text": "Invasive breast carcinoma, NST, Grade 1. ER POSITIVE (95%, strong); PR POSITIVE (80%, strong); HER2 NEGATIVE, IHC score 0; Ki-67 10%. Surrogate molecular subtype: Luminal A-like."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Therapy implications: Endocrine therapy is the mainstay (aromatase inhibitor in a postmenopausal patient). Chemotherapy is generally not indicated; a genomic assay (e.g. Oncotype DX) may be considered if node-positive or other high-risk features. HER2 score 0: not HER2-low; assess for HER2-ultralow if T-DXd is clinically contemplated at metastatic stage."
+},
+{
+"label": "",
+"text": "Specimen: ultrasound-guided core needle biopsy (14G, 4 cores). St Gallen criteria met: ER+, PR high (20% or more), HER2-negative, Ki-67 low (below 20%)."
+},
+{
+"label": "",
+"text": "Ki-67 cut-offs are laboratory-dependent; 20% used here as the St Gallen low/high threshold. Ki-67 counted globally, hot-spots excluded (IKWG)."
+},
+{
+"label": "",
+"text": "Surrogate subtyping by IHC approximates gene-expression intrinsic subtypes; correlate clinically. ER/PR positive at 1% or more (1 to 10% = ER-low); HER2 scored per ASCO/CAP 2023."
+}
+]
+},
+{
+"id": "ihc-b9752c88ff",
+"type": "ihc",
+"name": "Invasive Breast Carcinoma NST Grade 2, Luminal B-like HER2-negative (ER+ PR-low HER2 1+), Left Breast (Modified Radical Mastectomy)",
+"site": "Breast",
+"nature": "Neoplastic",
+"path": "Breast/04 Immunohistochemistry/03_IHC_Breast_Luminal_B_HER2_Negative.docx",
+"block": {
+"Fixative:": "10% neutral buffered formalin; cold ischaemia time 40 minutes; fixation time 24 hours (within ASCO/CAP limits)",
+"Platform:": "Ventana BenchMark ULTRA"
+},
+"results": [
+[
+"ER (SP1)",
+"Positive",
+"90% of tumour nuclei, strong"
+],
+[
+"PR (1E2)",
+"Positive (low)",
+"10% of tumour nuclei, weak to moderate"
+],
+[
+"HER2 (4B5)",
+"Negative (HER2-low)",
+"Score 1+: faint incomplete membrane staining in 30% of cells"
+],
+[
+"Ki-67 (MIB-1)",
+"Proliferation index",
+"35% of tumour nuclei (global count)"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"ER",
+"Allred (proportion + intensity)",
+"8/8",
+"Positive"
+],
+[
+"ER",
+"H-score",
+"250",
+"Positive"
+],
+[
+"PR",
+"Allred (proportion + intensity)",
+"4/8",
+"Positive (low)"
+],
+[
+"PR",
+"H-score",
+"20",
+"Positive (low)"
+],
+[
+"HER2",
+"ASCO/CAP 2023 IHC score (0 to 3+)",
+"1+",
+"Negative (HER2-low)"
+],
+[
+"Ki-67",
+"Proliferation index (global count)",
+"35%",
+"High"
+]
+]
+},
+"controls": {
+"External control:": "On-slide external positive controls stained appropriately for all markers.",
+"Internal control:": "Internal controls valid for all markers."
+},
+"impression": [
+{
+"label": "Left breast, modified radical mastectomy:",
+"text": "Invasive breast carcinoma, NST, Grade 2. ER POSITIVE (90%, strong); PR POSITIVE, low (10%, weak to moderate); HER2 NEGATIVE, IHC score 1+ (HER2-low); Ki-67 35%. Surrogate molecular subtype: Luminal B-like (HER2-negative)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Therapy implications: Endocrine therapy (ovarian function suppression + AI/tamoxifen) with adjuvant chemotherapy. Node-positive with Ki-67 20% or more: may be eligible for adjuvant CDK4/6 inhibitor (abemaciclib) per clinical criteria. HER2-low: relevant for trastuzumab deruxtecan in the metastatic setting."
+},
+{
+"label": "",
+"text": "Specimen: left modified radical mastectomy with axillary clearance. St Gallen criteria met: ER+, HER2-negative, with Ki-67 high (20% or more) and PR low (below 20%)."
+},
+{
+"label": "",
+"text": "Ki-67 cut-offs are laboratory-dependent; 20% used here as the St Gallen low/high threshold. Ki-67 counted globally, hot-spots excluded (IKWG)."
+},
+{
+"label": "",
+"text": "Surrogate subtyping by IHC approximates gene-expression intrinsic subtypes; correlate clinically. ER/PR positive at 1% or more (1 to 10% = ER-low); HER2 scored per ASCO/CAP 2023."
+}
+]
+},
+{
+"id": "ihc-86ad939072",
+"type": "ihc",
+"name": "Invasive Breast Carcinoma NST Grade 2, Luminal B-like HER2-positive (HER2 2+ ISH Amplified), Right Breast (Core Biopsy)",
+"site": "Breast",
+"nature": "Neoplastic",
+"path": "Breast/04 Immunohistochemistry/04_IHC_Breast_Luminal_B_HER2_Positive.docx",
+"block": {
+"Fixative:": "10% neutral buffered formalin; cold ischaemia time 40 minutes; fixation time 24 hours (within ASCO/CAP limits)",
+"Platform:": "Ventana BenchMark ULTRA"
+},
+"results": [
+[
+"ER (SP1)",
+"Positive",
+"70% of tumour nuclei, moderate"
+],
+[
+"PR (1E2)",
+"Positive",
+"30% of tumour nuclei, moderate"
+],
+[
+"HER2 (4B5)",
+"Equivocal (2+), ISH amplified",
+"Weak to moderate complete membrane staining in more than 10% of cells"
+],
+[
+"Ki-67 (MIB-1)",
+"Proliferation index",
+"30% of tumour nuclei (global count)"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"ER",
+"Allred (proportion + intensity)",
+"7/8",
+"Positive"
+],
+[
+"ER",
+"H-score",
+"160",
+"Positive"
+],
+[
+"PR",
+"Allred (proportion + intensity)",
+"6/8",
+"Positive"
+],
+[
+"PR",
+"H-score",
+"70",
+"Positive"
+],
+[
+"HER2",
+"ASCO/CAP 2023 IHC score (0 to 3+)",
+"2+",
+"Equivocal; reflex ISH"
+],
+[
+"HER2",
+"Dual-probe ISH (ASCO/CAP 2023)",
+"HER2/CEP17 ratio 2.6; mean HER2 copy number 5.8/cell",
+"Amplified (Group 1); HER2-positive"
+],
+[
+"Ki-67",
+"Proliferation index (global count)",
+"30%",
+"High"
+]
+]
+},
+"controls": {
+"External control:": "On-slide external positive controls stained appropriately for all markers.",
+"Internal control:": "Internal controls valid for all markers."
+},
+"impression": [
+{
+"label": "Right breast, retroareolar region, core needle biopsy:",
+"text": "Invasive breast carcinoma, NST, Grade 2. ER POSITIVE (70%, moderate); PR POSITIVE (30%, moderate); HER2 POSITIVE (IHC 2+, ISH amplified); Ki-67 30%. Surrogate molecular subtype: Luminal B-like (HER2-positive)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Therapy implications: Anti-HER2 therapy (trastuzumab with or without pertuzumab) with chemotherapy, followed by endocrine therapy. A neoadjuvant approach may be considered; T-DM1 if residual disease after neoadjuvant therapy."
+},
+{
+"label": "",
+"text": "Specimen: ultrasound-guided core needle biopsy (14G, 3 cores). St Gallen criteria met: ER+, HER2-positive (IHC 2+ with ISH amplified), any Ki-67, any PR."
+},
+{
+"label": "",
+"text": "Ki-67 cut-offs are laboratory-dependent; 20% used here as the St Gallen low/high threshold. Ki-67 counted globally, hot-spots excluded (IKWG)."
+},
+{
+"label": "",
+"text": "Surrogate subtyping by IHC approximates gene-expression intrinsic subtypes; correlate clinically. ER/PR positive at 1% or more (1 to 10% = ER-low); HER2 scored per ASCO/CAP 2023."
+}
+]
+},
+{
+"id": "ihc-2e191279fe",
+"type": "ihc",
+"name": "Invasive Breast Carcinoma NST Grade 3, HER2-enriched (ER- PR- HER2 3+), Left Breast (Modified Radical Mastectomy)",
+"site": "Breast",
+"nature": "Neoplastic",
+"path": "Breast/04 Immunohistochemistry/05_IHC_Breast_HER2_Enriched.docx",
+"block": {
+"Fixative:": "10% neutral buffered formalin; cold ischaemia time 40 minutes; fixation time 24 hours (within ASCO/CAP limits)",
+"Platform:": "Ventana BenchMark ULTRA"
+},
+"results": [
+[
+"ER (SP1)",
+"Negative",
+"0% of tumour nuclei"
+],
+[
+"PR (1E2)",
+"Negative",
+"0% of tumour nuclei"
+],
+[
+"HER2 (4B5)",
+"Positive",
+"Score 3+: circumferential complete intense membrane staining in 90% of cells"
+],
+[
+"Ki-67 (MIB-1)",
+"Proliferation index",
+"60% of tumour nuclei (global count)"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"ER",
+"Allred (proportion + intensity)",
+"0/8",
+"Negative"
+],
+[
+"ER",
+"H-score",
+"0",
+"Negative"
+],
+[
+"PR",
+"Allred (proportion + intensity)",
+"0/8",
+"Negative"
+],
+[
+"PR",
+"H-score",
+"0",
+"Negative"
+],
+[
+"HER2",
+"ASCO/CAP 2023 IHC score (0 to 3+)",
+"3+",
+"Positive (ISH not required)"
+],
+[
+"Ki-67",
+"Proliferation index (global count)",
+"60%",
+"High"
+]
+]
+},
+"controls": {
+"External control:": "On-slide external positive controls stained appropriately for all markers.",
+"Internal control:": "Internal controls valid for all markers."
+},
+"impression": [
+{
+"label": "Left breast, modified radical mastectomy:",
+"text": "Invasive breast carcinoma, NST, Grade 3. ER NEGATIVE (0%); PR NEGATIVE (0%); HER2 POSITIVE, IHC score 3+; Ki-67 60%. Surrogate molecular subtype: HER2-enriched (non-luminal HER2-positive)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Therapy implications: Anti-HER2 therapy (trastuzumab + pertuzumab) with chemotherapy. In metastatic/residual disease, T-DM1 or trastuzumab deruxtecan. Endocrine therapy not indicated."
+},
+{
+"label": "",
+"text": "Specimen: left modified radical mastectomy with axillary clearance. St Gallen criteria met: ER-, PR-, HER2-positive (IHC 3+)."
+},
+{
+"label": "",
+"text": "Ki-67 cut-offs are laboratory-dependent; 20% used here as the St Gallen low/high threshold. Ki-67 counted globally, hot-spots excluded (IKWG)."
+},
+{
+"label": "",
+"text": "Surrogate subtyping by IHC approximates gene-expression intrinsic subtypes; correlate clinically. ER/PR positive at 1% or more (1 to 10% = ER-low); HER2 scored per ASCO/CAP 2023."
+}
+]
+},
+{
+"id": "ihc-e107ed7e93",
+"type": "ihc",
+"name": "Invasive Breast Carcinoma NST Grade 3, Triple-negative Basal-like (CK5-6+ EGFR+ PD-L1 CPS 20), Right Breast (Core Biopsy)",
+"site": "Breast",
+"nature": "Neoplastic",
+"path": "Breast/04 Immunohistochemistry/06_IHC_Breast_Triple_Negative.docx",
+"block": {
+"Fixative:": "10% neutral buffered formalin; cold ischaemia time 40 minutes; fixation time 24 hours (within ASCO/CAP limits)",
+"Platform:": "Ventana BenchMark ULTRA"
+},
+"results": [
+[
+"ER (SP1)",
+"Negative",
+"0% of tumour nuclei"
+],
+[
+"PR (1E2)",
+"Negative",
+"0% of tumour nuclei"
+],
+[
+"HER2 (4B5)",
+"Negative",
+"Score 0 (no staining)"
+],
+[
+"Ki-67 (MIB-1)",
+"Proliferation index",
+"80% of tumour nuclei (global count)"
+],
+[
+"CK5/6 (D5/16 B4)",
+"Positive",
+"70% of tumour cells, strong"
+],
+[
+"EGFR (5B7)",
+"Positive",
+"60% of tumour cells, moderate membranous"
+],
+[
+"PD-L1 (22C3 pharmDx)",
+"Positive",
+"CPS 20"
+]
+],
+"scoring": {
+"title": "SCORING",
+"cols": [
+"Marker",
+"Scoring system",
+"Score",
+"Interpretation"
+],
+"widths": [
+1800,
+2700,
+2338,
+2800
+],
+"rows": [
+[
+"ER",
+"Allred (proportion + intensity)",
+"0/8",
+"Negative"
+],
+[
+"ER",
+"H-score",
+"0",
+"Negative"
+],
+[
+"PR",
+"Allred (proportion + intensity)",
+"0/8",
+"Negative"
+],
+[
+"PR",
+"H-score",
+"0",
+"Negative"
+],
+[
+"HER2",
+"ASCO/CAP 2023 IHC score (0 to 3+)",
+"0",
+"Negative"
+],
+[
+"Ki-67",
+"Proliferation index (global count)",
+"80%",
+"High"
+],
+[
+"PD-L1 (22C3)",
+"Combined positive score (CPS)",
+"20",
+"Positive (CPS 10 or more)"
+]
+]
+},
+"controls": {
+"External control:": "On-slide external positive controls stained appropriately for all markers.",
+"Internal control:": "Internal controls valid for all markers."
+},
+"impression": [
+{
+"label": "Right breast, upper inner quadrant, core needle biopsy:",
+"text": "Invasive breast carcinoma, NST, Grade 3. ER NEGATIVE (0%); PR NEGATIVE (0%); HER2 NEGATIVE, IHC score 0; Ki-67 80%; CK5/6 and EGFR POSITIVE; PD-L1 (22C3) CPS 20. Surrogate molecular subtype: Triple-negative, basal-like."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Therapy implications: Neoadjuvant chemotherapy with pembrolizumab (PD-L1 22C3 CPS 10 or more supports pembrolizumab in metastatic TNBC; KEYNOTE-522 regimen in early disease irrespective of PD-L1). Germline BRCA1/2 testing recommended (young age, family history, TNBC): PARP inhibitors (olaparib) if mutated. Sacituzumab govitecan in the metastatic setting."
+},
+{
+"label": "",
+"text": "Specimen: ultrasound-guided core needle biopsy (14G, 4 cores). St Gallen criteria met: ER- (below 1%), PR- (below 1%), HER2-negative (IHC 0); basal-like by CK5/6+ and EGFR+."
+},
+{
+"label": "",
+"text": "Ki-67 cut-offs are laboratory-dependent; 20% used here as the St Gallen low/high threshold. Ki-67 counted globally, hot-spots excluded (IKWG)."
+},
+{
+"label": "",
+"text": "Surrogate subtyping by IHC approximates gene-expression intrinsic subtypes; correlate clinically. ER/PR positive at 1% or more (1 to 10% = ER-low); HER2 scored per ASCO/CAP 2023."
+}
+]
+}
+],
 "specimens": [
 {
 "id": "spec-appendix-non-cancer",
@@ -26459,6 +27644,415 @@
 }
 },
 {
+"id": "dx-34b51adf94",
+"name": "Tubulovillous Adenoma with Low-grade Dysplasia, Sigmoid Colon (Polypectomy)",
+"nature": "Neoplastic",
+"path": "Gastrointestinal/Colon",
+"source": "02_Tubulovillous_Adenoma_LGD_Sigmoid_Polypectomy.docx",
+"layout": "histo",
+"micro": [
+{
+"label": "",
+"text": "Sections show a colorectal adenoma with a mixed tubular and villous architecture. The villous component (finger-like fronds more than twice the height of the normal mucosa) makes up about 40% of the polyp. The tubular component forms the rest. The epithelium shows low-grade dysplasia: elongated, pencillate, pseudostratified, hyperchromatic nuclei that keep their basal polarity, with reduced mucin and preserved gland architecture. There is no complex cribriforming or back-to-back architecture, no loss of polarity, and no open vesicular nuclei with prominent nucleoli (no high-grade dysplasia)."
+},
+{
+"label": "",
+"text": "The stalk is composed of normal mucosa and submucosa with a central vessel. It is free of adenoma, and the adenoma lies 2.5 mm from the inked stalk resection margin. The muscularis mucosae is intact throughout, with no submucosal invasion. Misplaced (pseudoinvasive) epithelium is absent. No lymphovascular structures contain tumour."
+},
+{
+"label": "",
+"text": "No serrated features (no sessile serrated lesion component). No carcinoma."
+}
+],
+"finalDiagnosis": [
+{
+"label": "A. Sigmoid colon polyp (14 mm), cold snare polypectomy:",
+"text": "Tubulovillous adenoma (villous component about 40%) with low-grade dysplasia. Completely excised; stalk margin clear (2.5 mm). No high-grade dysplasia or invasive malignancy."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "This is an advanced adenoma because of its size (10 mm or more) and villous architecture. It is completely excised, with no high-grade dysplasia and no invasion."
+},
+{
+"label": "",
+"text": "Surveillance should follow current national and society guidance (BSG, ESGE or US Multi-Society Task Force). These generally base the interval on the number, size and histology of all the adenomas found at this colonoscopy, including the separately reported rectal polyps. In general terms, a single completely excised adenoma of 10 mm or more, or one with high-grade dysplasia, is a risk feature for which a surveillance colonoscopy is usually recommended, provided the baseline colonoscopy was complete and of good quality. Please apply local programme criteria."
+}
+],
+"cap": null,
+"exampleGross": {
+"containers": [
+{
+"text": "Sigmoid polyp: A lobulated tan polyp, 14 x 11 x 9 mm, on a short stalk 3 mm long and 4 mm wide. The stalk resection margin (diathermy-free, cold snare) is inked black. The polyp was bisected through the stalk.",
+"gross": "All embedded."
+}
+],
+"sections": "A1 central sections with the stalk; A2 lateral portions (entirely embedded). Three levels cut on A1 to assess the stalk."
+}
+},
+{
+"id": "dx-203883361c",
+"name": "Adenocarcinoma of Ascending Colon (Right Hemicolectomy)",
+"nature": "Neoplastic",
+"path": "Gastrointestinal/Colon",
+"source": "03_Adenocarcinoma_Ascending_Colon_Right_Hemicolectomy_pT3_pN1b.docx",
+"layout": "cap",
+"micro": [
+{
+"label": "",
+"text": "Sections show a moderately differentiated adenocarcinoma composed of irregular, cribriform and fused glands lined by stratified columnar cells with pleomorphic, vesicular nuclei and prominent nucleoli, with luminal 'dirty' necrosis. Glands form >50% of the tumour. The tumour invades through the muscularis propria into pericolorectal adipose tissue but does not reach the serosal surface. Lymphovascular invasion is present (small vessel); no extramural venous invasion or perineural invasion. Tumour budding is low (BD1, 3 buds per 0.785 mm2). An adjacent tubulovillous adenoma remnant is noted. Two of seventeen lymph nodes show metastatic adenocarcinoma (largest deposit 6 mm, no extranodal extension). No tumour deposits. All margins are free. Appendix and terminal ileum are unremarkable."
+}
+],
+"finalDiagnosis": [
+{
+"label": "Right hemicolectomy:",
+"text": "Adenocarcinoma of the ascending colon, low grade (moderately differentiated), 4.5 cm, invading pericolorectal tissue, with lymphovascular invasion. Margins negative. Metastatic carcinoma in 2 of 17 lymph nodes. pT3 pN1b (AJCC 8th edition)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Mismatch repair protein immunohistochemistry is recommended for Lynch syndrome screening and therapy planning."
+}
+],
+"cap": {
+"title": "(CAP Colon and Rectum, Resection protocol v4.4.0.1, September 2025)",
+"sections": [
+{
+"heading": "Specimen",
+"numId": 1,
+"items": [
+{
+"label": "Procedure",
+"value": "Right hemicolectomy",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Tumor",
+"numId": 1,
+"items": [
+{
+"label": "Tumor Site",
+"value": "Ascending colon (6 cm from the ileocaecal valve)",
+"ilvl": 0
+},
+{
+"label": "Histologic Type",
+"value": "Adenocarcinoma",
+"ilvl": 0
+},
+{
+"label": "Histologic Type Comment",
+"value": "Adenocarcinoma, NOS (WHO 5th edition)",
+"ilvl": 1
+},
+{
+"label": "Histologic Grade",
+"value": "G2, moderately differentiated (low grade; glands form more than 50% of the tumour)",
+"ilvl": 0
+},
+{
+"label": "Tumor Size",
+"value": "",
+"ilvl": 0
+},
+{
+"label": "Greatest Dimension in Centimeters (cm)",
+"value": "4.5 cm",
+"ilvl": 1
+},
+{
+"label": "Additional Dimension in Centimeters (cm)",
+"value": "4.0 x 1.5 cm",
+"ilvl": 1
+},
+{
+"label": "Multiple Primary Sites",
+"value": "Not applicable (no additional primary site(s) present)",
+"ilvl": 0
+},
+{
+"label": "Tumor Extent",
+"value": "Invades through muscularis propria into the pericolic or perirectal tissue",
+"ilvl": 0
+},
+{
+"label": "Sub-mucosal Invasion",
+"value": "Not applicable (not a pT1 tumor)",
+"ilvl": 0
+},
+{
+"label": "Macroscopic Tumor Perforation",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Lymphatic and / or Vascular Invasion",
+"value": "Small vessel (no extramural venous invasion)",
+"ilvl": 0
+},
+{
+"label": "Perineural Invasion",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Tumor Budding Score",
+"value": "Low (0-4)",
+"ilvl": 0
+},
+{
+"label": "Number of Tumor Buds",
+"value": "3 per hotspot field (0.785 mm2)",
+"ilvl": 1
+},
+{
+"label": "Type of Polyp in which Invasive Carcinoma Arose",
+"value": "Tubulovillous adenoma (adjacent adenoma remnant)",
+"ilvl": 0
+},
+{
+"label": "Treatment Effect",
+"value": "No known presurgical therapy",
+"ilvl": 0
+},
+{
+"label": "Tumor Comment",
+"value": "Ulceroproliferative tumour involving 70% of the circumference; does not reach the serosal surface",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Margins",
+"numId": 2,
+"items": [
+{
+"label": "Margin Status for Invasive Carcinoma",
+"value": "All margins negative for invasive carcinoma",
+"ilvl": 0
+},
+{
+"label": "Closest Margin(s) to Invasive Carcinoma",
+"value": "Mesenteric",
+"ilvl": 1
+},
+{
+"label": "Distance from Invasive Carcinoma to Closest Margin",
+"value": "3.0 cm (greater than 1 cm)",
+"ilvl": 1
+},
+{
+"label": "Margin Status for Non-Invasive Tumor",
+"value": "All margins negative for high-grade dysplasia / intramucosal carcinoma and low-grade dysplasia",
+"ilvl": 0
+},
+{
+"label": "Margin Comment",
+"value": "Proximal margin 14 cm; distal margin 12 cm; radial (mesenteric) margin 3.0 cm",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Regional Lymph Nodes",
+"numId": 3,
+"items": [
+{
+"label": "Regional Lymph Node Status",
+"value": "Tumor present in regional lymph node(s)",
+"ilvl": 0
+},
+{
+"label": "Number of Lymph Nodes with Tumor",
+"value": "2",
+"ilvl": 1
+},
+{
+"label": "Number of Lymph Nodes Examined",
+"value": "17",
+"ilvl": 1
+},
+{
+"label": "Tumor Deposits",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Regional Lymph Node Comment",
+"value": "Largest metastatic deposit 6 mm; no extranodal extension",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Distant Metastasis",
+"numId": 3,
+"items": [
+{
+"label": "Distant Site(s) Involved",
+"value": "Not applicable",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "pTNM Classification (AJCC 8th Edition)",
+"numId": 3,
+"items": [
+{
+"label": "Modified Classification",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pT Category",
+"value": "pT3: Tumor invades through the muscularis propria into pericolorectal tissues",
+"ilvl": 0
+},
+{
+"label": "T Suffix",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pN Category",
+"value": "pN1b: Two or three regional lymph nodes are positive",
+"ilvl": 0
+},
+{
+"label": "pM Category",
+"value": "Not applicable - pM cannot be determined from the submitted specimen(s)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Additional Findings",
+"numId": 3,
+"items": [
+{
+"label": null,
+"value": "Adenoma(s): tubulovillous adenoma remnant adjacent to the carcinoma. Appendix and terminal ileum unremarkable",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Special Studies",
+"numId": 3,
+"items": [
+{
+"label": null,
+"value": "Mismatch repair immunohistochemistry (MLH1, PMS2, MSH2, MSH6) recommended (pending); report results with the CAP Colorectal Biomarker Template",
+"ilvl": 0
+}
+]
+}
+]
+},
+"exampleGross": {
+"containers": [
+{
+"text": "Received a right hemicolectomy specimen comprising terminal ileum 8 cm, caecum and ascending colon 18 cm, with appendix 6 cm and attached mesentery. In the ascending colon, 6 cm from the ileocaecal valve, there is an ulceroproliferative tumour measuring 4.5 x 4.0 x 1.5 cm, involving 70% of the circumference. On cut section, the grey-white tumour extends through the muscularis propria into pericolic fat. Distance to proximal margin 14 cm, distal margin 12 cm, radial (mesenteric) margin 3.0 cm. No perforation. Seventeen lymph nodes are identified (largest 1.2 cm).",
+"gross": "Partially embedded."
+}
+],
+"sections": "A1 proximal margin; A2 distal margin; A3-A8 tumour including deepest invasion and serosa; A9 mesenteric margin; A10 appendix; A11-A17 lymph nodes."
+}
+},
+{
+"id": "dx-0c92b47abe",
+"name": "Scrotal Calcinosis (Idiopathic Calcinosis Cutis)",
+"nature": "Non-neoplastic",
+"path": "Skin",
+"source": "04_Scrotal_Calcinosis_Cutis.docx",
+"layout": "histo",
+"micro": [
+{
+"label": "",
+"text": "The dermis contains multiple variably sized, well-circumscribed deposits of amorphous, basophilic, granular to fractured calcified material. Some deposits are surrounded by foreign-body multinucleated giant cells, histiocytes and fibrosis, and some lie free in the dermis without a reaction. Several deposits are rimmed by a thin layer of flattened cells. Focally, there is a residual keratinising squamous lining with a granular layer, one of which encloses calcified keratinous debris (an epidermal inclusion cyst remnant). Most deposits show no epithelial lining."
+},
+{
+"label": "",
+"text": "The overlying epidermis is unremarkable. Focal transepidermal elimination of calcium is present in A2. No needle-shaped crystals or tophaceous material. Polarisation shows no urate or foreign material. No ossification. No calcified vessels. No pilomatrical shadow cells. No malignancy. Margins are clear of the nodules."
+},
+{
+"label": "",
+"text": "Special Stains / Immunohistochemistry:"
+},
+{
+"label": "",
+"text": "von Kossa: Black staining of deposits (calcium salts / phosphate)"
+},
+{
+"label": "",
+"text": "Alizarin red S: Orange-red staining (calcium)"
+},
+{
+"label": "",
+"text": "Polarised light: No birefringent urate crystals or foreign material"
+},
+{
+"label": "",
+"text": "Pancytokeratin (A2, A5): Highlights residual squamous lining in a minority of nodules"
+}
+],
+"finalDiagnosis": [
+{
+"label": "A. Scrotal skin with nodules, excision:",
+"text": "Scrotal calcinosis (idiopathic calcinosis cutis of the scrotum). Multiple dermal calcified deposits, von Kossa and Alizarin red positive, with a foreign-body giant cell reaction. Focal remnants of epidermal inclusion cyst lining. Margins clear. No malignancy."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Scrotal calcinosis presents as multiple calcified dermal nodules in men with normal calcium and phosphate metabolism. It is classified as idiopathic calcinosis cutis. Its pathogenesis is debated. Many authors regard most cases as dystrophic calcification of pre-existing epidermal inclusion (epidermoid) cysts, or of degenerated eccrine duct milia, whose linings are later destroyed by the foreign-body reaction. That would make many cases secondary rather than truly idiopathic. Others have found no cyst remnants despite step sections. The partial squamous lining in some nodules here supports the cystic origin theory for at least part of the lesion."
+},
+{
+"label": "",
+"text": "Differential diagnoses:"
+},
+{
+"label": "",
+"text": "Dystrophic calcinosis: Calcium deposited in damaged tissue (connective tissue disease, trauma, tumours)."
+},
+{
+"label": "",
+"text": "Metastatic calcinosis: Abnormal calcium or phosphate, for example in renal failure or hyperparathyroidism. Excluded by normal biochemistry."
+},
+{
+"label": "",
+"text": "Calcified epidermoid cyst: A single lining-preserved cyst."
+},
+{
+"label": "",
+"text": "Gouty tophus: Amorphous, needle-cleft material with negatively birefringent urate crystals. Absent here, with normal uric acid."
+},
+{
+"label": "",
+"text": "Other: Pilomatricoma (shadow cells) and calcified onchocercoma or other parasitic nodule."
+},
+{
+"label": "",
+"text": "Recurrence after excision is possible, as new nodules may form."
+}
+],
+"cap": null,
+"exampleGross": {
+"containers": [
+{
+"text": "Scrotal skin: An ellipse of rugose, pigmented skin, 5.5 x 3.0 cm, excised to a depth of 1.2 cm, with dartos muscle at the base. The skin surface carries 9 firm, white-yellow nodules, 2–9 mm. On slicing, the nodules are gritty, chalky and white. They sit in the dermis and leave a clefted cut surface. No cyst lining or keratinous contents are obvious. The deep and peripheral margins are inked.",
+"gross": "Partially embedded."
+}
+],
+"sections": "A1–A6 representative nodules with overlying skin and deep margin (A3 and A4 decalcified briefly, after an undecalcified block was kept for von Kossa and Alizarin red)."
+}
+},
+{
 "id": "dx-65fc1cb0ff",
 "name": "Metastatic HPV-associated Endocervical Adenocarcinoma (Bronchoscopic Biopsy)",
 "nature": "Neoplastic",
@@ -26760,6 +28354,238 @@
 }
 ],
 "sections": "The initial 12 g, including all firm yellow chips, was submitted entirely (A1–A8). After the granulomatous inflammation was found on the first sections, the remaining 10 g was also submitted entirely (A9–A14) to assess the extent and exclude carcinoma. 100% of the tissue was submitted."
+}
+},
+{
+"id": "dx-a986d61fd2",
+"name": "Squamous Cell Carcinoma of Skin, Helix of Ear (Wide Local Excision)",
+"nature": "Neoplastic",
+"path": "Skin",
+"source": "06_Squamous_Cell_Carcinoma_Skin_Excision.docx",
+"layout": "cap",
+"micro": [
+{
+"label": "",
+"text": "Sections show an invasive squamous cell carcinoma arising from atypical epidermis with full-thickness keratinocytic dysplasia and overlying ulceration and parakeratotic crust. The tumour is composed of irregular nests and cords of squamous cells with moderate nuclear pleomorphism, prominent nucleoli and abundant eosinophilic cytoplasm, with focal keratin pearl formation and individual cell keratinisation. Greater than 75% of the tumour shows keratinisation (well differentiated). Tumour invades into the reticular dermis and superficial subcutis to a measured depth of 4.2 mm from the granular layer (Breslow-equivalent tumour thickness). No perineural invasion. No lymphovascular invasion. Host response shows a moderate chronic inflammatory infiltrate at the advancing edge. Peripheral margins (all clock faces) and the deep soft-tissue margin are free of tumour (closest peripheral 3.5 mm at 3 o'clock; deep 2.8 mm)."
+}
+],
+"finalDiagnosis": [
+{
+"label": "Skin, left helix, wide local excision:",
+"text": "Invasive squamous cell carcinoma, conventional type, well differentiated, 1.4 cm, thickness 4.2 mm, invading subcutis. No perineural or lymphovascular invasion. Margins negative. pT1 (AJCC 8th edition)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "High-risk features (ear site, thickness >4 mm, subcutis invasion) are noted. Clinical correlation for regional nodal assessment is advised as per institutional cutaneous SCC guidelines."
+}
+],
+"cap": {
+"title": "(CAP Cutaneous Carcinoma of the Head and Neck protocol v1.2.0.0, April 2026)",
+"sections": [
+{
+"heading": "Specimen",
+"numId": 1,
+"items": [
+{
+"label": "Procedure",
+"value": "Excision, wide",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Tumor",
+"numId": 1,
+"items": [
+{
+"label": "Multiple Primary Sites",
+"value": "Not applicable (no additional primary site(s) present)",
+"ilvl": 0
+},
+{
+"label": "Tumor Focality",
+"value": "Unifocal",
+"ilvl": 0
+},
+{
+"label": "Tumor Site",
+"value": "Skin of ear, helix",
+"ilvl": 0
+},
+{
+"label": "Tumor Laterality",
+"value": "Left",
+"ilvl": 0
+},
+{
+"label": "Tumor Size",
+"value": "Greatest dimension 1.4 cm",
+"ilvl": 0
+},
+{
+"label": "Histologic Type",
+"value": "Squamous cell carcinoma, NOS",
+"ilvl": 0
+},
+{
+"label": "Histologic Type Comment",
+"value": "Conventional type (WHO Classification of Skin Tumours)",
+"ilvl": 1
+},
+{
+"label": "Histologic Grade",
+"value": "G1: Well-differentiated",
+"ilvl": 0
+},
+{
+"label": "Tumor Depth of Invasion (DOI)",
+"value": "4.2 mm (from the granular layer)",
+"ilvl": 0
+},
+{
+"label": "Anatomic Level",
+"value": "V (carcinoma invades subcutaneum)",
+"ilvl": 0
+},
+{
+"label": "Tumor Extent",
+"value": "Reticular dermis and superficial subcutis; no deep invasion (not beyond subcutaneous fat; depth not greater than 6 mm)",
+"ilvl": 0
+},
+{
+"label": "Lymphatic and / or Vascular Invasion",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Perineural Invasion",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Tumor Comment",
+"value": "Ulcerated, crusted nodule 1.4 x 1.1 x 0.5 cm arising from atypical epidermis with full-thickness keratinocytic dysplasia; moderate chronic inflammatory host response at the advancing edge",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Margins",
+"numId": 2,
+"items": [
+{
+"label": "Specimen Margin Status for Invasive Tumor",
+"value": "All specimen margins negative for invasive tumor",
+"ilvl": 0
+},
+{
+"label": "Distance from Invasive Tumor to Closest Specimen Margin",
+"value": "Exact distance: 2.8 mm",
+"ilvl": 1
+},
+{
+"label": "Closest Specimen Margin(s) to Invasive Tumor",
+"value": "Deep",
+"ilvl": 1
+},
+{
+"label": "Other Close Specimen Margin(s) to Invasive Tumor",
+"value": "Peripheral, 3 o'clock: 3.5 mm",
+"ilvl": 1
+},
+{
+"label": "Specimen Margin Status for Non-invasive Tumor",
+"value": "All specimen margins negative for non-invasive tumor",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Regional Lymph Nodes",
+"numId": 3,
+"items": [
+{
+"label": "Regional Lymph Node Status",
+"value": "Not applicable (no regional lymph nodes submitted or found)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Distant Metastasis",
+"numId": 3,
+"items": [
+{
+"label": "Distant Site(s) Involved",
+"value": "Not applicable",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "pTNM Classification (AJCC 8th Edition)",
+"numId": 3,
+"items": [
+{
+"label": "Prior Procedure Classification",
+"value": "No information from a prior procedure is included in the classification assigned in this report",
+"ilvl": 0
+},
+{
+"label": "Modified Classification",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pT Category",
+"value": "pT1: Tumor smaller than or equal to 2 cm in greatest dimension",
+"ilvl": 0
+},
+{
+"label": "T Suffix",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pN Category",
+"value": "pN not assigned (no nodes submitted or found)",
+"ilvl": 0
+},
+{
+"label": "pM Category",
+"value": "Not applicable - pM cannot be determined from the submitted specimen(s)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Brigham and Women's (BWH) Tumor Classification System",
+"numId": 3,
+"items": [
+{
+"label": "High-risk Factors",
+"value": "None (tumour diameter less than 2 cm; well differentiated; no perineural invasion; no invasion beyond subcutaneous fat)",
+"ilvl": 0
+},
+{
+"label": "BWH Tumor Classification",
+"value": "T1: 0 high-risk factor",
+"ilvl": 0
+}
+]
+}
+]
+},
+"exampleGross": {
+"containers": [
+{
+"text": "Received a skin ellipse measuring 2.8 x 1.6 x 0.8 cm, oriented with a long suture at 12 o'clock and a short suture at 3 o'clock. Centrally there is a raised, firm, crusted, ulcerated nodule measuring 1.4 x 1.1 x 0.5 cm. Cut section shows a grey-white tumour extending into the dermis and superficial subcutis. Closest peripheral margin (3 o'clock) 0.4 cm; deep margin 0.3 cm from the base of the tumour.",
+"gross": "Partially embedded."
+}
+],
+"sections": "A1: 12 o'clock margin; A2: 3 o'clock margin; A3: 6 o'clock margin; A4: 9 o'clock margin; A5-A7: tumour including deepest invasion and deep margin."
 }
 },
 {
@@ -27920,6 +29746,94 @@
 }
 },
 {
+"id": "dx-b5ca774f87",
+"name": "Verruca Vulgaris, Right Thumb (Shave Excision)",
+"nature": "Non-neoplastic",
+"path": "Skin",
+"source": "05_Thumb_Verruca_Vulgaris.docx",
+"layout": "histo",
+"micro": [
+{
+"label": "",
+"text": "Sections show acral-type skin, with a thick, compact stratum corneum, bearing an exophytic verrucous lesion:"
+},
+{
+"label": "",
+"text": "Keratin layer: Marked compact orthohyperkeratosis with tiers of parakeratosis forming columns over the tips of the papillae (the 'church spire' pattern). Small collections of haemorrhage (red cells and haemosiderin) are trapped in the parakeratotic columns, corresponding to the clinical black dots."
+},
+{
+"label": "",
+"text": "Epidermis: Papillomatosis and acanthosis, with elongated rete ridges that curve inward towards the centre at the edges of the lesion (arborisation)."
+},
+{
+"label": "",
+"text": "Granular layer: Thickened (hypergranulosis), with coarse, clumped keratohyaline granules in the valleys between the papillae."
+},
+{
+"label": "",
+"text": "Viral changes: Koilocytes in the upper spinous and granular layers: vacuolated cells with shrunken, hyperchromatic, raisinoid nuclei and a perinuclear halo."
+},
+{
+"label": "",
+"text": "Dermis: Dilated, tortuous capillaries in the elongated dermal papillae, some thrombosed. Mild superficial perivascular lymphocytic infiltrate."
+},
+{
+"label": "",
+"text": "Negative findings: No significant cytological atypia, atypical mitoses or dyskeratosis. No invasion: the base is a pushing, well-circumscribed interface. No large eosinophilic intracytoplasmic inclusion bodies (myrmecia pattern)."
+},
+{
+"label": "",
+"text": "Margins: The lesion is completely excised. The deep margin is clear by 0.8 mm and the peripheral margins are clear by at least 1 mm."
+}
+],
+"finalDiagnosis": [
+{
+"label": "A. Skin, right thumb, shave excision:",
+"text": "Verruca vulgaris (common viral wart). Completely excised; margins clear. No atypia or malignancy."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "The features are classic for verruca vulgaris, a benign epidermal proliferation caused by cutaneous human papillomavirus (HPV) types. They are papillomatosis, parakeratotic columns with trapped haemorrhage, hypergranulosis with coarse keratohyaline granules, koilocytes, inward-curving rete ridges and dilated papillary capillaries."
+},
+{
+"label": "",
+"text": "Differential diagnoses:"
+},
+{
+"label": "",
+"text": "Clavus (corn) / callus: Compact hyperkeratosis on pressure sites. A clavus has a central keratin plug. Neither has papillomatosis, koilocytes, coarse keratohyaline granules or haemorrhagic parakeratotic columns, and skin lines are preserved over a callus."
+},
+{
+"label": "",
+"text": "Seborrhoeic keratosis: Rare on acral skin. It has horn pseudocysts and basaloid cells, without koilocytes or a thickened granular layer."
+},
+{
+"label": "",
+"text": "Verrucous carcinoma: A slow-growing, well-differentiated carcinoma (for example on the sole). It has bulbous, broad-based pushing invasion deep into the dermis and minimal atypia, so it needs adequate depth in sampling and clinical correlation. This small, superficial, well-circumscribed lesion shows no such features."
+},
+{
+"label": "",
+"text": "Myrmecia (deep palmoplantar wart): An endophytic wart with large eosinophilic intracytoplasmic inclusion bodies. Not seen here."
+},
+{
+"label": "",
+"text": "HPV typing and p16 immunohistochemistry are not needed routinely for a common wart with typical morphology. Reserve them for atypical, persistent or periungual lesions where squamous cell carcinoma in situ (Bowen disease) or invasive squamous cell carcinoma is a concern, especially in immunosuppressed patients. Warts can recur, because adjacent epidermis may harbour subclinical virus."
+}
+],
+"cap": null,
+"exampleGross": {
+"containers": [
+{
+"text": "Skin, right thumb: A grey-white, verrucous, hyperkeratotic shave of skin, 8 x 7 mm, 3 mm deep, with a papillary surface and small dark dots. The deep and peripheral margins are inked.",
+"gross": "All embedded."
+}
+],
+"sections": "A1 bisected (entirely embedded). Levels cut."
+}
+},
+{
 "id": "dx-c4044933e4",
 "name": "Seminoma of Undescended Testis (Radical Orchiectomy)",
 "nature": "Neoplastic",
@@ -28494,6 +30408,290 @@
 }
 ],
 "sections": "A1–A2 cores filtered and wrapped (entirely embedded). H&E levels cut, with unstained spare sections kept for immunohistochemistry."
+}
+},
+{
+"id": "dx-003b19c30e",
+"name": "Tuberculoid Leprosy (Ridley-Jopling TT), Left Forearm (Punch Biopsy)",
+"nature": "Non-neoplastic",
+"path": "Skin",
+"source": "03_Forearm_Skin_Tuberculoid_Leprosy.docx",
+"layout": "histo",
+"micro": [
+{
+"label": "",
+"text": "Sections show skin with the following features:"
+},
+{
+"label": "",
+"text": "Epidermis: Mildly atrophic, with focal basal layer damage where granulomas abut it."
+},
+{
+"label": "",
+"text": "Granulomas: Well-formed, compact epithelioid cell granulomas with Langhans-type multinucleated giant cells and a dense peripheral cuff of lymphocytes. They involve the superficial and deep dermis in an elongated, linear distribution along neurovascular bundles and around eccrine glands, hair follicles and arrector pili muscles."
+},
+{
+"label": "",
+"text": "Grenz zone: Absent. The granulomas extend up to the dermo-epidermal junction and erode the basal layer."
+},
+{
+"label": "",
+"text": "Nerves: Dermal nerve twigs are infiltrated and partly destroyed by granulomas and lymphocytes. Several small nerves cannot be identified, and S100 shows fragmented nerve remnants within granulomas."
+},
+{
+"label": "",
+"text": "Necrosis: No caseation. Focal tiny fibrinoid foci only. No foamy macrophages (no lepromatous features)."
+},
+{
+"label": "",
+"text": "Other: No interface dermatitis, no mucin and no foreign material on polarised light. No vasculitis."
+},
+{
+"label": "",
+"text": "Special Stains / Immunohistochemistry:"
+},
+{
+"label": "",
+"text": "Fite-Faraco (modified acid-fast): No acid-fast bacilli identified in granulomas or nerves after a careful search (bacterial index, BI, 0)"
+},
+{
+"label": "",
+"text": "Ziehl-Neelsen: No acid-fast bacilli"
+},
+{
+"label": "",
+"text": "S100: Highlights fragmented, infiltrated dermal nerve twigs within granulomas"
+},
+{
+"label": "",
+"text": "PAS / GMS: No fungal organisms"
+}
+],
+"finalDiagnosis": [
+{
+"label": "A. Skin, left forearm, punch biopsy:",
+"text": "Granulomatous dermatitis with nerve destruction, consistent with tuberculoid leprosy (Ridley-Jopling TT). Fite-Faraco negative for acid-fast bacilli (BI 0)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Classification: TT is favoured over borderline tuberculoid (BT), for these reasons:"
+},
+{
+"label": "",
+"text": "a) There is no grenz zone; granulomas reach and erode the epidermis."
+},
+{
+"label": "",
+"text": "b) The granulomas are compact, with a dense lymphocyte mantle."
+},
+{
+"label": "",
+"text": "c) Dermal nerves are destroyed."
+},
+{
+"label": "",
+"text": "d) No bacilli are found."
+},
+{
+"label": "",
+"text": "e) There is a single well-defined anaesthetic plaque."
+},
+{
+"label": "",
+"text": "BT usually shows a narrow grenz zone, less dense lymphocytes, swollen but identifiable nerves, occasional bacilli (BI 0 to 2) and several lesions clinically. The TT/BT distinction can be subtle, so clinical correlation is essential."
+},
+{
+"label": "",
+"text": "Ridley-Jopling vs WHO: the Ridley-Jopling spectrum (TT, BT, BB, BL, LL, plus indeterminate) is a clinicopathological classification that helps predict reactions. The WHO operational classification for treatment is clinical: paucibacillary (PB, 1 to 5 skin lesions with no bacilli on slit-skin smear) or multibacillary (MB, more than 5 lesions, nerve involvement criteria, or a positive smear). Final PB/MB assignment and treatment rest with the clinician. Slit-skin smear examination (BI and morphological index) is recommended to complete classification."
+},
+{
+"label": "",
+"text": "Differential diagnosis:"
+},
+{
+"label": "",
+"text": "1. Sarcoidosis: naked granulomas with sparse lymphocytes, not nerve-centred, and no nerve destruction."
+},
+{
+"label": "",
+"text": "2. Cutaneous tuberculosis (lupus vulgaris / tuberculosis verrucosa cutis): caseation may be present, with no neurotropism. Consider culture or PCR if clinically indicated."
+},
+{
+"label": "",
+"text": "3. Granuloma annulare: palisading histiocytes around mucin and degenerated collagen, without well-formed epithelioid granulomas or nerve destruction."
+},
+{
+"label": "",
+"text": "4. Other: tertiary syphilis, deep fungal infection and leishmaniasis are considered less likely given the negative stains and the morphology."
+},
+{
+"label": "",
+"text": "Absence of bacilli on tissue staining does not exclude leprosy; TT is typically paucibacillary. Illustrative sample report."
+}
+],
+"cap": null,
+"exampleGross": {
+"containers": [
+{
+"text": "Skin punch biopsy, left forearm: A cylindrical skin punch biopsy, 4 mm in diameter and 0.6 cm deep, with a pale skin surface.",
+"gross": "All embedded."
+}
+],
+"sections": "A1 bisected longitudinally (entirely embedded). Levels cut, with spare unstained sections kept for Fite-Faraco staining."
+}
+},
+{
+"id": "dx-0cafa21ae4",
+"name": "Backwash Ileitis with Chronic Active Ulcerative Colitis, Terminal Ileum and Caecum (Colonoscopic Biopsies)",
+"nature": "Non-neoplastic",
+"path": "Gastrointestinal/Colon",
+"source": "01_Backwash_Ileitis_Colonoscopic_Biopsies.docx",
+"layout": "histo",
+"micro": [
+{
+"label": "",
+"text": "A – Terminal ileum: Ileal mucosa from the distal terminal ileum with mild, diffuse and continuous active inflammation across all fragments. There is mild villous blunting (villus:crypt ratio about 2:1) and focal neutrophilic cryptitis without crypt abscesses. The lamina propria shows a mixed infiltrate of lymphocytes, plasma cells, eosinophils and scattered neutrophils. No granulomas on levels. No pyloric gland (ulcer-associated) metaplasia. No patchy (skip) involvement within the sampled fragments. No erosions, aphthous or deep fissuring ulcers. No viral inclusions. No dysplasia."
+},
+{
+"label": "",
+"text": "B – Caecum and ascending colon: Chronic active colitis. Architectural distortion includes branched, shortened and irregularly spaced crypts, with mild crypt atrophy and a villiform surface. There is diffuse transmucosal lymphoplasmacytosis with basal plasmacytosis, and focal Paneth cell metaplasia (abnormal in the ascending colon). Neutrophils in the lamina propria, with cryptitis in fewer than 50% of crypts. Occasional crypt abscesses. No erosion or ulceration. No granulomas, no CMV inclusions and no dysplasia."
+},
+{
+"label": "",
+"text": "Interpretation: Colonic disease is diffuse and continuous with the ileal changes, which are mild and limited to the distal ileum."
+},
+{
+"label": "Synoptic Report (Ulcerative Colitis Activity: Nancy Index And Geboes Score):",
+"text": ""
+},
+{
+"label": "Site graded:",
+"text": "B – Caecum and ascending colon."
+},
+{
+"label": "Chronicity / architecture:",
+"text": "Architectural distortion present (moderate). Basal plasmacytosis present."
+},
+{
+"label": "Geboes grade 0: structural / architectural change:",
+"text": "0.2 (mild to moderate diffuse or multifocal abnormalities)."
+},
+{
+"label": "Geboes grade 1: chronic inflammatory infiltrate:",
+"text": "1.2 (moderate increase)."
+},
+{
+"label": "Geboes grade 2A: lamina propria eosinophils:",
+"text": "2A.1 (mild increase)."
+},
+{
+"label": "Geboes grade 2B: lamina propria neutrophils:",
+"text": "2B.1 (mild increase)."
+},
+{
+"label": "Geboes grade 3: neutrophils in epithelium:",
+"text": "3.2 (fewer than 50% of crypts involved)."
+},
+{
+"label": "Geboes grade 4: crypt destruction:",
+"text": "4.2 (probable; occasional crypt abscesses)."
+},
+{
+"label": "Geboes grade 5: erosion or ulceration:",
+"text": "5.0 (none)."
+},
+{
+"label": "Geboes score (highest grade):",
+"text": "Grade 4.2: active colitis."
+},
+{
+"label": "Nancy index:",
+"text": "Grade 2: mild acute inflammatory cell infiltrate, no ulceration (moderate to severe chronic infiltrate)."
+},
+{
+"label": "Overall histological activity:",
+"text": "Mild to moderate active disease. Not in histological remission."
+},
+{
+"label": "Terminal ileum (A), not graded by these indices:",
+"text": "Mild active ileitis in continuity with caecal disease (backwash pattern). No granulomas."
+},
+{
+"label": "Dysplasia:",
+"text": "Not identified (negative for dysplasia)."
+},
+{
+"label": "Note:",
+"text": "Nancy index and Geboes score were developed for colorectal mucosa. Ileal changes are described, not scored."
+}
+],
+"finalDiagnosis": [
+{
+"label": "A. Terminal ileum, biopsies:",
+"text": "Mild active ileitis with villous blunting, in continuity with caecal disease, consistent with backwash ileitis in the setting of ulcerative colitis. No granulomas. Negative for dysplasia."
+},
+{
+"label": "B. Caecum and ascending colon, biopsies:",
+"text": "Chronic active colitis with architectural distortion, consistent with known ulcerative colitis (pancolitis). Moderate activity (Geboes 4.2; Nancy index 2). No granulomas. Negative for dysplasia."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Backwash ileitis vs Crohn disease: these ileal changes support backwash ileitis, for these reasons:"
+},
+{
+"label": "",
+"text": "a) They are mild, diffuse and continuous."
+},
+{
+"label": "",
+"text": "b) They are confined to the distal few centimetres."
+},
+{
+"label": "",
+"text": "c) They are in continuity with active caecal colitis in a patient with pancolitis."
+},
+{
+"label": "",
+"text": "d) The ileocaecal valve is patulous."
+},
+{
+"label": "",
+"text": "e) There are no granulomas, pyloric gland metaplasia, skip lesions or deep fissuring or aphthous ulcers."
+},
+{
+"label": "",
+"text": "Features favouring Crohn ileitis would include the following: patchy or skip involvement, aphthous or deep fissuring ulcers, pyloric gland metaplasia (chronicity), non-crypt-related epithelioid granulomas, and involvement out of proportion to caecal disease or with a normal caecum. Correlate with endoscopy, cross-sectional imaging (MR enterography if doubt persists) and the disease pattern."
+},
+{
+"label": "",
+"text": "NSAID-related injury: this can cause ileal erosions, ulcers and diaphragm-like strictures, often with increased epithelial apoptosis. The medication history should be reviewed."
+},
+{
+"label": "",
+"text": "Infection: infectious ileitis (for example Yersinia, Campylobacter, Salmonella, CMV and tuberculosis) can mimic or complicate UC. Stool studies are negative here. Consider further testing (for example CMV IHC on any ulcerated tissue) if clinically indicated."
+},
+{
+"label": "",
+"text": "Activity: the Nancy index and Geboes score describe histological activity in the colorectum. Histological remission is an emerging treatment target in ulcerative colitis. Illustrative sample report."
+}
+],
+"cap": null,
+"exampleGross": {
+"containers": [
+{
+"text": "Terminal ileum: Received in formalin: 3 tan mucosal fragments, 0.2 to 0.4 cm each. Oriented on filter paper.",
+"gross": "All embedded."
+},
+{
+"text": "Caecum and ascending colon: Received in formalin: 4 tan mucosal fragments, 0.2 to 0.5 cm each. Oriented on filter paper.",
+"gross": "All embedded."
+}
+],
+"sections": "A1 terminal ileum (entirely embedded); B1 caecum and ascending colon (entirely embedded). Levels cut on both blocks."
 }
 }
 ]
