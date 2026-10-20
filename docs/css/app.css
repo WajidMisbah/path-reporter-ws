@@ -1,4 +1,4 @@
-:root{--indigo:#2E3192;--blue:#2176D0;--violet:#6C4DC9;--purple:#8E44AD;--pink:#E0639F;--mint:#F4FBF7;--text:#262A46;--line:#d9e3ee}
+:root{color-scheme:light only;--indigo:#2E3192;--blue:#2176D0;--violet:#6C4DC9;--purple:#8E44AD;--pink:#E0639F;--mint:#F4FBF7;--text:#262A46;--line:#d9e3ee}
 @font-face{font-family:"Times New Roman";src:local("Times New Roman"),url(../fonts/Tinos-Regular.ttf);font-weight:400;font-style:normal}
 @font-face{font-family:"Times New Roman";src:local("Times New Roman Bold"),url(../fonts/Tinos-Bold.ttf);font-weight:700;font-style:normal}
 @font-face{font-family:"Times New Roman";src:local("Times New Roman Italic"),url(../fonts/Tinos-Italic.ttf);font-weight:400;font-style:italic}
@@ -14,9 +14,14 @@ main{max-width:1100px;margin:0 auto;padding:16px}
 h2{color:var(--indigo);margin:8px 0 12px}h3{color:var(--violet);margin:0 0 10px;font-size:18px}
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(46,49,146,.06)}
 .types{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-.type{border-radius:14px;padding:18px;border:2px solid var(--line);background:#fff;text-align:left;cursor:pointer;font-size:17px}
+.type{border-radius:14px;padding:18px;border:2px solid var(--line);background:#fff;color:var(--text);text-align:left;cursor:pointer;font-size:17px}
+.type .tname{font-weight:700;color:var(--indigo)}
 .type.on{border-color:var(--indigo);background:linear-gradient(135deg,#fff,#eef0ff)}
-.type.off{opacity:.55;cursor:not-allowed}.type small{display:block;color:#6b6f8c;margin-top:4px}
+.type.on:hover,.type.on:focus-visible{background:var(--indigo);color:#fff}.type.on:hover .tname,.type.on:focus-visible .tname,.type.on:hover small,.type.on:focus-visible small{color:#fff}
+.type.off,.type:disabled{background:#eef1f5;border-color:#d5dbe5;color:#3d4260;cursor:not-allowed;opacity:1}
+.type.off .tname{color:#3d4260}
+.type small{display:block;color:#4f5470;margin-top:4px}
+.tag.grey{background:#5f6478}
 .tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--pink);color:#fff;margin-left:6px}
 .tag.blue{background:var(--blue)}.tag.purple{background:var(--purple)}.tag.grey{background:#8a8fa8}
 label{display:block;font-size:14px;color:#4a4f72;margin:6px 0 3px;font-weight:600}

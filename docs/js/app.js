@@ -35,7 +35,7 @@ function allDx(type='histo'){ const m=new Map([...S.bundle.diagnoses,...(S.bundl
 
 // ---------- screens ----------
 function home(){
-  app.innerHTML=`<h2>New report</h2><div class="types">${TYPES.map(([k,n,on,d])=>`<button class="type ${on?'on':'off'}" data-k="${k}" ${on?'':'disabled'}>${esc(n)}${on?'':'<span class="tag grey">coming soon</span>'}<small>${esc(d||'Not in this version yet')}</small></button>`).join('')}</div>
+  app.innerHTML=`<h2>New report</h2><div class="types">${TYPES.map(([k,n,on,d])=>`<button class="type ${on?'on':'off'}" data-k="${k}" ${on?'':'disabled'}><span class="tname">${esc(n)}</span>${on?'':'<span class="tag grey">coming soon</span>'}<small>${esc(d||'Not in this version yet')}</small></button>`).join('')}</div>
   <div class="card" style="margin-top:16px"><h3>Recent reports</h3><div id="recent" class="list hint">Loading…</div></div>`;
   $$('.type.on').forEach(b=>b.onclick=()=>newReport(b.dataset.k));
   listReports($('#recent'),6);
