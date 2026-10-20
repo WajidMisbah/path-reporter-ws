@@ -1,8 +1,9 @@
-const CACHE='prws-shell-v5';
+const CACHE='prws-shell-v6';
 const SHELL=['./','index.html','css/app.css','js/app.js','js/db.js','js/docx.js','vendor/pizzip.min.js','vendor/jszip.min.js','vendor/docx-preview.min.js',
  'manifest.webmanifest','icons/logo.png','icons/icon-192.png','icons/icon-512.png','icons/icon-192-maskable.png','icons/icon-512-maskable.png',
  'fonts/Tinos-Regular.ttf','fonts/Tinos-Bold.ttf','fonts/Tinos-Italic.ttf','fonts/Tinos-BoldItalic.ttf',
- 'templates/bundle.json','templates/histopathology.dotx','templates/cancer-cap.dotx','templates/ihc.dotx'];
+ 'templates/bundle.json','templates/histopathology.dotx','templates/cancer-cap.dotx','templates/ihc.dotx',
+ 'templates/bm-aspiration-template.dotx','templates/bm-biopsy-template.dotx','templates/cytology-template.dotx','templates/other-fluid-cytology-template.dotx','templates/pap-smear-template.dotx','templates/ps-comment-template.dotx','templates/serous-effusion-cytology-template.dotx'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL.map(x=>new Request(x,{cache:'reload'})))).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('fetch',e=>{

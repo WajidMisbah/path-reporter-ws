@@ -1,0 +1,94 @@
+{
+ "_doc": "Home cards, in order. engine: histo | ihc (custom editors) | generic (sections detected from the .dotx by tools/schema.py). Any .dotx in the Basic Templates folder not listed here (and not in layout_only) gets a generic card automatically.",
+ "layout_only": [
+  "Cancer CAP Template.dotx"
+ ],
+ "types": [
+  {
+   "id": "histo",
+   "name": "Histopathology",
+   "template": "Histopathology Template.dotx",
+   "engine": "histo",
+   "desc": "Gross, microscopy, diagnosis; CAP synoptic for cancers",
+   "layout_name": "histopathology"
+  },
+  {
+   "id": "ihc",
+   "name": "Immunohistochemistry",
+   "template": "IHC Template.dotx",
+   "engine": "ihc",
+   "desc": "Results table, scoring (Allred, HER2, Ki-67…), controls, impression",
+   "layout_name": "ihc"
+  },
+  {
+   "id": "cyto",
+   "name": "Cytology / FNAC",
+   "template": "Cytology Template.dotx",
+   "engine": "generic",
+   "desc": "FNAC and other cytology: procedure, microscopy, impression",
+   "case_prefixes": [
+    "Cytopathology/FNAC/"
+   ]
+  },
+  {
+   "id": "pap",
+   "name": "PAP Smear",
+   "template": "PAP Smear Template.dotx",
+   "engine": "generic",
+   "desc": "Adequacy, findings, Bethesda 2014 synoptic",
+   "case_prefixes": [
+    "Cytopathology/PAP Smear/"
+   ]
+  },
+  {
+   "id": "serous",
+   "name": "Serous Effusion Cytology",
+   "template": "Serous Effusion Cytology Template.dotx",
+   "engine": "generic",
+   "desc": "Ascitic, peritoneal wash, pleural, pericardial fluid",
+   "case_prefixes": [
+    "Cytopathology/Serous Effusion/"
+   ]
+  },
+  {
+   "id": "fluid",
+   "name": "Other Fluid Cytology",
+   "template": "Other Fluid Cytology Template.dotx",
+   "engine": "generic",
+   "desc": "CSF, urine, BAL, synovial, cyst fluid…",
+   "case_prefixes": [
+    "Cytopathology/Fluid Cytology/"
+   ]
+  },
+  {
+   "id": "bma",
+   "name": "Bone Marrow Aspiration",
+   "template": "BM Aspiration Template.dotx",
+   "engine": "generic",
+   "desc": "PB findings, aspirate morphology, differential count",
+   "case_prefixes": [
+    "Hematology/Bone Marrow Aspiration/"
+   ]
+  },
+  {
+   "id": "bmb",
+   "name": "Bone Marrow Biopsy",
+   "template": "BM Biopsy Template.dotx",
+   "engine": "generic",
+   "desc": "Trephine: gross, microscopy, special stains",
+   "case_prefixes": [
+    "Hematology/Bone Marrow Biopsy/"
+   ]
+  },
+  {
+   "id": "ps",
+   "name": "Peripheral Smear Comment",
+   "template": "PS Comment Template.dotx",
+   "engine": "generic",
+   "desc": "RBC, WBC, platelets, haemoparasites, impression",
+   "case_prefixes": [
+    "Hematology/PS Comment/"
+   ]
+  }
+ ]
+}

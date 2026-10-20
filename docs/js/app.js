@@ -17,31 +17,34 @@ const textToItems=t=>String(t||'').split('\n').map(l=>l.trimEnd()).filter(l=>l.t
 // ---------- templates bundle ----------
 async function loadBundle(fromNetwork){
   let b=fromNetwork?null:await DB.get('meta','bundle');
-  if(b&&(!b.layouts||!b.layouts.ihc)) b=null; // older cached bundle (v1): fetch the one with the IHC layout; user stores untouched
+  if(b&&(!b.layouts||!b.layouts.ihc||!b.data.reportTypes)) b=null; // older cached bundle: fetch the new one; user stores untouched
   if(!b){
     const r=await fetch('templates/bundle.json?ts='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('bundle '+r.status);
     const data=await r.json(); const L={};
+    for(const t of (data.reportTypes||[])) if(t.engine==='generic') data.layouts[t.id]=t.layout;
     for(const [k,p] of Object.entries(data.layouts)){ const x=await fetch(p+'?ts='+Date.now(),{cache:'no-store'}); if(!x.ok) throw new Error(p); L[k]=await x.arrayBuffer(); }
     const old=await DB.get('meta','bundle');
     b={id:'bundle',data,layouts:L,fetched:new Date().toISOString()}; await DB.put('meta',b);
-    if(fromNetwork){ const before=old?old.data.diagnoses.length+old.data.specimens.length:0; const after=data.diagnoses.length+data.specimens.length;
+    if(fromNetwork){ const cnt=d=>d?d.diagnoses.length+d.specimens.length+(d.ihcPanels||[]).length+(d.reportTypes||[]).reduce((a,t)=>a+(t.cases||[]).length,0):0; const before=cnt(old&&old.data); const after=cnt(data);
       toast(old&&old.data.version===data.version?'Templates are already up to date':`Templates updated (${after-before>=0?'+':''}${after-before} items)`); }
   }
   S.bundle=b.data; S.layouts=b.layouts; S.userDx=await DB.all('diagnoses');
-  $('#bundleInfo').textContent=`${S.bundle.specimens.length} specimens · ${allDx().length} diagnoses · ${allDx('ihc').length} IHC panels · templates ${S.bundle.version.slice(0,8)}`;
+  $('#bundleInfo').textContent=`${S.bundle.specimens.length} specimens · ${allDx().length} diagnoses · ${allDx('ihc').length} IHC panels · ${(S.bundle.reportTypes||[]).length} report types · templates ${S.bundle.version.slice(0,8)}`;
 }
 const dxType=d=>d.type||'histo';
-function allDx(type='histo'){ const m=new Map([...S.bundle.diagnoses,...(S.bundle.ihcPanels||[])].map(d=>[d.id,d])); for(const u of S.userDx) m.set(u.id,u); return [...m.values()].filter(d=>dxType(d)===type); }
+function allDx(type='histo'){ const gen=(S.bundle.reportTypes||[]).flatMap(t=>t.cases||[]); const m=new Map([...S.bundle.diagnoses,...(S.bundle.ihcPanels||[]),...gen].map(d=>[d.id,d])); for(const u of S.userDx) m.set(u.id,u); return [...m.values()].filter(d=>dxType(d)===type); }
 
 // ---------- screens ----------
 function home(){
-  app.innerHTML=`<h2>New report</h2><div class="types">${TYPES.map(([k,n,on,d])=>`<button class="type ${on?'on':'off'}" data-k="${k}" ${on?'':'disabled'}><span class="tname">${esc(n)}</span>${on?'':'<span class="tag grey">coming soon</span>'}<small>${esc(d||'Not in this version yet')}</small></button>`).join('')}</div>
+  const TY=(S.bundle.reportTypes||[]).map(t=>[t.id,t.name,['histo','ihc','generic'].includes(t.engine),t.desc]);
+  app.innerHTML=`<h2>New report</h2><div class="types">${TY.map(([k,n,on,d])=>`<button class="type ${on?'on':'off'}" data-k="${k}" ${on?'':'disabled'}><span class="tname">${esc(n)}</span>${on?'':'<span class="tag grey">coming soon</span>'}<small>${esc(d||'Not in this version yet')}</small></button>`).join('')}</div>
   <div class="card" style="margin-top:16px"><h3>Recent reports</h3><div id="recent" class="list hint">Loading…</div></div>`;
   $$('.type.on').forEach(b=>b.onclick=()=>newReport(b.dataset.k));
   listReports($('#recent'),6);
 }
 function newReport(k){
   if(k==='ihc') return newIhc();
+  const T=typeOf(k); if(T&&T.engine==='generic') return newGeneric(T);
   S.report={id:uid('rep'),type:'histo',created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),
     clinical:[{label:'Specimen:',text:''},{label:'Procedure:',text:''},{label:'Clinical history:',text:''}],
     specimenId:'',gross:{containers:[{text:'',gross:''}],sections:''},dxId:'',dxName:'',layout:'histo',micro:[],finalDiagnosis:[],comment:[],cap:null};
@@ -51,7 +54,7 @@ function newReport(k){
 async function listReports(el,limit){
   const rs=(await DB.all('reports')).sort((a,b)=>(b.updated||b.created).localeCompare(a.updated||a.created)).slice(0,limit||1e9);
   el.classList.remove('hint');
-  el.innerHTML=rs.length?rs.map(r=>`<div class="item"><div><b>${esc(r.header.name||'(no name)')}</b> · ${esc(r.header['lab no']||'')} <span class="tag ${r.type==='ihc'?'pink':'blue'}">${r.type==='ihc'?'IHC':'Histo'}</span> <span class="tag blue">${esc(r.dxName||'no diagnosis')}</span><br><small class="hint">${esc(new Date(r.updated||r.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}))}</small></div><div class="actions"><button class="small" data-o="${r.id}">Open</button><button class="small danger" data-d="${r.id}">Delete</button></div></div>`).join(''):'<p class="hint">No saved reports yet.</p>';
+  el.innerHTML=rs.length?rs.map(r=>`<div class="item"><div><b>${esc(r.header.name||'(no name)')}</b> · ${esc(r.header['lab no']||'')} <span class="tag ${r.type==='ihc'?'pink':r.type&&r.type!=='histo'?'purple':'blue'}">${esc(typeShort(r.type))}</span> <span class="tag blue">${esc(r.dxName||'no diagnosis')}</span><br><small class="hint">${esc(new Date(r.updated||r.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}))}</small></div><div class="actions"><button class="small" data-o="${r.id}">Open</button><button class="small danger" data-d="${r.id}">Delete</button></div></div>`).join(''):'<p class="hint">No saved reports yet.</p>';
   $$('[data-o]',el).forEach(b=>b.onclick=async()=>{S.report=await DB.get('reports',b.dataset.o);openEditor();});
   $$('[data-d]',el).forEach(b=>b.onclick=async()=>{ if(confirm('Delete this report from this device?')){await DB.del('reports',b.dataset.d);listReports(el,limit);} });
 }
@@ -65,7 +68,7 @@ function dataScreen(){
   $('#upd').onclick=async()=>{ try{ await loadBundle(true); dataScreen(); }catch(e){ toast('Could not update (offline?)'); } };
   $('#exp').onclick=async()=>{ const o=await DB.exportAll(); download(new Blob([JSON.stringify(o,null,1)],{type:'application/json'}),`PathReporterWS-backup-${new Date().toISOString().slice(0,10)}.json`); };
   $('#imp').onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ const o=JSON.parse(await f.text()); const mode=confirm('OK = merge with what is on this tablet.\nCancel = replace everything on this tablet with the backup.')?'merge':'replace'; await DB.importAll(o,mode); S.userDx=await DB.all('diagnoses'); toast('Backup imported'); dataScreen(); }catch(err){ toast(err.message); } };
-  const el=$('#mydx'); el.innerHTML=S.userDx.length?S.userDx.map(d=>`<div class="item"><div><b>${esc(d.name)}</b> ${d.type==='ihc'?'<span class="tag pink">IHC</span>':''} <span class="tag ${d.overrides?'purple':'blue'}">${d.overrides?'overwrites built-in':'my template'}</span></div><button class="small danger" data-x="${d.id}">${d.overrides?'Restore built-in':'Delete'}</button></div>`).join(''):'<p class="hint">None yet.</p>';
+  const el=$('#mydx'); el.innerHTML=S.userDx.length?S.userDx.map(d=>`<div class="item"><div><b>${esc(d.name)}</b> <span class="tag pink">${esc(typeShort(d.type))}</span> <span class="tag ${d.overrides?'purple':'blue'}">${d.overrides?'overwrites built-in':'my template'}</span></div><button class="small danger" data-x="${d.id}">${d.overrides?'Restore built-in':'Delete'}</button></div>`).join(''):'<p class="hint">None yet.</p>';
   $$('[data-x]',el).forEach(b=>b.onclick=async()=>{ await DB.del('diagnoses',b.dataset.x); S.userDx=await DB.all('diagnoses'); dataScreen(); });
 }
 
@@ -151,7 +154,7 @@ function saveDialog(){
    <div class="actions"><button class="light" id="mcancel">Cancel</button></div>`;
   $('#modal').classList.remove('hidden'); $('#mcancel').onclick=()=>$('#modal').classList.add('hidden');
   $$('[data-m]').forEach(b=>b.onclick=async()=>{ const m=b.dataset.m; const sp=S.bundle.specimens.find(s=>s.id===R.specimenId);
-    const tpl=base=>R.type==='ihc'?({...(base||{}),type:'ihc',block:structuredClone(R.block),results:structuredClone(R.results),scoring:structuredClone(R.scoring),controls:structuredClone(R.controls),impression:structuredClone(R.impression),comment:structuredClone(R.comment),user:true,saved:new Date().toISOString()})
+    const tpl=base=>(typeOf(R.type)||{}).engine==='generic'?({...(base||{}),type:R.type,values:structuredClone(R.values),user:true,saved:new Date().toISOString()}):R.type==='ihc'?({...(base||{}),type:'ihc',block:structuredClone(R.block),results:structuredClone(R.results),scoring:structuredClone(R.scoring),controls:structuredClone(R.controls),impression:structuredClone(R.impression),comment:structuredClone(R.comment),user:true,saved:new Date().toISOString()})
       :({...(base||{}),micro:R.micro,finalDiagnosis:R.finalDiagnosis,comment:R.comment,cap:R.cap,layout:R.cap?'cap':'histo',user:true,saved:new Date().toISOString()});
     if(m==='new'){ const name=prompt('Name for the new diagnosis template:',R.dxName?R.dxName+' (modified)':''); if(!name) return;
       const d=tpl({id:uid('mydx'),name,nature:cur?.nature||(sp?.kind==='Cancer'?'Neoplastic':'Non-neoplastic'),path:cur?.path||(sp?sp.organ:''),userOrgan:sp?.organ||null}); await DB.put('diagnoses',d); R.dxId=d.id; R.dxName=name; }
@@ -162,8 +165,9 @@ function saveDialog(){
 }
 
 // ---------- output ----------
-function makeBlob(){ const R=S.report; if(R.type==='ihc') return DocxFill.buildIhcDocx(S.layouts.ihc,R); const layout=R.cap&&R.cap.sections?.length?'cap':'histo'; const buf=S.layouts[layout]; return DocxFill.buildDocx(buf,R); }
-function fname(){ const R=S.report; return [R.type==='ihc'?'IHC':'Histopathology',R.header['lab no'],R.header.name].filter(Boolean).join(' - ').replace(/[\\/:*?"<>|]/g,'_')+'.docx'; }
+function makeBlob(){ const R=S.report; if(R.type==='ihc') return DocxFill.buildIhcDocx(S.layouts.ihc,R);
+  const GT=typeOf(R.type); if(GT&&GT.engine==='generic') return DocxFill.buildGenericDocx(S.layouts[GT.id],R,GT.schema); const layout=R.cap&&R.cap.sections?.length?'cap':'histo'; const buf=S.layouts[layout]; return DocxFill.buildDocx(buf,R); }
+function fname(){ const R=S.report; return [typeShort(R.type),R.header['lab no'],R.header.name].filter(Boolean).join(' - ').replace(/[\\/:*?"<>|]/g,'_')+'.docx'; }
 function download(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000); }
 function exportDocx(){ try{ download(makeBlob(),fname()); }catch(e){ console.error(e); toast('Could not build .docx: '+e.message); } }
 async function renderInto(el){ el.innerHTML=''; await docx.renderAsync(makeBlob(),el,null,{className:'docx',inWrapper:true,ignoreWidth:false,ignoreHeight:false,breakPages:true,renderHeaders:true,renderFooters:true,experimental:true,useBase64URL:true}); }
@@ -171,7 +175,63 @@ async function preview(box){ box.innerHTML='<div class="card"><h3>Preview</h3><d
 async function printReport(){ await renderInto($('#printArea')); await document.fonts.ready; setTimeout(()=>window.print(),300); }
 window.PRWS={state:()=>S,makeBlob};
 
-function openEditor(){ if(S.report.type==='ihc') ihcEditor(); else editor(); }
+function openEditor(){ const T=typeOf(S.report.type); if(T&&T.engine==='generic') genericEditor(T); else if(S.report.type==='ihc') ihcEditor(); else editor(); }
+function typeOf(id){ return (S.bundle.reportTypes||[]).find(t=>t.id===(id||'histo')); }
+function typeShort(id){ id=id||'histo'; return id==='histo'?'Histo':id==='ihc'?'IHC':((typeOf(id)||{}).name||id); }
+// ---------- generic report types (sections from the .dotx) ----------
+function newGeneric(T){
+  S.report={id:uid('rep'),type:T.id,created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),values:{},dxId:'',dxName:''};
+  S.report.header['reported on']=new Date().toLocaleDateString('en-GB'); genericEditor(T);
+}
+function genericEditor(T){
+  const R=S.report; R.values=R.values||{};
+  const V=h=>(R.values[h]=R.values[h]||{});
+  const secHtml=(s,si)=>{ const v=R.values[s.heading]||{}; let h=`<div class="card" data-sec="${si}"><h3>${esc(s.heading)}</h3>`;
+    const grid=s.parts.filter(p=>p.k==='ghead'||p.k==='grow'||p.k==='dyn');
+    for(const p of s.parts){ const key=p.r+'.'+(p.p||0);
+      if(p.k==='label') h+=`<label>${esc(p.label.replace(/:\s*$/,''))}</label><textarea data-lab="${si}|${key}" style="min-height:44px">${esc(v[key]||'')}</textarea>`;
+      else if(p.k==='free') h+=`<textarea data-free="${si}|${key}" style="min-height:90px" placeholder="One paragraph per line; **Label:** prints bold">${esc(itemsToText(v[key]||[]))}</textarea>`;
+      else if(p.k==='ghead'){ const n=p.cols.length; h+=`<div class="capitem" style="grid-template-columns:repeat(${n},1fr) 40px">${p.cols.map(c=>`<b>${esc(c)}</b>`).join('')}<span></span></div>`; }
+      else if(p.k==='grow'){ const n=p.cells.length; const vv=v[key]||[]; h+=`<div class="capitem" style="grid-template-columns:repeat(${n},1fr) 40px">${p.cells.map((c,i)=>c.e?`<input data-grow="${si}|${key}|${i}" value="${esc(vv[i]||'')}" placeholder="${esc(c.t.trim())}">`:`<span style="padding:8px 0">${esc(c.t)}</span>`).join('')}<span></span></div>`; }
+      else if(p.k==='dyn'){ const rows=v[key]&&v[key].length?v[key]:[Array(p.n).fill('')]; V(s.heading)[key]=rows;
+        h+=rows.map((r,ri)=>`<div class="capitem" style="grid-template-columns:repeat(${p.n},1fr) 40px">${r.map((x,ci)=>`<input data-dyn="${si}|${key}|${ri}|${ci}" value="${esc(x||'')}">`).join('')}<button class="small danger" data-dynx="${si}|${key}|${ri}">✕</button></div>`).join('')+`<button class="small light" data-dyna="${si}|${key}|${p.n}">+ Add row</button>`; }
+      else if(p.k==='gross'){ const g=v[key]||{containers:[{text:'',gross:''}],sections:''}; V(s.heading)[key]=g;
+        h+=g.containers.map((c,ci)=>`<label>Container ${'ABCDEFGHIJ'[ci]}</label><textarea data-gt="${si}|${key}|${ci}" style="min-height:90px">${esc(c.text)}</textarea><label>Gross</label><select data-gs="${si}|${key}|${ci}">${['','Saved.','All embedded.','Partially embedded.'].map(o=>`<option ${o===c.gross?'selected':''} value="${o}">${o||'—'}</option>`).join('')}${c.gross&&!['Saved.','All embedded.','Partially embedded.'].includes(c.gross)?`<option selected>${esc(c.gross)}</option>`:''}</select>`).join('')+
+          `<div class="actions"><button class="small light" data-ga="${si}|${key}">+ Container</button></div><label>Sections</label><textarea data-gsec="${si}|${key}" style="min-height:50px">${esc(g.sections)}</textarea>`; }
+    }
+    return h+'</div>'; };
+  const cases=allDx(T.id);
+  app.innerHTML=`<h2>${esc(T.name)} report</h2>
+  <div class="card"><h3>Patient details</h3><div class="grid">${HEADER.map(([k,l])=>`<div><label>${esc(l)}</label><input data-h="${esc(k)}" value="${esc(R.header[k])}"></div>`).join('')}</div></div>
+  <div class="card"><h3>Diagnosis / case template</h3><input id="dxq" placeholder="Search ${cases.length} templates"><div id="dxl" class="dxlist" style="margin-top:8px"></div>
+   <p class="hint" id="dxsel">${R.dxName?'Loaded: <b>'+esc(R.dxName)+'</b>':'Choosing one fills the sections below (all editable).'+(T.blankOnPick&&T.blankOnPick.length?' '+esc(T.blankOnPick.join(', ').toLowerCase())+' stay as you entered them.':'')}</p></div>
+  ${T.schema.sections.map(secHtml).join('')}
+  <div class="card actions" style="position:sticky;bottom:8px"><button id="save">Save…</button><button id="docx" class="alt">Download .docx</button><button id="prev" class="violet">Preview</button><button id="print" class="pink">Print / PDF</button></div>
+  <div id="previewBox"></div>`;
+  const sec=i=>T.schema.sections[+i].heading;
+  $$('[data-h]').forEach(i=>i.oninput=()=>R.header[i.dataset.h]=i.value);
+  $$('[data-lab]').forEach(e=>e.oninput=()=>{const[a,k]=e.dataset.lab.split('|');V(sec(a))[k]=e.value;});
+  $$('[data-free]').forEach(e=>e.oninput=()=>{const[a,k]=e.dataset.free.split('|');V(sec(a))[k]=textToItems(e.value);});
+  $$('[data-grow]').forEach(e=>e.oninput=()=>{const[a,k,i]=e.dataset.grow.split('|');const o=V(sec(a));o[k]=o[k]||[];o[k][+i]=e.value;});
+  $$('[data-dyn]').forEach(e=>e.oninput=()=>{const[a,k,r,c]=e.dataset.dyn.split('|');V(sec(a))[k][+r][+c]=e.value;});
+  $$('[data-dynx]').forEach(e=>e.onclick=()=>{const[a,k,r]=e.dataset.dynx.split('|');V(sec(a))[k].splice(+r,1);genericEditor(T);});
+  $$('[data-dyna]').forEach(e=>e.onclick=()=>{const[a,k,n]=e.dataset.dyna.split('|');V(sec(a))[k].push(Array(+n).fill(''));genericEditor(T);});
+  $$('[data-gt]').forEach(e=>e.oninput=()=>{const[a,k,c]=e.dataset.gt.split('|');V(sec(a))[k].containers[+c].text=e.value;});
+  $$('[data-gs]').forEach(e=>e.onchange=()=>{const[a,k,c]=e.dataset.gs.split('|');V(sec(a))[k].containers[+c].gross=e.value;});
+  $$('[data-ga]').forEach(e=>e.onclick=()=>{const[a,k]=e.dataset.ga.split('|');V(sec(a))[k].containers.push({text:'',gross:''});genericEditor(T);});
+  $$('[data-gsec]').forEach(e=>e.oninput=()=>{const[a,k]=e.dataset.gsec.split('|');V(sec(a))[k].sections=e.value;});
+  const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const L=cases.filter(d=>!q||(d.name+' '+(d.group||'')).toLowerCase().includes(q)).sort((a,b)=>(a.group||'').localeCompare(b.group||'')||a.name.localeCompare(b.name));
+    $('#dxl').innerHTML=L.map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')}${d.group?' · '+esc(d.group):''}</small></div>`).join('')||'<p class="hint" style="padding:10px">No case templates for this report type yet — fill the sections below and use Save → new template.</p>';
+    $$('[data-dx]').forEach(el=>el.onclick=()=>pick(el.dataset.dx)); };
+  const pick=id=>{ const d=cases.find(x=>x.id===id); if(!d) return;
+    const has=Object.entries(R.values).some(([h,v])=>!(T.blankOnPick||[]).includes(h)&&Object.keys(v).length);
+    if(has&&!confirm('Replace the report sections with "'+d.name+'"?')) return;
+    const keep=Object.fromEntries((T.blankOnPick||[]).filter(h=>R.values[h]).map(h=>[h,R.values[h]]));
+    const nv=structuredClone(d.values||{}); for(const h of (T.blankOnPick||[])) delete nv[h];
+    R.values={...nv,...keep}; R.dxId=d.id; R.dxName=d.name; genericEditor(T); toast('Template loaded'); };
+  $('#dxq').oninput=renderDx; renderDx();
+  $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+}
 // ---------- IHC ----------
 const IHC_CLIN=['Specimen:','Procedure:','Clinical history:','Previous histopathology no. / Block no.:','Referring diagnosis:','Test requested:'];
 const BLOCK=['Block tested:','Fixative:','Platform:']; const CTRL=['External control:','Internal control:'];

@@ -215,5 +215,36 @@ function buildIhcDocx(templateBuf,R){
   zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
   return zip.generate({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
 }
-window.DocxFill={buildDocx,buildIhcDocx};
+
+// ---------------- Generic engine: any Basic Template, schema detected by tools/schema.py ----------------
+function fillGrowCell(doc,tc,v){
+  const p=kids(tc,'p')[0]; const existing=text(p);
+  if(existing.trim()){ const r=kids(p,'r').find(r=>text(r)); const t=desc(r,'t')[0]; t.textContent=v+t.textContent; t.setAttributeNS(XMLNS,'xml:space','preserve'); }
+  else setPlain(doc,p,v,null);
+}
+function buildGenericDocx(templateBuf,R,schema){
+  const zip=new PizZip(templateBuf); const P=new DOMParser();
+  const doc=P.parseFromString(zip.file('word/document.xml').asText(),'application/xml'); const body=desc(doc,'body')[0];
+  const vals=R.values||{};
+  for(const s of schema.sections){
+    const V=vals[s.heading]; if(!V) continue;
+    const t=table(body,s.heading); const rs=rows(t);
+    for(const pt of s.parts){
+      const key=pt.r+'.'+(pt.p||0); const v=V[key]; if(v==null||v==='') continue;
+      if(pt.k==='label'){ appendValue(doc,kids(cells(rs[pt.r])[0],'p')[pt.p],v); }
+      else if(pt.k==='free'){ fillCellParas(doc,cells(rs[pt.r])[0],v); }
+      else if(pt.k==='grow'){ cells(rs[pt.r]).forEach((tc,i)=>{ if(pt.cells[i]&&pt.cells[i].e&&v[i]) fillGrowCell(doc,tc,v[i]); }); }
+      else if(pt.k==='dyn'){ const proto=rs[pt.r]; const data=v.filter(r=>r.some(x=>String(x||'').trim()));
+        data.forEach((row,i)=>{ const tr=i===0?proto:stripW14(proto.cloneNode(true)); if(i){ const last=rows(t)[rows(t).length-1]; t.insertBefore(tr,last.nextSibling); }
+          cells(tr).forEach((tc,j)=>setPlain(doc,kids(tc,'p')[0],row[j]||'',null)); }); }
+      else if(pt.k==='gross'){ fillGross(doc,t,v.containers||[],v.sections||''); }
+    }
+  }
+  zip.file('word/document.xml',ser(doc));
+  for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){ const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,R.header||{}); zip.file(f,ser(h)); } }
+  zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
+  return zip.generate({type:typeof window!=='undefined'?'blob':'nodebuffer',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
+}
+const API={buildDocx,buildIhcDocx,buildGenericDocx};
+if(typeof window!=='undefined') window.DocxFill=API; if(typeof module!=='undefined') module.exports=API;
 })();

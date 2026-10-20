@@ -100,11 +100,41 @@ def ihc_panels():
               'impression':[{'label':c['imp'][0].strip(),'text':c['imp'][1]}] if c['imp'][0].strip() else [{'label':'','text':c['imp'][1]}],
               'comment':[{'label':'','text':x} for x in c['comment']]})
     return out
+# ---------- report types (data-driven Home) ----------
+import importlib.util as _iu
+_sp=_iu.spec_from_file_location('schema',os.path.dirname(os.path.abspath(__file__))+'/schema.py'); schema=_iu.module_from_spec(_sp); _sp.loader.exec_module(schema)
+TYPES_CFG=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/report_types.json'))
+BASIC=os.environ.get('PRWS_BASIC_DIR',B.B).rstrip('/')+'/'
+def slug(n): return re.sub(r'[^a-z0-9]+','-',n.lower()).strip('-')
+def report_types():
+    types=[]; known={c['template'] for c in TYPES_CFG['types']}|set(TYPES_CFG.get('layout_only',[]))
+    cfgs=list(TYPES_CFG['types'])
+    for f in sorted(os.listdir(BASIC)):            # any brand-new Basic Template -> generic type automatically
+        if f.endswith('.dotx') and f not in known:
+            cfgs.append({'id':slug(f[:-5].replace(' Template','')),'name':f[:-5].replace(' Template',''),'template':f,'engine':'generic','desc':'New Basic Template (sections detected automatically)'})
+    built=json.load(open(ROOT+'/build_cache/built.json')) if os.path.exists(ROOT+'/build_cache/built.json') else []
+    for c in cfgs:
+        lay=c.get('layout_name') or slug(c['template'][:-5]); shutil.copy(BASIC+c['template'],OUTDIR+'/'+lay+'.dotx')
+        t={k:c[k] for k in ('id','name','engine','desc') if k in c}; t['layout']='templates/'+lay+'.dotx'; t['template']=c['template']
+        if c['engine']=='generic':
+            sch=schema.detect(BASIC+c['template']); t['schema']=sch; t['blankOnPick']=c.get('blank_on_pick',['CLINICAL DETAILS'])
+            cases=[]
+            for b in built:
+                out=b[2]; rel=out.split('/out/',1)[1]
+                if not any(rel.startswith(pref) for pref in c.get('case_prefixes',[])): continue
+                parts=rel.split('/'); vals=schema.extract(out,sch)
+                for h in t['blankOnPick']: vals.pop(h,None)
+                cases.append({'id':c['id']+'-'+hashlib.sha1(rel.encode()).hexdigest()[:10],'type':c['id'],'name':parts[-1][:-5],
+                    'group':parts[2] if len(parts)>4 else '', 'nature':parts[-2],'path':rel,'values':vals})
+            t['cases']=sorted(cases,key=lambda x:(x['group'],x['name']))
+        types.append(t)
+    return types
 bundle={'app':'Path Reporter WS','version':datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
  'generated':datetime.datetime.now().isoformat(timespec='seconds'),
- 'layouts':{'histo':'templates/histopathology.dotx','cap':'templates/cancer-cap.dotx','ihc':'templates/ihc.dotx'},'ihcPanels':ihc_panels(),
+ 'layouts':{'histo':'templates/histopathology.dotx','cap':'templates/cancer-cap.dotx','ihc':'templates/ihc.dotx'},'ihcPanels':ihc_panels(),'reportTypes':report_types(),
  'specimens':specimens,'diagnoses':diagnoses}
 json.dump(bundle,open(OUTDIR+'/bundle.json','w'),ensure_ascii=False,indent=0)
+[print('  type %-28s %-8s %d cases'%(t['name'],t['engine'],len(t.get('cases',[])))) for t in bundle['reportTypes']]
 print(len(specimens),'specimens',len(diagnoses),'diagnoses',len(bundle['ihcPanels']),'ihc',sum(d['layout']=='cap' for d in diagnoses),'cap; skipped',len(skipped))
 for s in skipped[:15]: print(' skip',s)
 for sp in specimens:

@@ -1,7 +1,7 @@
 {
 "app": "Path Reporter WS",
-"version": "20261020233913",
-"generated": "2026-10-20T23:39:13",
+"version": "20261021001735",
+"generated": "2026-10-21T00:17:35",
 "layouts": {
 "histo": "templates/histopathology.dotx",
 "cap": "templates/cancer-cap.dotx",
@@ -1187,6 +1187,5579 @@
 {
 "label": "",
 "text": "Surrogate subtyping by IHC approximates gene-expression intrinsic subtypes; correlate clinically. ER/PR positive at 1% or more (1 to 10% = ER-low); HER2 scored per ASCO/CAP 2023."
+}
+]
+}
+],
+"reportTypes": [
+{
+"id": "histo",
+"name": "Histopathology",
+"engine": "histo",
+"desc": "Gross, microscopy, diagnosis; CAP synoptic for cancers",
+"layout": "templates/histopathology.dotx",
+"template": "Histopathology Template.dotx"
+},
+{
+"id": "ihc",
+"name": "Immunohistochemistry",
+"engine": "ihc",
+"desc": "Results table, scoring (Allred, HER2, Ki-67…), controls, impression",
+"layout": "templates/ihc.dotx",
+"template": "IHC Template.dotx"
+},
+{
+"id": "cyto",
+"name": "Cytology / FNAC",
+"engine": "generic",
+"desc": "FNAC and other cytology: procedure, microscopy, impression",
+"layout": "templates/cytology-template.dotx",
+"template": "Cytology Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Cytology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Chief complaints:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Clinical findings:"
+}
+]
+},
+{
+"heading": "PROCEDURE DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Procedure done:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Site:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Number of slides:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "IMPRESSION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "cyto-442c3f0719",
+"type": "cyto",
+"name": "Malignant - Ductal Carcinoma NST, Yokohama Category 5",
+"group": "Breast",
+"nature": "Neoplastic",
+"path": "Cytopathology/FNAC/Breast/Neoplastic/Malignant - Ductal Carcinoma NST, Yokohama Category 5.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Palpation-guided fine needle aspiration (23G needle, 3 passes); needle rinse for cell block.",
+"2.0": "Right breast lump, upper outer quadrant.",
+"3.0": "6 (3 air-dried Giemsa, 3 alcohol-fixed Pap). Cell block prepared."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate and representative (IAC Yokohama criteria)."
+},
+{
+"label": "",
+"text": "Cellularity: Highly cellular smears."
+},
+{
+"label": "",
+"text": "Architecture: Numerous loosely cohesive, crowded, overlapping three-dimensional clusters, with many dispersed single intact malignant cells. Occasional cells within fibrofatty stromal fragments."
+},
+{
+"label": "",
+"text": "Cell morphology: Moderately to markedly pleomorphic ductal epithelial cells, 2 to 3 times the size of benign ductal cells, with high N:C ratio, irregular nuclear membranes, coarse hyperchromatic chromatin and prominent nucleoli. Moderate amount of cytoplasm. Mitotic figures seen."
+},
+{
+"label": "",
+"text": "Myoepithelial cells: Bipolar bare nuclei and myoepithelial cells are absent."
+},
+{
+"label": "",
+"text": "Background: Necrotic debris and blood. No apocrine metaplasia, foam cells, mucin or signet-ring cells."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Right breast lump, FNAC:",
+"text": "Malignant – carcinoma, consistent with ductal carcinoma (no special type). IAC Yokohama System (2020): Category 5 – Malignant (risk of malignancy about 99 to 100%)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Invasion cannot be assessed on cytology; differentiation from high-grade DCIS requires histology. Correlation with the clinical (triple assessment) and imaging (BI-RADS 5) findings is concordant."
+},
+{
+"label": "",
+"text": "Recommend ultrasound-guided core needle biopsy for histological type, Nottingham grade and ER, PR, HER2 and Ki-67 assessment, and FNA of the palpable right axillary node for staging. Cell block retained for ancillary testing if required."
+}
+]
+}
+}
+},
+{
+"id": "cyto-a548b85d07",
+"type": "cyto",
+"name": "Benign Reactive Lymphoid Hyperplasia",
+"group": "Lymph Node",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Non-neoplastic/Benign Reactive Lymphoid Hyperplasia.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Fine needle aspiration (23G needle, 2 passes). Aspirate: blood-mixed, whitish material.",
+"2.0": "Right posterior cervical lymph node.",
+"3.0": "8 (4 air-dried MGG, 4 alcohol-fixed Pap / H&E)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate, cellular and representative."
+},
+{
+"label": "",
+"text": "Cellularity and pattern: Smears are cellular and show a polymorphous population of lymphoid cells dominated by small mature lymphocytes, with admixed centrocytes, centroblasts, immunoblasts and occasional plasma cells."
+},
+{
+"label": "",
+"text": "Background: Scattered tingible body macrophages and lymphohistiocytic aggregates (germinal centre fragments) are seen. Lymphoglandular bodies are present in the background."
+},
+{
+"label": "",
+"text": "Atypical cells: No granulomas, necrosis, Reed–Sternberg-like cells, monomorphic atypical lymphoid population or metastatic malignant cells are seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Right posterior cervical lymph node, FNAC:",
+"text": "Benign – reactive lymphoid hyperplasia. Sydney System (2020): Category II – Benign (approximate risk of malignancy low, <5%)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Polymorphous lymphoid population with tingible body macrophages; ancillary studies are not required."
+},
+{
+"label": "",
+"text": "Clinical correlation and follow-up. Re-aspiration or excision biopsy if the node persists beyond 4–6 weeks or enlarges."
+}
+]
+}
+}
+},
+{
+"id": "cyto-5448bc7f69",
+"type": "cyto",
+"name": "Metastatic Keratinising Squamous Cell Carcinoma",
+"group": "Lymph Node",
+"nature": "Neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Neoplastic/Metastatic Keratinising Squamous Cell Carcinoma.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Fine needle aspiration (22G needle, 2 passes). Aspirate: greyish-white, partly necrotic material.",
+"2.0": "Right level II cervical lymph node.",
+"3.0": "6 (MGG and Pap stained smears)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate."
+},
+{
+"label": "",
+"text": "Tumour cells: Smears are cellular and show malignant squamous cells in sheets, clusters and singly. Cells show marked pleomorphism, including polygonal, tadpole and spindle forms, with hyperchromatic, irregular nuclei with coarse chromatin."
+},
+{
+"label": "",
+"text": "Keratinisation and background: Keratinised cells with dense orangeophilic cytoplasm on Pap stain, keratin pearls and anucleate squames are seen. The background shows necrosis, keratinous debris and an inflammatory infiltrate."
+},
+{
+"label": "",
+"text": "Lymphoid cells: Residual lymphoid cells are scanty."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Right level II cervical lymph node, FNAC:",
+"text": "Positive for malignancy – metastatic keratinising squamous cell carcinoma. Sydney System (2020): Category V – Malignant (approximate risk of malignancy high, >95%)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Probable primary: oral cavity (tongue), on clinical correlation. p16 / HPV testing is advised if an oropharyngeal primary is suspected."
+},
+{
+"label": "",
+"text": "Biopsy of the tongue lesion and staging work-up."
+}
+]
+}
+}
+},
+{
+"id": "cyto-f6c539098c",
+"type": "cyto",
+"name": "Rosai-Dorfman Disease",
+"group": "Lymph Node",
+"nature": "Neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Neoplastic/Rosai-Dorfman Disease.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Fine needle aspiration (non-guided, 23G needle, 2 passes); needle rinse for cell block. Aspirate: whitish-grey, blood-mixed material.",
+"2.0": "Left cervical lymph node.",
+"3.0": "6 (3 MGG, 2 Pap, 1 H&E); cell block prepared."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate and representative."
+},
+{
+"label": "",
+"text": "Cellularity and background: Highly cellular smears with a polymorphous population of small lymphocytes, many mature plasma cells, scattered neutrophils and occasional eosinophils. No necrosis, granulomas or caseation."
+},
+{
+"label": "",
+"text": "Histiocytes: Numerous large histiocytes, singly and in loose clusters, with abundant pale to foamy, finely vacuolated cytoplasm and round to oval vesicular nuclei with a small distinct nucleolus. Binucleate and occasional multinucleate forms are present."
+},
+{
+"label": "",
+"text": "Emperipolesis: Many histiocytes contain intact lymphocytes and plasma cells within the cytoplasm, several surrounded by a clear halo (emperipolesis), best seen on MGG."
+},
+{
+"label": "",
+"text": "Atypical cells: Occasional large binucleate cells are present. No convincing Reed–Sternberg cells with macronucleoli, no sheets of atypical lymphoid cells and no cohesive epithelial clusters."
+},
+{
+"label": "",
+"text": "Cell block immunohistochemistry: S100 positive (nuclear and cytoplasmic in large histiocytes, highlighting engulfed lymphocytes); CD68 / CD163 positive; OCT2 positive; CD1a / Langerin negative; CD30 / CD15 negative in large cells; PAX5 / CD20 / CD3 mixed B and T cells with no aberrant population; pan-CK (AE1/AE3) negative; IgG4+ cells < 10/HPF, IgG4/IgG ratio < 40%."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Left cervical lymph node, FNAC:",
+"text": "Histiocytic proliferation with emperipolesis, consistent with Rosai–Dorfman disease (sinus histiocytosis with massive lymphadenopathy). S100+, CD68+, OCT2+, CD1a−. Sydney system: Benign (category II), with recommendation for excision."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "The cytomorphology and immunoprofile support Rosai–Dorfman disease. As RDD is uncommon at this age and RDD-like changes may coexist with lymphoma (including Hodgkin lymphoma) or other neoplasms, a coexisting process cannot be fully excluded on FNA."
+},
+{
+"label": "",
+"text": "Excision biopsy of the most accessible node (preferably an inguinal node) is recommended to confirm the diagnosis and exclude a coexisting lymphoma. Suggest CBC, ESR, serum immunoglobulins and imaging to assess extranodal involvement."
+}
+]
+}
+}
+},
+{
+"id": "cyto-8bd49a875d",
+"type": "cyto",
+"name": "Tuberculous Granulomatous Lymphadenitis",
+"group": "Lymph Node",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Non-neoplastic/Tuberculous Granulomatous Lymphadenitis.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Fine needle aspiration (23G needle, 2 passes). Aspirate: cheesy, creamy-white material; part sent for CBNAAT / GeneXpert.",
+"2.0": "Left supraclavicular / lower cervical matted lymph nodes.",
+"3.0": "6 (MGG, Pap and Ziehl–Neelsen stained smears)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate."
+},
+{
+"label": "",
+"text": "Granulomas: Smears show multiple epithelioid cell granulomas: cohesive clusters of epithelioid histiocytes with elongated, slipper-shaped nuclei and pale cytoplasm."
+},
+{
+"label": "",
+"text": "Giant cells and background: Occasional Langhans-type multinucleated giant cells are present. The background shows abundant amorphous, granular eosinophilic caseous necrosis with degenerated inflammatory cells and a mixed lymphoid population."
+},
+{
+"label": "",
+"text": "Atypical cells: No atypical or malignant cells are seen."
+},
+{
+"label": "",
+"text": "Special stain: Ziehl–Neelsen (AFB) positive: occasional acid-fast bacilli (AFB 1+)."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Left cervical lymph node, FNAC:",
+"text": "Necrotising granulomatous lymphadenitis with acid-fast bacilli, consistent with tuberculous lymphadenitis. Sydney System (2020): Category II – Benign."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Epithelioid granulomas with caseous necrosis, AFB positive (ZN); CBNAAT sent."
+},
+{
+"label": "",
+"text": "Correlate with CBNAAT / culture and clinical findings; manage per national TB programme guidelines."
+}
+]
+}
+}
+},
+{
+"id": "cyto-b22fa3e932",
+"type": "cyto",
+"name": "Benign Follicular Nodule (Colloid - Adenomatoid Nodule), Bethesda II",
+"group": "Thyroid",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/FNAC/Thyroid/Non-neoplastic/Benign Follicular Nodule (Colloid - Adenomatoid Nodule), Bethesda II.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "USG-guided fine needle aspiration, 3 passes. Three aspirates received; adequate thin colloid visible on the slides grossly.",
+"2.0": "Right lobe thyroid nodule.",
+"3.0": "Multiple (air-dried MGG and wet-fixed Papanicolaou smears)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate (sufficient follicular cells and colloid)."
+},
+{
+"label": "",
+"text": "The smears are cellular and show abundant thin watery colloid in the background, with occasional dense colloid fragments."
+},
+{
+"label": "",
+"text": "Follicular epithelial cells are arranged predominantly in flat monolayered sheets with a honeycomb arrangement and occasional small macrofollicular fragments. Nuclei are round, evenly spaced, with fine chromatin and inconspicuous nucleoli. Cytoplasm is moderate and delicate."
+},
+{
+"label": "",
+"text": "No nuclear features of papillary thyroid carcinoma are seen (no nuclear grooves, intranuclear cytoplasmic inclusions, nuclear crowding or overlapping, or powdery chromatin). No Hürthle-cell-predominant population, no atypical cells and no features of malignancy are identified. Findings are consistent with a benign follicular nodule (colloid / adenomatoid nodule)."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Thyroid FNAC (USG-guided), right lobe nodule:",
+"text": "Bethesda Category II – Benign (benign follicular nodule / colloid nodule). The Bethesda System for Reporting Thyroid Cytopathology: approximate risk of malignancy 0–3%."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Ancillary studies are not required."
+},
+{
+"label": "",
+"text": "Clinical and sonographic follow-up as per ATA / local protocol. No immediate surgery is indicated on cytology alone."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "pap",
+"name": "PAP Smear",
+"engine": "generic",
+"desc": "Adequacy, findings, Bethesda 2014 synoptic",
+"layout": "templates/pap-smear-template.dotx",
+"template": "PAP Smear Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Cytology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Chief complaints:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Clinical findings:"
+}
+]
+},
+{
+"heading": "PROCEDURE DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Specimen type:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Source:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Number of slides:"
+}
+]
+},
+{
+"heading": "SPECIMEN ADEQUACY",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Adequacy:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Squamous cellularity:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Transformation zone component:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Obscuring factors:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC FINDINGS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Background:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Squamous cells:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Endocervical cells:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Organisms:"
+}
+]
+},
+{
+"heading": "SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)",
+"parts": [
+{
+"k": "ghead",
+"r": 1,
+"cols": [
+"Parameter",
+"Finding"
+]
+},
+{
+"k": "grow",
+"r": 2,
+"cells": [
+{
+"t": "Specimen type",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 3,
+"cells": [
+{
+"t": "Specimen adequacy",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 4,
+"cells": [
+{
+"t": "Transformation zone component",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 5,
+"cells": [
+{
+"t": "General categorisation",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 6,
+"cells": [
+{
+"t": "Organisms",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 7,
+"cells": [
+{
+"t": "Non-neoplastic findings",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 8,
+"cells": [
+{
+"t": "Inflammation grade",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 9,
+"cells": [
+{
+"t": "Squamous cell abnormality",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+},
+{
+"k": "grow",
+"r": 10,
+"cells": [
+{
+"t": "Glandular cell abnormality",
+"e": false
+},
+{
+"t": "",
+"e": true
+}
+]
+}
+]
+},
+{
+"heading": "INTERPRETATION / RESULT",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Interpretation:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Non-neoplastic findings:"
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "pap-937c51ff99",
+"type": "pap",
+"name": "Endometrial Cells in a Woman 45 Years of Age or Older",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/Endometrial Cells in a Woman 45 Years of Age or Older.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (SurePath).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean.",
+"2.0": "Other cells: Benign squamous and endocervical cells. No dyskaryosis.",
+"3.0": "Endometrial cells: Several small, tight, three-dimensional balls of exfoliated endometrial cells with scant cytoplasm and small round nuclei (about the size of an intermediate-cell nucleus), dark chromatin, moulding and occasional apoptotic debris. Nuclear features: No nuclear enlargement or prominent nucleoli to suggest atypical endometrial cells.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (SurePath)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Other: endometrial cells in a woman 45 years of age or older (negative for squamous intraepithelial lesion)"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"None. Endometrial cells: Present; benign-appearing, exfoliated; patient postmenopausal"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Other: Endometrial cells present in a woman 45 years of age or older. Negative for squamous intraepithelial lesion."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Benign-appearing endometrial cells in a postmenopausal woman, reported under the TBS 2014 \"Other\" category as they can rarely indicate endometrial hyperplasia or carcinoma; obesity adds to her risk."
+},
+{
+"label": "",
+"text": "Recommend endometrial assessment (transvaginal ultrasound and/or endometrial sampling) per ASCCP, as she is postmenopausal; not needed in asymptomatic premenopausal women. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (co-test)."
+}
+]
+}
+}
+},
+{
+"id": "pap-b65304786c",
+"type": "pap",
+"name": "High-grade Squamous Intraepithelial Lesion (HSIL)",
+"group": "Female Genital Tract",
+"nature": "Neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Neoplastic/High-grade Squamous Intraepithelial Lesion (HSIL).dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (cervical broom).",
+"3.0": "1 (Papanicolaou-stained)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"3.0": "Present (endocervical / transformation zone cells)."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Mild inflammation; no tumour diathesis.",
+"2.0": "Numerous small, immature squamous cells are present singly, in loose sheets and in hyperchromatic crowded groups. They have a markedly increased nuclear-to-cytoplasmic ratio, with dense metaplastic or lacy immature cytoplasm. Nuclei are hyperchromatic with evenly distributed coarse granular chromatin, prominent irregularity of the nuclear membrane with notches and grooves, and inconspicuous nucleoli. Nuclear size is variable, but the cells themselves are smaller than those of LSIL. No features suggestive of invasion are seen, such as macronucleoli, tadpole or fibre cells, marked keratinisation or a necrotic background.",
+"3.0": "Endocervical / transformation zone cells present. Glandular cells are unremarkable.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Epithelial cell abnormality: squamous"
+],
+"6.0": [
+null,
+"None identified"
+],
+"8.0": [
+null,
+"Mild"
+],
+"9.0": [
+null,
+"High-grade squamous intraepithelial lesion (HSIL), encompassing moderate and severe dysplasia / CIS / CIN 2 and CIN 3; features suspicious for invasion not identified"
+],
+"10.0": [
+null,
+"None (glandular cells unremarkable)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Epithelial cell abnormality – high-grade squamous intraepithelial lesion (HSIL) (TBS 2014)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Urgent colposcopy with directed biopsy, or expedited treatment by loop electrosurgical excision (LEEP), is advised as per ASCCP 2019 guidelines for HSIL with HPV 16 positivity in a non-pregnant patient aged 25 years or older."
+},
+{
+"label": "",
+"text": "HPV test: HPV 16 positive (sample data)."
+}
+]
+}
+}
+},
+{
+"id": "pap-4499369d69",
+"type": "pap",
+"name": "Low-grade Squamous Intraepithelial Lesion (LSIL) with HPV Cytopathic Effect",
+"group": "Female Genital Tract",
+"nature": "Neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Neoplastic/Low-grade Squamous Intraepithelial Lesion (LSIL) with HPV Cytopathic Effect.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (SurePath).",
+"2.0": "Cervix (cervical broom).",
+"3.0": "1 (Papanicolaou-stained)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"3.0": "Present (endocervical / transformation zone cells).",
+"4.0": "None (clean background)."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean, with a mixed population of superficial and intermediate squamous cells.",
+"2.0": "Scattered intermediate and superficial squamous cells show nuclear enlargement more than three times the area of a normal intermediate cell nucleus, with mild hyperchromasia, slightly irregular nuclear outlines and occasional binucleation. Koilocytes are present, with sharply outlined perinuclear cavitation, a dense peripheral rim of cytoplasm and atypical (enlarged, hyperchromatic, raisinoid) nuclei. A few dyskeratotic cells with orangeophilic cytoplasm are also seen. No cells with high nuclear-to-cytoplasmic ratio of the HSIL type are seen.",
+"3.0": "Endocervical / transformation zone cells present. Glandular cells are unremarkable.",
+"4.0": "No organisms are identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (SurePath)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Epithelial cell abnormality: squamous"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"None"
+],
+"9.0": [
+null,
+"Low-grade squamous intraepithelial lesion (LSIL), encompassing HPV cytopathic effect / mild dysplasia / CIN 1"
+],
+"10.0": [
+null,
+"None (glandular cells unremarkable)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Epithelial cell abnormality – low-grade squamous intraepithelial lesion (LSIL) with HPV cytopathic effect (TBS 2014).",
+"2.0": "None."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Colposcopy is recommended (ASCCP 2019 risk-based management: LSIL with positive HPV). Correlate with clinical findings."
+},
+{
+"label": "",
+"text": "HPV test: high-risk HPV positive, non-16/18 (sample data)."
+}
+]
+}
+}
+},
+{
+"id": "pap-bbd69fce78",
+"type": "pap",
+"name": "NILM with Actinomyces (IUD User)",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Actinomyces (IUD User).dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Cervix (Ayre spatula and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated 8,000 to 12,000 well-visualised squamous cells (conventional smear threshold met).",
+"3.0": "Present (endocervical cells and squamous metaplastic cells).",
+"4.0": "Mild inflammation; less than 25% obscured."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Mild neutrophilic inflammation. No sulphur granules with club formation in tissue fragments, and no necrosis.",
+"2.0": "Superficial and intermediate cells with mild reactive change. No dyskaryosis.",
+"3.0": "Benign sheets with mild reactive change. No atypia.",
+"4.0": "Several dark-staining \"cotton-ball\" (woolly) colonies composed of tangled, thin filamentous bacteria that radiate from a dense centre, showing acute-angle branching at the periphery. Neutrophils cling to the edges of the colonies."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Bacteria morphologically consistent with Actinomyces spp."
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation (mild); IUD in situ"
+],
+"8.0": [
+null,
+"Mild"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Organisms: Bacteria morphologically consistent with Actinomyces spp."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Actinomyces-like organisms in an IUD user. No intraepithelial lesion or malignancy."
+},
+{
+"label": "",
+"text": "Correlate clinically. In an asymptomatic woman, IUD removal and antibiotics are not required (ACOG); counsel her to report pelvic pain, fever or discharge. If symptoms of pelvic infection develop, evaluate for pelvic actinomycosis, treat and consider IUD removal. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-72ab770373",
+"type": "pap",
+"name": "NILM with Atrophy",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Atrophy.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Cervix (Ayre spatula and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate for an atrophic smear (Bethesda allows clinical judgement; estimated about 5,000 squamous cells).",
+"3.0": "Present (few metaplastic and endocervical cells).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean, without the granular debris, blue blobs or inflammation of atrophic vaginitis.",
+"2.0": "Parabasal cells: Predominantly parabasal cells in flat, cohesive monolayer sheets and singly. Oval nuclei, uniform in size, with fine, evenly distributed chromatin, smooth nuclear membranes and no nucleoli. N:C ratio higher than intermediate cells but uniform across the sheet. Some naked (stripped) nuclei. Other squamous cells: Few intermediate cells; superficial cells rare (atrophic maturation pattern).",
+"3.0": "Small benign sheets.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Non-neoplastic cellular variation: atrophy"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Atrophy."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Atrophic smear, physiological after the menopause. Parabasal cells show uniform nuclei with even chromatin and smooth membranes, with no features of HSIL. No diagnostic doubt."
+},
+{
+"label": "",
+"text": "No further action needed. If a future atrophic smear shows equivocal atypia, a short course of topical vaginal oestrogen and a repeat smear helps resolve it. Screening can stop at 65 after adequate negative prior screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (co-test)."
+}
+]
+}
+}
+},
+{
+"id": "pap-b8bba0e8ff",
+"type": "pap",
+"name": "NILM with Atrophy with Inflammation (Atrophic Vaginitis)",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Atrophy with Inflammation (Atrophic Vaginitis).dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Cervix (Ayre spatula and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate for an atrophic smear (estimated about 5,000 squamous cells).",
+"3.0": "Absent / insufficient (common in atrophy); not a reason for unsatisfactory reporting.",
+"4.0": "Inflammation and granular debris obscure about 40% of cells; does not limit interpretation."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Degenerative changes: \"Blue blobs\" (dark, degenerated parabasal cells or bare nuclei without discernible detail) and pseudoparakeratosis (degenerated parabasal cells with dense orangeophilic cytoplasm and pyknotic nuclei). Granular basophilic debris with many neutrophils and histiocytes, including multinucleated forms (\"pseudodiathesis\"). No malignant cells within the debris.",
+"2.0": "Parabasal cells: Sheets and single parabasal cells with uniform oval nuclei, even chromatin and smooth membranes. Other cells: Few intermediate cells. No dyskaryosis.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Absent / insufficient"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Atrophy with inflammation (atrophic vaginitis)"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Atrophy with inflammation (atrophic vaginitis)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Atrophic vaginitis. The granular background, blue blobs and pseudoparakeratosis can mimic tumour diathesis or keratinising carcinoma, but there are no atypical cells."
+},
+{
+"label": "",
+"text": "Topical vaginal oestrogen should relieve symptoms. Repeat cytology after a short course only if there is diagnostic doubt. Blood-stained discharge after the menopause needs evaluation in its own right; her thin endometrium is reassuring, but persistent bleeding warrants endometrial sampling. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (reflex)."
+}
+]
+}
+}
+},
+{
+"id": "pap-3eed9b139e",
+"type": "pap",
+"name": "NILM with Cellular Changes Consistent with Cytomegalovirus",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Cellular Changes Consistent with Cytomegalovirus.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (SurePath).",
+"2.0": "Cervix (broom and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical cells and squamous metaplastic cells).",
+"4.0": "Mild inflammation; less than 25% obscured."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Mild lymphocytic and neutrophilic inflammation.",
+"2.0": "Unremarkable superficial and intermediate cells. No dyskaryosis.",
+"4.0": "Viral cytopathic effect: Scattered, markedly enlarged endocervical (glandular) cells (cytomegaly), each with a single large, dark basophilic intranuclear inclusion separated from the nuclear membrane by a clear halo (\"owl's eye\" appearance). Cytoplasm: Several infected cells contain multiple small, granular, basophilic to amphophilic cytoplasmic inclusions. Distinction from HSV: Infected cells are mainly single and mononucleate. No multinucleation or nuclear moulding."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (SurePath)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Cellular changes consistent with cytomegalovirus"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation (mild)"
+],
+"8.0": [
+null,
+"Mild"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Organisms: Cellular changes consistent with cytomegalovirus."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Cytomegalovirus cytopathic effect in endocervical cells in an immunosuppressed woman. No intraepithelial lesion or malignancy."
+},
+{
+"label": "",
+"text": "Suggest clinical correlation and liaison with the transplant team (CMV PCR/viral load if systemic infection is suspected). Screening should follow guidance for immunosuppressed women (more frequent intervals, as for women with HIV). Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (co-test)."
+}
+]
+}
+}
+},
+{
+"id": "pap-10cea90ca1",
+"type": "pap",
+"name": "NILM with Cellular Changes Consistent with Herpes Simplex Virus",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Cellular Changes Consistent with Herpes Simplex Virus.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "Moderate inflammation and some necrotic debris, obscuring less than 50%; does not limit interpretation."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Neutrophils, fibrin and degenerated cells from ulceration. No tumour diathesis.",
+"2.0": "Other cells: Uninfected squamous and endocervical cells are unremarkable. No dyskaryosis or koilocytes.",
+"4.0": "Viral cytopathic effect: Enlarged multinucleated squamous and metaplastic cells showing the \"3 Ms\": multinucleation, nuclear moulding and margination of chromatin against the nuclear membrane. Nuclear features: Many nuclei have a homogeneous, glassy \"ground-glass\" appearance. Others show dense eosinophilic intranuclear Cowdry type A inclusions surrounded by a clear halo (later-stage infection)."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Cellular changes consistent with herpes simplex virus"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Organisms: Cellular changes consistent with herpes simplex virus."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Viral cytopathic changes typical of herpes simplex virus. These multinucleated cells are not dyskaryotic and must not be mistaken for HSIL. No intraepithelial lesion or malignancy."
+},
+{
+"label": "",
+"text": "Suggest clinical correlation, confirmation by HSV PCR from a lesion if needed, antiviral therapy and screening for other sexually transmitted infections. In pregnancy, inform the obstetrician because of the risk of neonatal transmission. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done (under 25 years)."
+}
+]
+}
+}
+},
+{
+"id": "pap-01ef10c0f3",
+"type": "pap",
+"name": "NILM with Fungal Organisms Consistent with Candida",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Fungal Organisms Consistent with Candida.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Cervix (Ayre spatula and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated 8,000 to 12,000 well-visualised squamous cells (conventional smear threshold met).",
+"3.0": "Present (endocervical cells and squamous metaplastic cells).",
+"4.0": "Mild inflammation; less than 25% of cells obscured."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Mild neutrophilic exudate. Lactobacilli reduced. No tumour diathesis.",
+"2.0": "Superficial and intermediate cells, some with small perinuclear halos and mild reactive nuclear enlargement.",
+"3.0": "Benign sheets. No atypia.",
+"4.0": "Eosinophilic to grey-brown, segmented pseudohyphae with constrictions and budding yeast forms (3 to 7 micrometres). Pseudohyphae skewer stacked squamous cells (\"shish-kebab\" / spearing arrangement)."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Fungal organisms morphologically consistent with Candida spp."
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation (mild)"
+],
+"8.0": [
+null,
+"Mild"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Organisms: Fungal organisms morphologically consistent with Candida spp."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Candida spp. with mild reactive change. Speciation is not possible on cytology (pseudohyphae favour C. albicans)."
+},
+{
+"label": "",
+"text": "Treat if symptomatic (asymptomatic colonisation does not need treatment); review glycaemic control. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-a22f14d0af",
+"type": "pap",
+"name": "NILM with Glandular Cells Status Post Hysterectomy",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Glandular Cells Status Post Hysterectomy.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Vaginal vault (Ayre spatula)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate for a vault sample (lower thresholds acceptable after hysterectomy).",
+"3.0": "Not applicable (cervix absent).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean. No tumour diathesis.",
+"2.0": "Intermediate and parabasal cells with mild atrophic pattern. No dyskaryosis.",
+"3.0": "Glandular cells: A few small, flat to slightly crowded groups of benign columnar glandular cells with basal, round to oval nuclei, fine chromatin, smooth membranes and inconspicuous nucleoli. Some have mucinous cytoplasm. No crowding, stratification, mitoses or feathering.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation (vault sample)"
+],
+"4.0": [
+null,
+"Not applicable (post-hysterectomy)"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Benign-appearing glandular cells status post hysterectomy"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Glandular cells status post hysterectomy."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Benign glandular cells in a vault smear after total hysterectomy. Possible origins include vaginal adenosis, glandular (mucinous) metaplasia from chronic irritation or radiation, prolapse of the fallopian tube into the vault, or a fistula. They carry no known increased risk of neoplasia. Confirm the hysterectomy was total, since endocervical cells would be expected after a supracervical one."
+},
+{
+"label": "",
+"text": "No follow-up for this finding. After total hysterectomy for benign disease with no history of CIN 2+ or cervical cancer, further cervical/vaginal screening is generally not recommended (ACS, USPSTF, ACOG)."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-f2d6cb3a9f",
+"type": "pap",
+"name": "NILM with Keratotic Changes (Hyperkeratosis and Parakeratosis)",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Keratotic Changes (Hyperkeratosis and Parakeratosis).dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Prolapsed cervix (Ayre spatula)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 8,000 squamous cells (keratinised cells counted).",
+"3.0": "Not identified (no endocervical or metaplastic cells); this does not make the sample unsatisfactory.",
+"4.0": "None significant."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Few neutrophils. No tumour diathesis.",
+"2.0": "Hyperkeratosis: Many anucleate, mature polygonal squames with orangeophilic cytoplasm, some with a pale \"ghost\" nuclear space; occasional keratohyaline granules. Parakeratosis: Small, mature-looking squamous cells singly and in plaques, with dense orangeophilic cytoplasm and small, round, dark pyknotic nuclei. Nuclei are uniform, without enlargement, irregularity or hyperchromasia (no atypical parakeratosis). Other squamous cells: Superficial, intermediate and few parabasal cells. No dyskaryosis or tadpole/fibre cells.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Absent / insufficient"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Non-neoplastic cellular variation: keratotic changes (hyperkeratosis and parakeratosis)"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Keratotic changes (hyperkeratosis and parakeratosis)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Benign keratotic changes from chronic exposure and friction of the prolapsed cervix. No atypical parakeratosis or intraepithelial lesion."
+},
+{
+"label": "",
+"text": "Keratosis can mask an underlying lesion: biopsy any non-healing ulcer or visible abnormality, and examine the hysterectomy specimen. Consider hrHPV testing, as she was never screened. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-5f81e776b2",
+"type": "pap",
+"name": "NILM with Lymphocytic (Follicular) Cervicitis",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Lymphocytic (Follicular) Cervicitis.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Cervix (Ayre spatula and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated 8,000 to 12,000 well-visualised squamous cells (conventional smear threshold met).",
+"3.0": "Present (few endocervical and metaplastic cells).",
+"4.0": "None significant; lymphoid cells form streaks but do not obscure epithelial cells."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Lymphoid cells: Dense streaks and clusters of a polymorphous lymphoid population: predominantly small mature lymphocytes, with larger follicle-centre cells (centroblasts), occasional immunoblasts and plasma cells. Lymphoid cells are dispersed, not cohesive. Tingible-body macrophages: Scattered macrophages containing phagocytosed nuclear debris, confirming a reactive follicle.",
+"2.0": "Mixed parabasal, intermediate and superficial cells. No dyskaryosis.",
+"3.0": "Benign sheets.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with lymphocytic (follicular) cervicitis"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Reactive cellular changes associated with lymphocytic (follicular) cervicitis."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Lymphocytic (follicular) cervicitis. The small dark lymphoid cells can mimic HSIL, endometrial cells or lymphoma; the polymorphous population, lack of cohesion and tingible-body macrophages identify it as reactive."
+},
+{
+"label": "",
+"text": "Often linked to chronic Chlamydia trachomatis infection in younger women and common after the menopause. Consider chlamydia NAAT if risk factors or symptoms are present. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (co-test)."
+}
+]
+}
+}
+},
+{
+"id": "pap-6a108701bd",
+"type": "pap",
+"name": "NILM with Pregnancy-associated Changes (Decidual Cells, Arias-Stella Reaction)",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Pregnancy-associated Changes (Decidual Cells, Arias-Stella Reaction).dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (broom device; no endocervical brush, as pregnant)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Decidual cells: Scattered large polygonal cells with abundant, finely granular to vacuolated, cyanophilic to amphophilic cytoplasm and large central vesicular nuclei with a single prominent nucleolus. N:C ratio low; chromatin fine, membranes smooth.",
+"2.0": "Navicular cells: Many boat-shaped, glycogenated intermediate cells with yellow cytoplasmic glycogen and folded borders (pregnancy-related maturation).",
+"3.0": "Arias-Stella reaction: A few endocervical cells with abundant clear to vacuolated cytoplasm and enlarged, hyperchromatic nuclei, some with intranuclear pseudoinclusions. They lie in small groups with low N:C ratio and no mitoses. Other cells: Normal endocervical sheets. No trophoblast seen. No dyskaryosis.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Non-neoplastic cellular variation: pregnancy-associated changes (decidual cells, Arias-Stella reaction)"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Pregnancy-associated changes (decidual cells and Arias-Stella reaction)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Benign pregnancy-associated changes. Decidual cells can mimic HSIL or degenerating carcinoma, and Arias-Stella cells can mimic AGC or clear cell adenocarcinoma; the abundant cytoplasm, low N:C ratio and pregnancy context support benignity."
+},
+{
+"label": "",
+"text": "No intervention needed. Cytology is safe in pregnancy. Resume routine screening postpartum per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-72ff20d62a",
+"type": "pap",
+"name": "NILM with Reactive Cellular Changes Associated with IUD",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Reactive Cellular Changes Associated with IUD.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "None significant."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Other findings: A few calcified psammoma-like concretions (debris). Mild neutrophilic inflammation. No Actinomyces-like organisms.",
+"2.0": "Unremarkable. No dyskaryosis.",
+"3.0": "Glandular clusters: Small three-dimensional clusters of 5 to 15 glandular cells with abundant cytoplasm containing large vacuoles, some displacing the nucleus into a signet-ring-like shape. Nuclei are mildly enlarged with fine chromatin and occasional prominent nucleoli. Single cells: Occasional isolated small cells with a high N:C ratio and scant cytoplasm, resembling HSIL cells, but with smooth nuclear membranes and fine chromatin and too few in number.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with intrauterine contraceptive device (IUD)"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Reactive cellular changes associated with intrauterine contraceptive device (IUD)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "IUD-associated reactive change. Vacuolated glandular clusters can mimic adenocarcinoma, and single high-N:C cells can mimic HSIL; the IUD history and bland nuclear chromatin support a reactive process."
+},
+{
+"label": "",
+"text": "No action needed for the IUD. If there is diagnostic doubt in future, repeat cytology after IUD removal or replacement clarifies it. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-75ccab5645",
+"type": "pap",
+"name": "NILM with Reactive Cellular Changes Associated with Radiation",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Reactive Cellular Changes Associated with Radiation.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (SurePath).",
+"2.0": "Vaginal vault and cervix."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; more than 5,000 well-visualised squamous cells.",
+"3.0": "Not identified (expected after radiotherapy); not required for adequacy.",
+"4.0": "None significant."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Few histiocytes and neutrophils. No tumour diathesis and no dyskaryotic cells with a raised N:C ratio.",
+"2.0": "Markedly enlarged squamous cells (cytomegaly) with proportionate enlargement of nucleus and cytoplasm, so the N:C ratio is preserved. Bizarre cell shapes are occasionally seen. Nuclear features: Bi- and multinucleation, fine or smudgy chromatin, smooth membranes, small nucleoli and some nuclear vacuolation. No coarse hyperchromasia. Cytoplasm: Two-tone polychromatic staining (cyanophilic and eosinophilic in the same cell) and cytoplasmic vacuolation, sometimes with engulfed neutrophils.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (SurePath)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Absent (post-radiation)"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with radiation"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Reactive cellular changes associated with radiation."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Chronic radiation changes. The cells are large but the N:C ratio is preserved, with no hyperchromasia, single atypical cells or diathesis to suggest recurrent carcinoma or post-radiation dysplasia."
+},
+{
+"label": "",
+"text": "Continue oncology surveillance per protocol; cytology has limited sensitivity after radiation, and any new lesion needs biopsy. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-bb187c63f7",
+"type": "pap",
+"name": "NILM with Reactive Cellular Changes, Typical Repair",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Reactive Cellular Changes, Typical Repair.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Pap smear.",
+"2.0": "Cervix (Ayre spatula and cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated 8,000 to 12,000 well-visualised squamous cells (conventional smear threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "Mild inflammation and blood; less than 25% obscured."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Mild acute inflammation and some fresh blood. Squamous cells mildly reactive.",
+"3.0": "Repair sheets: Flat, cohesive, monolayer sheets of metaplastic and endocervical cells with well-defined borders. Cells are aligned in a streaming, \"school-of-fish\" pattern, with preserved nuclear polarity. Nuclear features: Enlarged round to oval nuclei with fine, evenly distributed pale chromatin, smooth membranes and one or more prominent nucleoli. Occasional normal mitoses. Neutrophils are scattered within the sheets. Absent worrying features: No single atypical cells, no nuclear overlapping or hyperchromasia, no irregular chromatin clearing, and no tumour diathesis.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation, including typical repair"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Reactive cellular changes associated with inflammation (includes typical repair)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Typical repair following cryocautery. Prominent nucleoli and mitoses can mimic invasive carcinoma, but the cohesive monolayer sheets, streaming, even chromatin and lack of single atypical cells and diathesis are diagnostic of repair. Atypical repair (marked pleomorphism, irregular chromatin, single cells) would be reported as ASC or AGC."
+},
+{
+"label": "",
+"text": "No further action; routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-39c8008819",
+"type": "pap",
+"name": "NILM with Reactive Inflammatory Changes",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Reactive Inflammatory Changes.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Conventional Papanicolaou (Pap) smear.",
+"2.0": "Ectocervix and endocervix."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate.",
+"3.0": "Endocervical and squamous metaplastic cells present.",
+"4.0": "Moderate inflammation, partly obscuring (less than 50%); does not limit interpretation."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Moderate acute inflammatory exudate, predominantly neutrophils, with neutrophils clustering on squamous cells (\"polka-dot\" pattern). No tumour diathesis or necrosis.",
+"2.0": "Superficial, intermediate and occasional parabasal cells, some with mild nuclear enlargement (less than 1.5 times normal), smooth nuclear membranes, fine chromatin, small nucleoli and perinuclear halos, consistent with reactive change. No hyperchromasia or koilocytosis.",
+"3.0": "Sheets of endocervical cells with mild reactive nuclear enlargement and prominent nucleoli, maintaining a honeycomb arrangement. No crowding, stratification or feathering.",
+"4.0": "Shift in flora with mixed coccobacilli and reduced lactobacilli; no clue cells. Candida, Trichomonas, Actinomyces and herpes changes not seen."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Conventional Pap smear"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Shift in flora (not suggestive of bacterial vaginosis)"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation"
+],
+"8.0": [
+null,
+"Moderate, predominantly neutrophilic"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy (NILM).",
+"2.0": "Reactive cellular changes associated with inflammation (moderate, acute)."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Moderate acute inflammation with reactive squamous and endocervical changes, possibly related to the intrauterine device or non-specific infection. No intraepithelial lesion or malignancy."
+},
+{
+"label": "",
+"text": "Suggest clinical correlation, evaluation for an infective cause and treatment as indicated, then routine age-appropriate screening (cytology and/or HPV testing). Pap smear is a screening test with inherent false-negative rates."
+}
+]
+}
+}
+},
+{
+"id": "pap-d393809b1c",
+"type": "pap",
+"name": "NILM with Shift in Flora Suggestive of Bacterial Vaginosis",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Shift in Flora Suggestive of Bacterial Vaginosis.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (SurePath).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "None significant."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Inflammation: Sparse neutrophils, in keeping with bacterial vaginosis (not an inflammatory vaginitis).",
+"2.0": "Superficial and intermediate cells with normal nuclear features. No koilocytes or dyskaryosis.",
+"3.0": "Benign sheets. No atypia.",
+"4.0": "Filmy background of small coccobacilli. Numerous \"clue cells\": squamous cells carpeted by coccobacilli that blur the cell borders and overlie the nucleus. Lactobacilli are scanty to absent."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (SurePath)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Shift in flora suggestive of bacterial vaginosis"
+],
+"7.0": [
+null,
+"None"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Organisms: Shift in flora suggestive of bacterial vaginosis."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Clue cells and coccobacillary flora with loss of lactobacilli, suggestive of bacterial vaginosis. No intraepithelial lesion or malignancy."
+},
+{
+"label": "",
+"text": "Cytology is suggestive only; correlate with clinical criteria (Amsel) or Gram stain (Nugent score). Treat if symptomatic (metronidazole or clindamycin per current CDC guidance); partner treatment is not routinely required. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-60bed59380",
+"type": "pap",
+"name": "NILM with Squamous Metaplasia",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Squamous Metaplasia.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (abundant squamous metaplastic and endocervical cells).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean. No organisms.",
+"2.0": "Immature metaplastic cells: Round to polygonal cells in loose cobblestone sheets and singly, with dense, cyanophilic cytoplasm and occasional cytoplasmic processes (\"spider cells\"). Central round nuclei with fine, evenly distributed chromatin, smooth nuclear membranes and inconspicuous nucleoli. N:C ratio moderate and uniform. Mature metaplastic cells: Cells approaching intermediate-cell size with more abundant cytoplasm and small regular nuclei.",
+"3.0": "Squamous and endocervical cells: Normal squamous cells and benign endocervical sheets.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Non-neoplastic cellular variation: squamous metaplasia"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Squamous metaplasia."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Squamous metaplasia, a normal physiological finding in the transformation zone, which also confirms that the zone was sampled. Metaplastic cells show no hyperchromasia or nuclear membrane irregularity to suggest ASC-H or HSIL."
+},
+{
+"label": "",
+"text": "Routine screening per current guidelines (e.g. primary hrHPV every 5 years or cytology every 3 years). Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-8fac8e26d3",
+"type": "pap",
+"name": "NILM with Trichomonas vaginalis",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Trichomonas vaginalis.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (more than 10 well-preserved endocervical and squamous metaplastic cells).",
+"4.0": "Moderate neutrophilic inflammation, obscuring less than 50% of epithelial cells; does not limit interpretation."
+},
+"MICROSCOPIC FINDINGS": {
+"2.0": "Superficial and intermediate cells with small, regular perinuclear halos (\"trich halos\") and mild nuclear enlargement, without koilocytic atypia.",
+"3.0": "Benign honeycomb sheets. No atypia.",
+"4.0": "Numerous pear-shaped to oval, cyanophilic organisms 15 to 30 micrometres across, with a pale, vesicular, eccentrically placed elongated nucleus and red (eosinophilic) cytoplasmic granules. Occasional flagella preserved in the LBC preparation. Organisms adhere to squamous cells. Associated findings: Leptothrix (long, slender, curving filamentous bacilli), a typical association. Neutrophil aggregates (\"polka-dot\" cells) over squamous cells."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"Trichomonas vaginalis (with Leptothrix)"
+],
+"7.0": [
+null,
+"Reactive cellular changes associated with inflammation (mild)"
+],
+"8.0": [
+null,
+"Mild"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Organisms: Trichomonas vaginalis."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Trichomonas vaginalis with Leptothrix and mild reactive change."
+},
+{
+"label": "",
+"text": "Treat (metronidazole per CDC guidance), treat partner(s) concurrently, screen for other STIs, and retest (NAAT) within 3 months. Routine screening per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: Not done."
+}
+]
+}
+}
+},
+{
+"id": "pap-06ce83f87d",
+"type": "pap",
+"name": "NILM with Tubal Metaplasia",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM with Tubal Metaplasia.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (SurePath).",
+"2.0": "Cervix (broom and endocervical cytobrush)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (endocervical and squamous metaplastic cells).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean.",
+"2.0": "Other cells: Normal endocervical sheets, squamous metaplastic cells and superficial and intermediate squamous cells.",
+"3.0": "Ciliated cells: Small groups and strips of columnar cells with terminal bars and apical cilia, accompanied by intercalated peg (secretory) cells. Cilia are well preserved. Nuclear features: Nuclei are mildly enlarged, oval and in places crowded and pseudostratified, with slight hyperchromasia, but chromatin is fine and even and nucleoli are inconspicuous. Mitoses and apoptotic bodies are absent; no feathering or rosettes.",
+"4.0": "None identified."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (SurePath)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified"
+],
+"7.0": [
+null,
+"Non-neoplastic cellular variation: tubal metaplasia"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy.",
+"2.0": "Tubal metaplasia."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Tubal metaplasia of the endocervix. Crowded hyperchromatic groups can mimic AGC or adenocarcinoma in situ; cilia and terminal bars, with no feathering, rosettes, mitoses or apoptosis, confirm a benign process."
+},
+{
+"label": "",
+"text": "Negative co-test: next screening in 5 years per current guidelines. Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (co-test)."
+}
+]
+}
+}
+},
+{
+"id": "pap-62efc4b0b4",
+"type": "pap",
+"name": "NILM, Normal Smear",
+"group": "Female Genital Tract",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/PAP Smear/Female Genital Tract/Non-neoplastic/NILM, Normal Smear.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Liquid-based cytology (ThinPrep).",
+"2.0": "Cervix (broom device)."
+},
+"SPECIMEN ADEQUACY": {
+"1.0": "Satisfactory for evaluation.",
+"2.0": "Adequate; estimated more than 5,000 well-visualised, well-preserved squamous cells (LBC threshold met).",
+"3.0": "Present (more than 10 endocervical and squamous metaplastic cells).",
+"4.0": "None."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Clean. No inflammation, blood or diathesis.",
+"2.0": "Superficial and intermediate cells predominate, with small, round, uniform nuclei, fine chromatin and abundant cytoplasm, appropriate for the cycle phase. No koilocytes or dyskaryosis.",
+"3.0": "Benign honeycomb sheets and palisaded strips of columnar cells with basal nuclei and mucinous cytoplasm. A few squamous metaplastic cells.",
+"4.0": "Flora: Lactobacilli with mild cytolysis. No pathogenic organisms."
+},
+"SYNOPTIC REPORT (THE BETHESDA SYSTEM 2014)": {
+"2.0": [
+null,
+"Liquid-based cytology (ThinPrep)"
+],
+"3.0": [
+null,
+"Satisfactory for evaluation"
+],
+"4.0": [
+null,
+"Present"
+],
+"5.0": [
+null,
+"Negative for intraepithelial lesion or malignancy"
+],
+"6.0": [
+null,
+"None identified (normal lactobacillary flora)"
+],
+"7.0": [
+null,
+"None"
+],
+"9.0": [
+null,
+"None (no ASC-US, ASC-H, LSIL, HSIL or squamous cell carcinoma)"
+],
+"10.0": [
+null,
+"None (no AGC, AIS or adenocarcinoma)"
+]
+},
+"INTERPRETATION / RESULT": {
+"1.0": "Negative for intraepithelial lesion or malignancy."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Normal cervical cytology with adequate transformation zone sampling. No organisms or other non-neoplastic findings."
+},
+{
+"label": "",
+"text": "Negative co-test: next screening in 5 years per current guidelines (ASCCP, ACS, USPSTF). Pap cytology is a screening test with false-negative results."
+},
+{
+"label": "",
+"text": "HPV test: hrHPV negative (co-test)."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "serous",
+"name": "Serous Effusion Cytology",
+"engine": "generic",
+"desc": "Ascitic, peritoneal wash, pleural, pericardial fluid",
+"layout": "templates/serous-effusion-cytology-template.dotx",
+"template": "Serous Effusion Cytology Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Cytology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Clinical findings:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Specimen:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Volume:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Colour:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Appearance:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Coagulum:"
+}
+]
+},
+{
+"heading": "CELL COUNTS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Total cell count:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Differential Counts:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Neutrophils:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 1,
+"label": "Lymphocytes:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 2,
+"label": "Eosinophils:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 3,
+"label": "Monocytes:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 4,
+"label": "Mesothelial cells:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 5,
+"label": "Atypical cells:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 6,
+"label": "Others:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Adequacy:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Cellularity:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Inflammatory cells:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Mesothelial cells:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Other:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Background:"
+}
+]
+},
+{
+"heading": "CELL BLOCK IMMUNOHISTOCHEMISTRY",
+"parts": [
+{
+"k": "ghead",
+"r": 1,
+"cols": [
+"Marker",
+"Result",
+"Interpretation"
+]
+},
+{
+"k": "dyn",
+"r": 2,
+"n": 3
+}
+]
+},
+{
+"heading": "CYTOLOGICAL DIAGNOSIS",
+"parts": [
+{
+"k": "free",
+"r": 1
+},
+{
+"k": "free",
+"r": 2
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "serous-9b23179746",
+"type": "serous",
+"name": "Atypia of Undetermined Significance, Ascitic Fluid (TIS III)",
+"group": "Ascitic Fluid",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/Serous Effusion/Ascitic Fluid/Non-neoplastic/Atypia of Undetermined Significance, Ascitic Fluid (TIS III).dotx",
+"values": {
+"CELL COUNTS": {
+"3.5": "Small population."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Satisfactory for evaluation (120 mL received); cell block sparse.",
+"2.0": "Moderately cellular.",
+"3.0": "Many macrophages and scattered lymphocytes.",
+"4.0": "Numerous reactive mesothelial cells singly and in small flat groups with intercellular windows.",
+"5.0": "Atypical cells: A small population of atypical epithelioid cells, singly and in small groups of 3 to 8 cells, with moderate nuclear enlargement, increased N:C ratio, slightly irregular nuclear membranes, occasional prominent nucleoli and some cytoplasmic vacuoles. They appear to merge with the reactive mesothelial cells; no definite second (foreign) population, 3D clusters, papillae or psammoma bodies. Cell block: Sparse cellularity. Only rare atypical cells present; most were exhausted on deeper levels."
+},
+"CELL BLOCK IMMUNOHISTOCHEMISTRY": {
+"2.0": [
+[
+"Calretinin",
+"Positive",
+"Most cells, including some of the atypical cells"
+],
+[
+"WT1",
+"Positive",
+"Nuclear; does not separate mesothelial cells from Müllerian serous carcinoma"
+],
+[
+"D2-40 (podoplanin)",
+"Positive",
+"Membranous in mesothelial cells"
+],
+[
+"MOC-31",
+"Negative",
+"In the evaluable cells"
+],
+[
+"BerEP4",
+"Equivocal",
+"Weak focal staining in rare cells only"
+],
+[
+"Claudin-4",
+"Not evaluable",
+"Atypical cells exhausted on deeper sections"
+],
+[
+"PAX8",
+"Not evaluable",
+"Atypical cells exhausted on deeper sections"
+]
+]
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "ATYPIA OF UNDETERMINED SIGNIFICANCE (AUS), TIS category III."
+}
+],
+"2.0": [
+{
+"label": "Peritoneal fluid:",
+"text": "atypical epithelioid cells; reactive mesothelial cells favoured, but a neoplastic (including Müllerian epithelial) process cannot be excluded on the available material."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "The atypical cells could not be fully characterised because they were exhausted on deeper cell block levels. Implied risk of malignancy for AUS is about 66% (TIS)."
+},
+{
+"label": "",
+"text": "Suggest correlation with contrast CT abdomen and pelvis and gynaecological evaluation (serum CA-125 is non-specific in ascites). If ascites persists, send a repeat sample of good volume for a fresh cell block with a full panel: calretinin, WT1, D2-40 versus MOC-31, BerEP4, claudin-4, plus PAX8 and ER for Müllerian origin. Biopsy any lesion found on imaging."
+}
+]
+}
+}
+},
+{
+"id": "serous-2002d78dc9",
+"type": "serous",
+"name": "Malignant, Metastatic Lung Adenocarcinoma, Pleural Fluid (TIS V)",
+"group": "Pleural Fluid",
+"nature": "Neoplastic",
+"path": "Cytopathology/Serous Effusion/Pleural Fluid/Neoplastic/Malignant, Metastatic Lung Adenocarcinoma, Pleural Fluid (TIS V).dotx",
+"values": {
+"CELL COUNTS": {
+"3.5": "Numerous malignant cells (second population)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Satisfactory for evaluation (400 mL received); cell block cellular and adequate for biomarker testing.",
+"2.0": "Highly cellular smears with two distinct cell populations.",
+"3.0": "Macrophages and lymphocytes.",
+"4.0": "Reactive mesothelial cells with intercellular windows.",
+"5.0": "Malignant cells: Numerous three-dimensional clusters, acinar and papillary-like groups with smooth community borders, and many single cells. Large eccentric nuclei, irregular membranes, prominent nucleoli and moderate vacuolated cytoplasm, with occasional large secretory vacuoles. Cell block: Cellular, with abundant tumour cells in clusters and glands. Estimated tumour cell content about 40% of nucleated cells (adequate for biomarker testing).",
+"6.0": "Reactive mesothelial cells with intercellular windows, macrophages and lymphocytes."
+},
+"CELL BLOCK IMMUNOHISTOCHEMISTRY": {
+"2.0": [
+[
+"MOC-31",
+"Positive",
+"Membranous; epithelial (carcinoma) marker"
+],
+[
+"BerEP4",
+"Positive",
+"Membranous; epithelial (carcinoma) marker"
+],
+[
+"Claudin-4",
+"Positive",
+"Membranous; highly specific for carcinoma versus mesothelial cells"
+],
+[
+"TTF-1",
+"Positive",
+"Nuclear; supports lung origin"
+],
+[
+"Napsin A",
+"Positive",
+"Granular cytoplasmic; supports lung adenocarcinoma"
+],
+[
+"Calretinin",
+"Negative",
+"Tumour cells (background mesothelial cells positive, internal control)"
+],
+[
+"WT1",
+"Negative",
+"Tumour cells; mesothelial marker"
+]
+]
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "MALIGNANT (MAL), TIS category V: secondary malignancy."
+}
+],
+"2.0": [
+{
+"label": "Pleural fluid, left:",
+"text": "metastatic adenocarcinoma. The immunoprofile (TTF-1 and Napsin A positive) is consistent with a primary lung adenocarcinoma."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with the left upper lobe mass; cytological pleural involvement indicates M1a disease."
+},
+{
+"label": "",
+"text": "The cell block is cellular (tumour content about 40%) and suitable for predictive biomarkers. Recommend EGFR mutation analysis, ALK (IHC D5F3, FISH or NGS), ROS1 (FISH or NGS) and PD-L1 IHC (tumour proportion score); a broader NGS panel (KRAS, BRAF, MET exon 14, RET, NTRK, ERBB2) where available. Remaining material is preserved for this."
+},
+{
+"label": "",
+"text": "Implied risk of malignancy (TIS): about 99%."
+}
+]
+}
+}
+},
+{
+"id": "serous-f0d36e88a5",
+"type": "serous",
+"name": "Negative for Malignancy, Benign Reactive (Transudative) Pleural Effusion (TIS II)",
+"group": "Pleural Fluid",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/Serous Effusion/Pleural Fluid/Non-neoplastic/Negative for Malignancy, Benign Reactive (Transudative) Pleural Effusion (TIS II).dotx",
+"values": {
+"CELL COUNTS": {
+"3.1": "Few, small and mature (no lymphocyte predominance).",
+"3.4": "Present singly and in small flat clusters (reactive).",
+"3.5": "Not identified.",
+"3.6": "Histiocytes (foamy, vacuolated)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Adequate (150 mL received; volume and cellularity sufficient).",
+"2.0": "Low to moderate (smears and cell block).",
+"3.0": "Histiocytes with foamy, vacuolated cytoplasm and eccentric bean-shaped nuclei, and a few small, mature lymphocytes; no lymphocyte predominance.",
+"4.0": "Present singly and in small flat clusters with intercellular windows. They have central round nuclei, fine chromatin, small nucleoli and dense two-tone cytoplasm with a pale outer rim. Occasional binucleate cells and mild reactive nuclear enlargement are seen; the atypia is not significant.",
+"5.0": "No three-dimensional clusters, no second foreign cell population and no atypical or malignant cells. Cell block (H&E): same components as the smears.",
+"6.0": "Clean, proteinaceous."
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "NEGATIVE FOR MALIGNANCY (NFM), TIS category II."
+}
+],
+"2.0": [
+{
+"label": "Right pleural fluid:",
+"text": "reactive mesothelial cells and histiocytes, consistent with a benign (transudative) effusion in the setting of cardiac failure."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with clinical and radiological findings. Repeat cytology if the effusion persists or recurs despite treatment of cardiac failure."
+},
+{
+"label": "",
+"text": "Ancillary studies are not required."
+},
+{
+"label": "",
+"text": "Implied risk of malignancy (TIS): about 21%."
+}
+]
+}
+}
+},
+{
+"id": "serous-1227a73368",
+"type": "serous",
+"name": "Negative for Malignancy, Tuberculous Pleural Effusion (TIS II)",
+"group": "Pleural Fluid",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/Serous Effusion/Pleural Fluid/Non-neoplastic/Negative for Malignancy, Tuberculous Pleural Effusion (TIS II).dotx",
+"values": {
+"CELL COUNTS": {
+"3.0": "Occasional.",
+"3.1": "About 90% of nucleated cells (small, mature).",
+"3.2": "Not increased.",
+"3.4": "Less than 1% of nucleated cells.",
+"3.5": "Not identified.",
+"3.6": "Occasional macrophages."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Adequate, well preserved (90 mL received).",
+"2.0": "Moderately cellular, well-preserved smears.",
+"3.0": "Predominantly small, mature lymphocytes (about 90% of nucleated cells) with round nuclei and clumped chromatin, admixed with occasional neutrophils and macrophages. The lymphoid population is polymorphous, with no blasts, atypical or monotonous large lymphoid cells. Eosinophils are not increased.",
+"4.0": "Scant (less than 1% of nucleated cells), singly and in small flat groups, with central round nuclei, smooth membranes, small nucleoli and dense two-tone cytoplasm. Mild reactive changes only. The paucity of mesothelial cells is in keeping with a tuberculous effusion.",
+"5.0": "No epithelioid granulomas, necrosis or atypical / second (foreign) cell population. Ziehl–Neelsen stain on the cell block shows no acid-fast bacilli (a negative result does not exclude tuberculosis)."
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "NEGATIVE FOR MALIGNANCY (NFM), TIS category II."
+}
+],
+"2.0": [
+{
+"label": "Pleural fluid, left:",
+"text": "lymphocyte-rich exudative effusion with a paucity of mesothelial cells. In the context of a raised ADA (72 U/L), the findings are consistent with tuberculous pleural effusion (clinicopathological correlation required)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "No malignant cells are seen. A lymphocytic effusion is non-specific; differentials include tuberculosis, lymphoma, post-cardiac surgery, rheumatoid and other inflammatory effusions, and chronic cardiac failure."
+},
+{
+"label": "",
+"text": "Suggest pleural fluid Xpert MTB/RIF (or equivalent NAAT) and mycobacterial culture. Fluid NAAT and culture have limited sensitivity; pleural biopsy (histology and culture) may be considered if the diagnosis remains uncertain."
+},
+{
+"label": "",
+"text": "Flow cytometry is not required on current morphology but is recommended if a monotonous lymphoid population is seen on repeat sampling or lymphoma is suspected clinically."
+},
+{
+"label": "",
+"text": "Implied risk of malignancy (TIS): about 21%."
+}
+]
+}
+}
+},
+{
+"id": "serous-3aee705646",
+"type": "serous",
+"name": "Non-diagnostic Pleural Fluid (TIS I)",
+"group": "Pleural Fluid",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/Serous Effusion/Pleural Fluid/Non-neoplastic/Non-diagnostic Pleural Fluid (TIS I).dotx",
+"values": {
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Non-diagnostic (inadequate). Volume 8 mL (below the recommended 50–75 mL); preservation poor, with marked degeneration (delayed, unrefrigerated transport); obscured by blood and fibrin.",
+"2.0": "Very scant.",
+"3.0": "Very scant nucleated cells with marked degenerative change (cytoplasmic vacuolation, nuclear pyknosis and karyorrhexis); their nature (mesothelial, histiocytic or epithelial) cannot be assessed.",
+"4.0": "No well-preserved mesothelial cells identified.",
+"5.0": "Cell block: Blood clot with fibrin only. No well-preserved mesothelial, inflammatory or atypical cells. Immunohistochemistry not performed (no evaluable cells).",
+"6.0": "Smears are almost entirely obscured by red blood cells and fibrin."
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "NON-DIAGNOSTIC (ND), TIS category I."
+}
+],
+"2.0": [
+{
+"label": "Pleural fluid, right:",
+"text": "scant, poorly preserved and blood-obscured specimen, insufficient for cytological evaluation."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "A non-diagnostic result does not exclude malignancy (implied risk of malignancy about 17%)."
+},
+{
+"label": "",
+"text": "Repeat thoracentesis is recommended if clinically indicated: send at least 50–75 mL of fresh fluid, delivered to the laboratory promptly or refrigerated at 4 °C if delay is unavoidable. Heparin may be added to haemorrhagic fluid to prevent clotting."
+},
+{
+"label": "",
+"text": "Correlation with pleural fluid biochemistry (Light's criteria), imaging and, if clinical suspicion of malignancy persists, image-guided pleural biopsy is advised."
+}
+]
+}
+}
+},
+{
+"id": "serous-3e36ff76b6",
+"type": "serous",
+"name": "Suspicious for Malignancy, Metastatic Breast Carcinoma, Pleural Fluid (TIS IV)",
+"group": "Pleural Fluid",
+"nature": "Neoplastic",
+"path": "Cytopathology/Serous Effusion/Pleural Fluid/Neoplastic/Suspicious for Malignancy, Metastatic Breast Carcinoma, Pleural Fluid (TIS IV).dotx",
+"values": {
+"CELL COUNTS": {
+"3.5": "Few (three small clusters and rare single cells)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Satisfactory for evaluation, but low volume (20 mL, below the recommended 50–75 mL; only an aliquot of the drained volume was sent) and atypical cells insufficient for a definitive diagnosis.",
+"3.0": "Macrophages and lymphocytes.",
+"4.0": "Reactive mesothelial cells.",
+"5.0": "Atypical cells: Three small, tight three-dimensional clusters (8 to 15 cells each) with smooth 'community' borders, standing apart from the mesothelial cells as a second (foreign) population. Cells show enlarged, eccentric nuclei with irregular membranes, coarse chromatin, small nucleoli, high N:C ratio and occasional intracytoplasmic vacuoles. Rare single atypical cells. Features are worrying for metastatic carcinoma, but the atypical cells are too few for a definitive diagnosis. Cell block: Scant; the atypical clusters are not represented on serial sections. Immunohistochemistry could not be performed on the atypical cells.",
+"6.0": "Reactive mesothelial cells, macrophages, lymphocytes and red blood cells."
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "SUSPICIOUS FOR MALIGNANCY (SFM), TIS category IV."
+}
+],
+"2.0": [
+{
+"label": "Pleural fluid, right:",
+"text": "few clusters of atypical epithelial cells, suspicious for metastatic carcinoma. In the clinical context, metastatic breast carcinoma is favoured."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "The morphology is suspicious, but the atypical cells are too few and could not be confirmed by immunohistochemistry. Implied risk of malignancy for SFM is about 82% (TIS)."
+},
+{
+"label": "",
+"text": "Repeat thoracentesis is recommended, sending at least 50–75 mL of fresh fluid (or the whole drained volume) for a cell block. Suggested panel: MOC-31, BerEP4 or claudin-4 versus calretinin, WT1 and D2-40; GATA3, ER and mammaglobin (TRPS1 if available) for breast origin."
+},
+{
+"label": "",
+"text": "If metastatic breast carcinoma is confirmed, ER, PR and HER2 can be re-assessed on the cell block (results on cytology cell blocks should be interpreted with knowledge of fixation conditions). Biopsy of an accessible lesion may also be considered."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "fluid",
+"name": "Other Fluid Cytology",
+"engine": "generic",
+"desc": "CSF, urine, BAL, synovial, cyst fluid…",
+"layout": "templates/other-fluid-cytology-template.dotx",
+"template": "Other Fluid Cytology Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Cytology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Clinical findings:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Specimen:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Volume:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Colour:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Appearance:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Coagulum:"
+}
+]
+},
+{
+"heading": "CELL COUNTS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Total cell count:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Differential Counts:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Neutrophils:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 1,
+"label": "Lymphocytes:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 2,
+"label": "Eosinophils:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 3,
+"label": "Monocytes:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 4,
+"label": "Atypical cells:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 5,
+"label": "Others:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "CYTOLOGICAL DIAGNOSIS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "fluid-a58ee6c6b6",
+"type": "fluid",
+"name": "Negative for Malignancy, Macrophage-predominant BAL with Smoking-related Pigmented Macrophages",
+"group": "BAL",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/Fluid Cytology/BAL/Non-neoplastic/Negative for Malignancy, Macrophage-predominant BAL with Smoking-related Pigmented Macrophages.dotx",
+"values": {
+"CELL COUNTS": {
+"3.0": "Present, within a qualitatively normal BAL differential range.",
+"3.1": "Small mature lymphocytes, within a qualitatively normal BAL differential range.",
+"3.4": "Not identified.",
+"3.5": "Alveolar macrophages predominant (many foamy; a subset with brown pigment); occasional reactive bronchial epithelial cells (ciliated columnar cells and rare goblet cells)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate (volume and cellularity sufficient for interpretation). Received 55 mL of slightly turbid, faintly mucoid BAL fluid without clots; 4 cytospin preparations (MGG, Pap), direct smears and a cell block (H&E) from the residual sediment."
+},
+{
+"label": "",
+"text": "The cytospin smears and cell block show adequate cellularity. Alveolar macrophages predominate; many have finely vacuolated (foamy) cytoplasm and a subset contain finely granular brown cytoplasmic pigment consistent with a smoking-related pigmented macrophage population."
+},
+{
+"label": "",
+"text": "A mixed inflammatory background is present, with small mature lymphocytes and neutrophils within a qualitatively normal BAL differential range. Occasional bronchial epithelial cells, including ciliated columnar cells and rare goblet cells, are seen and appear reactive without significant atypia."
+},
+{
+"label": "",
+"text": "No atypical or malignant epithelial cells are identified. No granulomas, fungal elements, Pneumocystis cysts or other opportunistic organisms are seen on routine stains. No viral cytopathic effect is noted."
+}
+]
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "NEGATIVE FOR MALIGNANCY: WHO Reporting System for Lung Cytopathology, Category II – Benign."
+},
+{
+"label": "BAL (right middle lobe):",
+"text": "Negative for malignancy (WHO lung cytopathology Category II) – alveolar macrophages predominant, including pigmented forms consistent with smoking history; no atypical or malignant cells identified."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Specific finding: macrophage-predominant BAL; smoking-related pigmented macrophages. Organisms not identified on routine stains. Ancillary studies are not required."
+},
+{
+"label": "",
+"text": "Clinicoradiologic correlation is advised. Further workup (including special stains / microbiology / HRCT follow-up) as clinically indicated."
+}
+]
+}
+}
+},
+{
+"id": "fluid-afbf29da69",
+"type": "fluid",
+"name": "Negative for Malignant Cells, Paucicellular CSF (Lymphocytes and Monocytes)",
+"group": "CSF",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/Fluid Cytology/CSF/Non-neoplastic/Negative for Malignant Cells, Paucicellular CSF (Lymphocytes and Monocytes).dotx",
+"values": {
+"CELL COUNTS": {
+"1.0": "8 leukocytes/µL.",
+"3.1": "Few mature small lymphocytes.",
+"3.3": "Occasional.",
+"3.4": "Not identified (no atypical lymphoid cells or blasts).",
+"3.5": "No epithelial or other foreign cell population."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate / limited but interpretable (paucicellular; sufficient for exclusion of overt malignancy on this sample). Received 4 mL of clear, colourless CSF without clot or xanthochromia; 2 cytocentrifuge (cytospin) preparations (MGG, Pap)."
+},
+{
+"label": "",
+"text": "The cytospin preparations are paucicellular. A few mature small lymphocytes and occasional monocytes are present in a clean, acellular background."
+},
+{
+"label": "",
+"text": "No atypical lymphoid cells, no blasts and no epithelial or other foreign cell population are identified. No malignant cells are seen. No organisms or viral inclusions are appreciated on routine stains."
+}
+]
+},
+"CYTOLOGICAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "",
+"text": "NEGATIVE FOR MALIGNANT CELLS."
+},
+{
+"label": "CSF (lumbar puncture):",
+"text": "Negative for malignant cells – paucicellular specimen with rare mature lymphocytes and monocytes."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Organisms / inclusions not identified. Ancillary studies are not required."
+},
+{
+"label": "",
+"text": "Correlate with clinical findings and CSF biochemistry / microbiology. Repeat CSF cytology if clinically indicated (e.g. persistent unexplained neurological signs)."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "bma",
+"name": "Bone Marrow Aspiration",
+"engine": "generic",
+"desc": "PB findings, aspirate morphology, differential count",
+"layout": "templates/bm-aspiration-template.dotx",
+"template": "BM Aspiration Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Bone Marrow Aspiration Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "PERIPHERAL BLOOD FINDINGS",
+"parts": [
+{
+"k": "ghead",
+"r": 1,
+"cols": [
+"Parameter",
+"Result",
+"Reference range"
+]
+},
+{
+"k": "grow",
+"r": 2,
+"cells": [
+{
+"t": "Haemoglobin",
+"e": false
+},
+{
+"t": " g/dL",
+"e": true
+},
+{
+"t": "13.0 - 17.0 g/dL",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 3,
+"cells": [
+{
+"t": "Total leucocyte count",
+"e": false
+},
+{
+"t": " /cu mm",
+"e": true
+},
+{
+"t": "4,000 - 10,000 /cu mm",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 4,
+"cells": [
+{
+"t": "Platelet count",
+"e": false
+},
+{
+"t": " lakhs /cu mm",
+"e": true
+},
+{
+"t": "1.5 - 4.1 lakhs /cu mm",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 5,
+"cells": [
+{
+"t": "MCV",
+"e": false
+},
+{
+"t": " fL",
+"e": true
+},
+{
+"t": "83 - 101 fL",
+"e": false
+}
+]
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Smear:"
+}
+]
+},
+{
+"heading": "ASPIRATION DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Procedure:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Done by:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Site:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Ease of aspiration:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC FINDINGS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Aspirate quality:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Cellularity:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "M:E ratio:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Erythropoiesis:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Myelopoiesis:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Megakaryopoiesis:"
+},
+{
+"k": "label",
+"r": 7,
+"p": 0,
+"label": "Lymphocytes:"
+},
+{
+"k": "label",
+"r": 8,
+"p": 0,
+"label": "Plasma cells:"
+},
+{
+"k": "label",
+"r": 9,
+"p": 0,
+"label": "Abnormal cells / parasites:"
+}
+]
+},
+{
+"heading": "DIFFERENTIAL COUNT (500 CELLS)",
+"parts": [
+{
+"k": "ghead",
+"r": 1,
+"cols": [
+"Cell type",
+"Observed (%)",
+"Reference range (%)"
+]
+},
+{
+"k": "grow",
+"r": 2,
+"cells": [
+{
+"t": "Blasts",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "0 - 3",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 3,
+"cells": [
+{
+"t": "Promyelocytes",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "1 - 8",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 4,
+"cells": [
+{
+"t": "Myelocytes",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "10 - 15",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 5,
+"cells": [
+{
+"t": "Metamyelocytes",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "10 - 15",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 6,
+"cells": [
+{
+"t": "Band forms and neutrophils",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "20 - 35",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 7,
+"cells": [
+{
+"t": "Eosinophils",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "1 - 5",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 8,
+"cells": [
+{
+"t": "Basophils",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "0 - 1",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 9,
+"cells": [
+{
+"t": "Monocytes",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "0 - 3",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 10,
+"cells": [
+{
+"t": "Lymphocytes",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "5 - 15",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 11,
+"cells": [
+{
+"t": "Plasma cells",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "0 - 3",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 12,
+"cells": [
+{
+"t": "Erythroid precursors",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "15 - 30",
+"e": false
+}
+]
+},
+{
+"k": "grow",
+"r": 13,
+"cells": [
+{
+"t": "Myeloid : erythroid ratio",
+"e": false
+},
+{
+"t": "",
+"e": true
+},
+{
+"t": "2 : 1 - 4 : 1",
+"e": false
+}
+]
+}
+]
+},
+{
+"heading": "SPECIAL STAINS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "IMPRESSION",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Bone marrow aspirate:"
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "bma-e59fea67df",
+"type": "bma",
+"name": "Acute Myeloid Leukaemia",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/Bone Marrow Aspiration/Neoplastic/Acute Myeloid Leukaemia.dotx",
+"values": {
+"PERIPHERAL BLOOD FINDINGS": {
+"2.0": [
+null,
+"7.2",
+null
+],
+"3.0": [
+null,
+"38,400",
+null
+],
+"4.0": [
+null,
+"0.24",
+null
+],
+"6.0": "Peripheral blood blasts 62%. Coagulation: PT, aPTT and fibrinogen within normal limits."
+},
+"ASPIRATION DETAILS": {
+"1.0": "Bone marrow aspiration (Leishman stain with myeloperoxidase cytochemistry); trephine biopsy reported separately.",
+"2.0": "Dr. Wajid Misbahudheen",
+"3.0": "Right posterior superior iliac spine."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Adequate, particulate and markedly hypercellular.",
+"2.0": "Markedly hypercellular (particle cellularity about 90%).",
+"4.0": "Markedly suppressed (8%); normoblastic.",
+"5.0": "Markedly suppressed; maturing forms 8%. Occasional hypogranular neutrophils.",
+"6.0": "Markedly reduced; occasional micromegakaryocytes.",
+"7.0": "6%.",
+"8.0": "1%.",
+"9.0": "Blasts: sheets of myeloblasts make up 74% of all nucleated cells. They are medium to large, with a high nuclear-cytoplasmic ratio, fine nuclear chromatin, 1 - 3 prominent nucleoli and a scant to moderate rim of basophilic cytoplasm with occasional fine azurophilic granules. Auer rods are seen in some blasts. No faggot cells, and abnormal hypergranular promyelocytes are not seen."
+},
+"DIFFERENTIAL COUNT (500 CELLS)": {
+"2.0": [
+null,
+"74",
+null
+],
+"3.0": [
+null,
+"2",
+null
+],
+"4.0": [
+null,
+"3",
+null
+],
+"5.0": [
+null,
+"2",
+null
+],
+"6.0": [
+null,
+"3",
+null
+],
+"7.0": [
+null,
+"0",
+null
+],
+"9.0": [
+null,
+"1",
+null
+],
+"10.0": [
+null,
+"6",
+null
+],
+"11.0": [
+null,
+"1",
+null
+],
+"12.0": [
+null,
+"8",
+null
+]
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Myeloperoxidase (MPO) cytochemistry: positive in over 3% of blasts (about 70%), confirming myeloid lineage."
+},
+{
+"label": "",
+"text": "Iron stores: adequate."
+}
+]
+},
+"IMPRESSION": {
+"1.0": "Markedly hypercellular marrow with 74% MPO-positive myeloblasts showing Auer rods, consistent with acute myeloid leukaemia. Final classification awaits immunophenotyping and genetic studies."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Lineage (provisional) myeloid; dysplasia in residual cells minimal (hypogranular neutrophils, micromegakaryocytes); APL features not seen (no hypergranular promyelocytes or faggot cells; coagulation normal). Provisional category: acute myeloid leukaemia, pending genetic classification (WHO 5th edition, 2022 / ICC 2022)."
+},
+{
+"label": "",
+"text": "Advise urgent flow cytometry (expected CD34, CD117, CD13, CD33, HLA-DR and MPO positive; to exclude mixed-phenotype acute leukaemia)."
+},
+{
+"label": "",
+"text": "Advise karyotype and FISH/RT-PCR for PML::RARA, RUNX1::RUNX1T1, CBFB::MYH11 and KMT2A rearrangements, and a molecular panel including NPM1, FLT3-ITD/TKD, CEBPA, TP53 and myelodysplasia-related genes (ASXL1, RUNX1 and others) for WHO/ICC classification and ELN 2022 risk."
+},
+{
+"label": "",
+"text": "Although APL features are absent, if PML::RARA is detected or coagulopathy develops, start ATRA immediately. Correlate with trephine biopsy. Urgent haematology referral is recommended."
+}
+]
+}
+}
+},
+{
+"id": "bma-f39168f2e3",
+"type": "bma",
+"name": "B-Lymphoblastic Leukaemia (B-ALL), Common-B Phenotype",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/Bone Marrow Aspiration/Neoplastic/B-Lymphoblastic Leukaemia (B-ALL), Common-B Phenotype.dotx",
+"values": {
+"PERIPHERAL BLOOD FINDINGS": {
+"2.0": [
+null,
+"6.8",
+null
+],
+"3.0": [
+null,
+"52,600",
+null
+],
+"4.0": [
+null,
+"0.18",
+null
+],
+"6.0": "Normocytic normochromic anaemia; numerous small to medium blasts (peripheral blood blasts 68%); marked thrombocytopenia."
+},
+"ASPIRATION DETAILS": {
+"1.0": "Bone marrow aspiration under sedation (Leishman stain with MPO and PAS cytochemistry). Sample sent for flow cytometry and cytogenetics.",
+"2.0": "Dr. Wajid Misbahudheen",
+"3.0": "Left posterior superior iliac spine."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Adequate, particulate and markedly hypercellular.",
+"2.0": "Markedly hypercellular (particle cellularity about 95%).",
+"3.0": "1.5 : 1 (residual cells).",
+"4.0": "Markedly suppressed (4%); normoblastic.",
+"5.0": "Markedly suppressed (5%); maturation normal in residual cells.",
+"6.0": "Markedly reduced; occasional normal-looking megakaryocytes.",
+"7.0": "Mature lymphocytes 2%.",
+"9.0": "Blasts: monotonous sheets of lymphoblasts make up 88% of all nucleated cells. They are small to medium sized (1.5 - 2 times a small lymphocyte), with a high nuclear-cytoplasmic ratio, scant agranular basophilic cytoplasm, finely dispersed to slightly condensed chromatin and inconspicuous to small nucleoli. Occasional cytoplasmic vacuoles. Auer rods are not seen."
+},
+"DIFFERENTIAL COUNT (500 CELLS)": {
+"2.0": [
+null,
+"88 (lymphoblasts)",
+null
+],
+"4.0": [
+null,
+"2 (promyelocytes and myelocytes)",
+null
+],
+"5.0": [
+null,
+"1 (metamyelocytes and band forms)",
+null
+],
+"6.0": [
+null,
+"2 (neutrophils)",
+null
+],
+"7.0": [
+null,
+"0",
+null
+],
+"9.0": [
+null,
+"1",
+null
+],
+"10.0": [
+null,
+"2 (mature)",
+null
+],
+"12.0": [
+null,
+"4",
+null
+],
+"13.0": [
+null,
+"1.5 : 1 (residual cells)",
+null
+]
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Myeloperoxidase (MPO) cytochemistry: negative in blasts (under 3%)."
+},
+{
+"label": "",
+"text": "Periodic acid-Schiff (PAS): coarse granular to block positivity in a proportion of blasts."
+},
+{
+"label": "",
+"text": "Iron stores: adequate."
+},
+{
+"label": "",
+"text": "Flow cytometry (blast gate): CD19, CD22 and cytoplasmic CD79a positive; CD10 positive (bright); CD34 and TdT positive; CD20 partial dim positivity; surface immunoglobulin light chains negative; MPO, CD13, CD33 and CD117 negative; cytoplasmic CD3 and CD7 negative."
+}
+]
+},
+"IMPRESSION": {
+"1.0": "B-lymphoblastic leukaemia (precursor B-ALL, common-B phenotype); marrow blasts 88%."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Blast morphology: lymphoblasts (L1-type), no Auer rods; MPO negative, PAS block positivity. Lineage (flow cytometry): B-lymphoblastic, common-B (CD10 positive) phenotype. Residual haematopoiesis markedly suppressed. Genetics pending (karyotype and FISH/RT-PCR panel). Classification: B-lymphoblastic leukaemia/lymphoma, NOS (WHO 5th ed., pending genetics)."
+},
+{
+"label": "",
+"text": "Final WHO/ICC subtype depends on genetics. Suggest karyotype with FISH or RT-PCR for ETV6::RUNX1, BCR::ABL1, KMT2A rearrangement, TCF3::PBX1 and iAMP21, plus DNA index or ploidy for high hyperdiploidy and hypodiploidy."
+},
+{
+"label": "",
+"text": "Suggest CSF examination for CNS involvement before intrathecal therapy, baseline tumour lysis screen and coagulation profile."
+},
+{
+"label": "",
+"text": "Keep a diagnostic immunophenotype on record for measurable residual disease (MRD) monitoring at the end of induction."
+}
+]
+}
+}
+},
+{
+"id": "bma-c375ec553e",
+"type": "bma",
+"name": "Chronic Myeloid Leukaemia, Chronic Phase",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/Bone Marrow Aspiration/Neoplastic/Chronic Myeloid Leukaemia, Chronic Phase.dotx",
+"values": {
+"PERIPHERAL BLOOD FINDINGS": {
+"2.0": [
+null,
+"9.8",
+null
+],
+"3.0": [
+null,
+"1,48,000",
+null
+],
+"4.0": [
+null,
+"4.6",
+null
+],
+"6.0": "Marked leucocytosis with the full spectrum of granulocytic maturation, with peaks at myelocytes and segmented neutrophils (bimodal). Absolute basophilia and eosinophilia. Normocytic normochromic red cells; platelets increased. Differential: blasts 1%, promyelocytes 2%, myelocytes 14%, metamyelocytes 10%, band forms and neutrophils 52%, eosinophils 5%, basophils 6%, monocytes 3%, lymphocytes 7%."
+},
+"ASPIRATION DETAILS": {
+"1.0": "Bone marrow aspiration (trephine biopsy reported separately).",
+"2.0": "Dr. Wajid Misbahudheen",
+"3.0": "Right posterior superior iliac spine."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Adequate, particulate and markedly hypercellular.",
+"2.0": "Markedly hypercellular (particle cellularity about 95%), with near-complete loss of fat spaces.",
+"3.0": "About 13 : 1.",
+"4.0": "Relatively reduced; normoblastic.",
+"5.0": "Markedly increased, with orderly maturation and a predominance of myelocytes and mature forms. Blasts 2%. No significant dysplasia. Eosinophils and basophils increased.",
+"6.0": "Increased, many small and hypolobated (dwarf megakaryocytes).",
+"7.0": "Relatively reduced (3%). No lymphoblast clusters.",
+"8.0": "Not increased.",
+"9.0": "Occasional pseudo-Gaucher cells and sea-blue histiocytes. No parasites seen."
+},
+"DIFFERENTIAL COUNT (500 CELLS)": {
+"2.0": [
+null,
+"2",
+null
+],
+"3.0": [
+null,
+"5",
+null
+],
+"4.0": [
+null,
+"25",
+null
+],
+"5.0": [
+null,
+"15",
+null
+],
+"6.0": [
+null,
+"32",
+null
+],
+"7.0": [
+null,
+"5",
+null
+],
+"8.0": [
+null,
+"4",
+null
+],
+"9.0": [
+null,
+"2",
+null
+],
+"10.0": [
+null,
+"3",
+null
+],
+"11.0": [
+null,
+"0",
+null
+],
+"12.0": [
+null,
+"7",
+null
+],
+"13.0": [
+null,
+"About 13 : 1",
+null
+]
+},
+"IMPRESSION": {
+"1.0": "Markedly hypercellular marrow with granulocytic hyperplasia, basophilia, eosinophilia and dwarf megakaryocytes. Features are consistent with chronic myeloid leukaemia, BCR::ABL1-positive, in chronic phase (blasts under 10%; WHO 5th edition, 2022), subject to genetic confirmation."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Advise karyotype for t(9;22)(q34;q11.2) and additional chromosomal abnormalities, and FISH or RT-PCR for BCR::ABL1 with transcript type (e.g., e13a2 / e14a2)."
+},
+{
+"label": "",
+"text": "Advise baseline quantitative BCR::ABL1 (IS) RT-qPCR for monitoring response to tyrosine kinase inhibitor therapy."
+},
+{
+"label": "",
+"text": "Correlate with the trephine biopsy for fibrosis (reticulin) and blast distribution, and calculate the Sokal / ELTS risk score."
+},
+{
+"label": "",
+"text": "Clinical correlation is advised."
+}
+]
+}
+}
+},
+{
+"id": "bma-527495e940",
+"type": "bma",
+"name": "Megaloblastic Erythroid Hyperplasia (Vitamin B12 Deficiency)",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/Bone Marrow Aspiration/Non-neoplastic/Megaloblastic Erythroid Hyperplasia (Vitamin B12 Deficiency).dotx",
+"values": {
+"PERIPHERAL BLOOD FINDINGS": {
+"2.0": [
+null,
+"6.9",
+null
+],
+"3.0": [
+null,
+"2,900",
+null
+],
+"4.0": [
+null,
+"0.82",
+null
+],
+"5.0": [
+null,
+"118",
+null
+],
+"6.0": "Oval macrocytes, tear drop cells, hypersegmented neutrophils. Reticulocyte count 0.6% (0.5 - 2.5%). Supportive tests: serum vitamin B12 85 pg/mL (low); folate normal; LDH 3,100 U/L."
+},
+"ASPIRATION DETAILS": {
+"1.0": "Bone marrow aspiration (Leishman and Perls' Prussian blue stains).",
+"2.0": "Dr. Wajid Misbahudheen",
+"3.0": "Right posterior superior iliac spine."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Adequate, particulate and cellular.",
+"2.0": "Normocellular for age (particle cellularity about 50%).",
+"3.0": "Reversed, about 0.6 : 1.",
+"4.0": "Hyperplastic with megaloblastic maturation. Erythroid precursors are enlarged and show nuclear-cytoplasmic asynchrony, with fine, open, sieve-like nuclear chromatin persisting into haemoglobinised (polychromatic and orthochromatic) stages. Occasional binucleate forms, nuclear budding and Howell-Jolly bodies are seen.",
+"5.0": "Relatively reduced but maturing. Giant metamyelocytes and band forms are prominent. Hypersegmented neutrophils present. Blasts 1%.",
+"6.0": "Adequate in number; occasional large hyperlobated forms.",
+"7.0": "9%; normal morphology.",
+"8.0": "1%; normal morphology.",
+"9.0": "No blasts in excess, no ring sideroblasts, no metastatic or other abnormal cells."
+},
+"DIFFERENTIAL COUNT (500 CELLS)": {
+"2.0": [
+null,
+"1",
+null
+],
+"3.0": [
+null,
+"2",
+null
+],
+"4.0": [
+null,
+"6",
+null
+],
+"5.0": [
+null,
+"9 (including giant forms)",
+null
+],
+"6.0": [
+null,
+"14",
+null
+],
+"7.0": [
+null,
+"2",
+null
+],
+"8.0": [
+null,
+"0",
+null
+],
+"9.0": [
+null,
+"1",
+null
+],
+"10.0": [
+null,
+"9",
+null
+],
+"11.0": [
+null,
+"1",
+null
+],
+"12.0": [
+null,
+"55 (megaloblastic)",
+null
+],
+"13.0": [
+null,
+"About 0.6 : 1",
+null
+]
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Perls' Prussian blue (iron stain): Storage iron increased (grade 4+). Ring sideroblasts not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": "Normocellular marrow with megaloblastic erythroid hyperplasia, giant metamyelocytes and increased iron stores, consistent with megaloblastic anaemia. With the low serum B12, the picture fits vitamin B12 deficiency. No excess blasts or features of myelodysplastic neoplasm."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Megaloblastic change can mimic dysplasia and, in severe cases, an erythroid leukaemia; MDS should not be diagnosed until B12 and folate deficiency has been corrected."
+},
+{
+"label": "",
+"text": "Advise anti-intrinsic factor and anti-parietal cell antibodies to look for pernicious anaemia. Start B12 replacement promptly because of neurological symptoms, and avoid folate alone."
+},
+{
+"label": "",
+"text": "Expect a reticulocyte response in 5 - 7 days. Repeat marrow examination only if the counts do not recover."
+}
+]
+}
+}
+},
+{
+"id": "bma-0e067a0f9c",
+"type": "bma",
+"name": "Normal Bone Marrow",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/Bone Marrow Aspiration/Non-neoplastic/Normal Bone Marrow.dotx",
+"values": {
+"PERIPHERAL BLOOD FINDINGS": {
+"2.0": [
+null,
+"14.2",
+null
+],
+"3.0": [
+null,
+"6,800",
+null
+],
+"4.0": [
+null,
+"2.6",
+null
+],
+"5.0": [
+null,
+"89",
+null
+],
+"6.0": "Normocytic normochromic red cells; normal leucocyte differential and morphology; adequate platelets. No immature or abnormal cells."
+},
+"ASPIRATION DETAILS": {
+"1.0": "Bone marrow aspiration under local anaesthesia (trephine biopsy reported separately).",
+"2.0": "Dr. Wajid Misbahudheen",
+"3.0": "Right posterior superior iliac spine."
+},
+"MICROSCOPIC FINDINGS": {
+"1.0": "Adequate, particulate and cellular; spicules present.",
+"2.0": "Normocellular for age (particle cellularity about 50%).",
+"3.0": "2.4 : 1.",
+"4.0": "Normoblastic, with orderly maturation; no dyserythropoiesis.",
+"5.0": "Normal, with orderly maturation to segmented neutrophils; blasts not increased.",
+"6.0": "Adequate in number (2-3 per low-power field) with normal morphology and platelet budding.",
+"7.0": "Within normal limits; morphologically unremarkable.",
+"8.0": "Within normal limits; morphologically unremarkable.",
+"9.0": "No metastatic deposits, granulomas, storage cells or haemoparasites seen."
+},
+"DIFFERENTIAL COUNT (500 CELLS)": {
+"2.0": [
+null,
+"1",
+null
+],
+"3.0": [
+null,
+"3",
+null
+],
+"4.0": [
+null,
+"12",
+null
+],
+"5.0": [
+null,
+"14",
+null
+],
+"6.0": [
+null,
+"26",
+null
+],
+"7.0": [
+null,
+"3",
+null
+],
+"8.0": [
+null,
+"0",
+null
+],
+"9.0": [
+null,
+"2",
+null
+],
+"10.0": [
+null,
+"13",
+null
+],
+"11.0": [
+null,
+"1",
+null
+],
+"12.0": [
+null,
+"25",
+null
+],
+"13.0": [
+null,
+"2.4 : 1",
+null
+]
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Perls' Prussian blue (iron stain): Storage iron present (grade 2+, normal). Sideroblasts present; no ring sideroblasts."
+}
+]
+},
+"IMPRESSION": {
+"1.0": "Normocellular marrow with normal trilineage haematopoiesis. No evidence of a haematological neoplasm or metastatic infiltration in the material examined."
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with the trephine biopsy, which is better for detecting focal infiltrates and metastases."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "bmb",
+"name": "Bone Marrow Biopsy",
+"engine": "generic",
+"desc": "Trephine: gross, microscopy, special stains",
+"layout": "templates/bm-biopsy-template.dotx",
+"template": "BM Biopsy Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Histopathology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Specimen:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Procedure:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Clinical history:"
+}
+]
+},
+{
+"heading": "GROSS DESCRIPTION",
+"parts": [
+{
+"k": "gross",
+"r": 1
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Adequacy:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Cellularity:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Erythropoiesis:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Myelopoiesis:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Megakaryocytes:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Lymphoid / plasma cells:"
+},
+{
+"k": "label",
+"r": 7,
+"p": 0,
+"label": "Stroma and bone:"
+}
+]
+},
+{
+"heading": "SPECIAL STAINS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "FINAL DIAGNOSIS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "bmb-7d0e6d82b2",
+"type": "bmb",
+"name": "Chronic Myeloid Leukaemia, Chronic Phase",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/Bone Marrow Biopsy/Neoplastic/Chronic Myeloid Leukaemia, Chronic Phase.dotx",
+"values": {
+"GROSS DESCRIPTION": {
+"1.0": {
+"containers": [
+{
+"text": "Received 1 linear, grey-brown core of tissue labelled right posterior superior iliac spine, measuring 2.0 cm in length and 0.2 cm in diameter. The core is firm (bony); formalin-fixed and EDTA-decalcified.",
+"gross": "All embedded."
+}
+],
+"sections": "A1: entire core submitted after decalcification."
+}
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Adequate; about 1.8 cm of evaluable marrow.",
+"2.0": "Markedly hypercellular (about 95%), with near-complete loss of fat spaces.",
+"3.0": "Reduced; residual small erythroid islands with normoblastic maturation.",
+"4.0": "Markedly increased, with widening of the paratrabecular cuff of immature granulocytes (5-10 cells thick, normal 2-3) and orderly maturation to mature forms. Eosinophils are increased. Blasts not increased, with no clusters or sheets.",
+"5.0": "Increased, small and hypolobated (dwarf megakaryocytes), scattered and in loose clusters.",
+"6.0": "Not increased; no lymphoblastic population.",
+"7.0": "Scattered pseudo-Gaucher histiocytes. Normal bony trabeculae."
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Reticulin: Mild increase in loose reticulin with focal intersections (MF-1)."
+},
+{
+"label": "",
+"text": "Masson trichrome: No collagen fibrosis."
+},
+{
+"label": "",
+"text": "CD34: Blasts about 3% of cellularity, scattered singly; no clusters or sheets."
+},
+{
+"label": "",
+"text": "TdT: Negative (no lymphoblastic population)."
+},
+{
+"label": "",
+"text": "MPO: Strongly positive granulocytic series."
+},
+{
+"label": "",
+"text": "CD61: Increased dwarf megakaryocytes."
+}
+]
+},
+"FINAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "Bone marrow trephine biopsy:",
+"text": "Markedly hypercellular marrow with granulocytic hyperplasia, dwarf megakaryocytes and mild reticulin fibrosis (MF-1), with no increase in blasts. Features are consistent with chronic myeloid leukaemia, BCR::ABL1-positive, in chronic phase (WHO 5th edition, 2022), subject to genetic confirmation."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with the aspirate, karyotype for t(9;22)(q34;q11.2) and BCR::ABL1 RT-PCR (transcript type and baseline IS level). Watch for MF-2/3 fibrosis, blast clusters or TdT-positive lymphoblasts on follow-up biopsies. Clinical correlation is advised."
+}
+]
+}
+}
+},
+{
+"id": "bmb-f055c9c562",
+"type": "bmb",
+"name": "Metastatic Adenocarcinoma, Prostatic Origin (Bone Marrow Trephine)",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/Bone Marrow Biopsy/Neoplastic/Metastatic Adenocarcinoma, Prostatic Origin (Bone Marrow Trephine).dotx",
+"values": {
+"GROSS DESCRIPTION": {
+"1.0": {
+"containers": [
+{
+"text": "Received a single grey-white, firm core of bone measuring 1.8 x 0.2 cm, formalin-fixed and EDTA-decalcified.",
+"gross": "All embedded."
+}
+],
+"sections": "Entirely submitted."
+}
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Adequate; about 1.6 cm of evaluable marrow space.",
+"2.0": "About 70% of the marrow space is replaced by infiltrating tumour. Tumour cells: cohesive clusters, cords and small cribriform and microacinar glands of epithelial cells with moderate amphophilic to clear cytoplasm, round to oval nuclei with vesicular chromatin and prominent central nucleoli. Scattered mitoses. No haematopoietic origin features.",
+"3.0": "Residual only, in small foci at the edge of the core; normoblastic, with normal maturation.",
+"4.0": "Residual only, in small foci at the edge of the core; normal maturation.",
+"5.0": "Present within the small foci of residual trilineage haematopoiesis.",
+"7.0": "Tumour set in a desmoplastic stroma. Bony trabeculae are thickened and irregular, with new woven bone formation and prominent osteoblastic rimming (osteosclerotic reaction). No granulomas."
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Reticulin: markedly increased, dense around tumour (MF-3 in involved areas)."
+},
+{
+"label": "",
+"text": "Masson trichrome: collagen fibrosis in desmoplastic areas."
+},
+{
+"label": "",
+"text": "Pan-cytokeratin (AE1/AE3): strongly positive in tumour cells."
+},
+{
+"label": "",
+"text": "PSA: diffusely positive."
+},
+{
+"label": "",
+"text": "NKX3.1: diffuse nuclear positivity."
+},
+{
+"label": "",
+"text": "CK7 / CK20: negative / negative."
+},
+{
+"label": "",
+"text": "TTF-1, GATA3, CDX2: negative."
+},
+{
+"label": "",
+"text": "CD45 (LCA): negative in tumour; positive in residual haematopoietic cells."
+}
+]
+},
+"FINAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "Bone marrow trephine biopsy:",
+"text": "Metastatic adenocarcinoma with osteosclerotic reaction and marrow fibrosis; immunoprofile (PSA and NKX3.1 positive, CK7 and CK20 negative) is consistent with prostatic origin."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Synoptic summary: core 1.8 cm, adequate; marrow involvement present (about 70% of marrow space), diffuse and nodular pattern with desmoplasia; metastatic adenocarcinoma; osteosclerotic (osteoblastic) bone reaction; reticulin fibrosis MF-3 in involved areas; residual haematopoiesis focal, trilineage, normoblastic; favoured primary: prostate."
+},
+{
+"label": "",
+"text": "The leucoerythroblastic blood picture and dry tap are explained by marrow replacement and fibrosis."
+},
+{
+"label": "",
+"text": "Correlate with serum PSA, digital rectal examination and prostate imaging or biopsy for primary confirmation and grading. Gleason grading is not applied to metastatic deposits in marrow."
+},
+{
+"label": "",
+"text": "Bone scan or PSMA PET for staging is suggested, as clinically indicated."
+}
+]
+}
+}
+},
+{
+"id": "bmb-e7fff39bcc",
+"type": "bmb",
+"name": "Normal Bone Marrow",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/Bone Marrow Biopsy/Non-neoplastic/Normal Bone Marrow.dotx",
+"values": {
+"GROSS DESCRIPTION": {
+"1.0": {
+"containers": [
+{
+"text": "Received a single grey-brown cylindrical core of bone measuring 1.8 cm in length and 0.2 cm in diameter, fixed in formalin and decalcified (EDTA).",
+"gross": "All embedded."
+}
+],
+"sections": "Entire specimen submitted in one cassette (A1)."
+}
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Adequate; about 1.6 cm of evaluable marrow with 12 intertrabecular spaces. No significant crush or decalcification artefact.",
+"2.0": "Normocellular for age (about 50% haematopoietic tissue).",
+"3.0": "Normal erythroid islands with orderly normoblastic maturation.",
+"4.0": "Normal; paratrabecular precursors with orderly maturation towards the intertrabecular areas. No abnormally localised immature precursors (ALIP).",
+"5.0": "Adequate in number (2-3 per high-power field), evenly scattered, with normal size and nuclear lobation. No clustering.",
+"6.0": "Scattered interstitial lymphocytes and plasma cells; no lymphoid aggregates or atypical infiltrates.",
+"7.0": "Normal bony trabeculae; no osteosclerosis. No granulomas, necrosis, amyloid or metastatic deposits."
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "Reticulin: Fine scattered linear reticulin, MF-0 (European consensus grading)"
+},
+{
+"label": "",
+"text": "Perls' iron: Storage iron present (normal)"
+},
+{
+"label": "",
+"text": "CD34: Blasts under 2% of cellularity, scattered singly; no clusters"
+},
+{
+"label": "",
+"text": "CD61: Megakaryocytes normal in number, morphology and distribution"
+},
+{
+"label": "",
+"text": "Pan-cytokeratin: Negative; no metastatic carcinoma"
+}
+]
+},
+"FINAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "Bone marrow trephine biopsy:",
+"text": "Normocellular marrow with normal trilineage haematopoiesis. No evidence of lymphoma, haematological neoplasm or metastatic malignancy. No fibrosis (MF-0)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with the paired aspirate findings. Clinical correlation is advised."
+}
+]
+}
+}
+},
+{
+"id": "bmb-3617a5c046",
+"type": "bmb",
+"name": "Plasma Cell Myeloma, Kappa-restricted (Bone Marrow Trephine)",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/Bone Marrow Biopsy/Neoplastic/Plasma Cell Myeloma, Kappa-restricted (Bone Marrow Trephine).dotx",
+"values": {
+"GROSS DESCRIPTION": {
+"1.0": {
+"containers": [
+{
+"text": "Received a single grey-brown core of bone measuring 2.2 x 0.2 cm, formalin-fixed and EDTA-decalcified.",
+"gross": "All embedded."
+}
+],
+"sections": "Entirely submitted."
+}
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": "Adequate; about 2.0 cm of evaluable marrow.",
+"2.0": "Hypercellular for age (about 70%).",
+"3.0": "Reduced, with normal maturation.",
+"4.0": "Reduced, with normal maturation.",
+"5.0": "Reduced, with normal maturation.",
+"6.0": "Interstitial infiltrate with confluent nodules and sheets of plasma cells, replacing about 60% of cellularity. Cells are mature to intermediate, with eccentric nuclei, clock-face chromatin and perinuclear hof; occasional binucleate and plasmablastic forms with prominent nucleoli. No Dutcher or Russell body excess.",
+"7.0": "Focal osteoclastic resorption of trabeculae. No amyloid-like deposits. No granulomas or metastatic deposits."
+},
+"SPECIAL STAINS": {
+"1.0": [
+{
+"label": "",
+"text": "CD138: positive; plasma cells about 60% of marrow cellularity."
+},
+{
+"label": "",
+"text": "Kappa / lambda (ISH or IHC): kappa restricted (kappa : lambda over 20 : 1)."
+},
+{
+"label": "",
+"text": "CD56: aberrant positivity in plasma cells."
+},
+{
+"label": "",
+"text": "CD19 / CD20: negative / negative."
+},
+{
+"label": "",
+"text": "Cyclin D1: negative."
+},
+{
+"label": "",
+"text": "Ki-67: about 10% in plasma cells."
+},
+{
+"label": "",
+"text": "Reticulin: mild increase, MF-1."
+},
+{
+"label": "",
+"text": "Congo red: negative for amyloid."
+}
+]
+},
+"FINAL DIAGNOSIS": {
+"1.0": [
+{
+"label": "Bone marrow trephine biopsy:",
+"text": "Plasma cell myeloma: kappa-restricted clonal plasma cells about 60% of marrow cellularity, with an interstitial, nodular and diffuse pattern; fulfils IMWG criteria in the stated clinical context."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Synoptic summary: core 2.2 cm, adequate; cellularity about 70% (hypercellular for age); plasma cells (CD138) about 60% of cellularity; interstitial, nodular and diffuse (sheets) pattern; kappa light chain restricted; aberrant phenotype CD56 positive, CD19 negative; plasmablastic morphology occasional, not predominant; reticulin MF-1; amyloid not identified (Congo red negative). Myeloma-defining events (clinical): anaemia, hypercalcaemia, renal impairment, lytic bone lesions."
+},
+{
+"label": "",
+"text": "Correlate with the aspirate plasma cell count, serum free light chain ratio, beta-2 microglobulin, albumin and LDH for R-ISS staging."
+},
+{
+"label": "",
+"text": "Suggest FISH on CD138-selected cells for t(4;14), t(14;16), del(17p) and 1q gain or amplification for risk stratification."
+},
+{
+"label": "",
+"text": "Whole-body low-dose CT or PET-CT is suggested to map bone disease."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "ps",
+"name": "Peripheral Smear Comment",
+"engine": "generic",
+"desc": "RBC, WBC, platelets, haemoparasites, impression",
+"layout": "templates/ps-comment-template.dotx",
+"template": "PS Comment Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Comment on Peripheral Smear"
+],
+"sections": [
+{
+"heading": "RBC SERIES",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "WBC SERIES",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "PLATELET SERIES",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "HEMOPARASITES",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "IMPRESSION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "ADVICE",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "ps-b4d2ed7cd3",
+"type": "ps",
+"name": "Acute Leukaemia, Morphology Favouring AML",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/PS Comment/Neoplastic/Acute Leukaemia, Morphology Favouring AML.dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Haemoglobin 7.4 g/dL (reference 13.0 - 17.0 g/dL); MCV 90 fL (83 - 101 fL)."
+},
+{
+"label": "",
+"text": "Normocytic normochromic red cells with mild anisocytosis. Occasional nucleated red cells (2 per 100 WBC)."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count 68,000 /cu mm (reference 4,000 - 10,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Differential leucocyte count (200 cells): blasts 62% (0%), promyelocytes 1%, myelocytes 2%, metamyelocytes 1%, neutrophils 12% (40 - 80%), lymphocytes 18% (20 - 40%), monocytes 3% (2 - 10%), eosinophils 1% (1 - 6%)."
+},
+{
+"label": "",
+"text": "Marked leucocytosis with 62% blasts. Blasts are medium to large (2-3 times a small lymphocyte), with a high nuclear-cytoplasmic ratio, fine open chromatin, 1-3 prominent nucleoli and a moderate amount of agranular to finely granular basophilic cytoplasm. Occasional blasts show Auer rods. No faggot cells. Residual neutrophils show hypogranularity. Leukaemic hiatus is seen."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Platelet count 22,000 /cu mm (reference 1,50,000 - 4,10,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Severely reduced on smear; no clumps."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral smear:",
+"text": "Acute leukaemia, morphology favours acute myeloid leukaemia (blasts 62% with Auer rods), with anaemia and severe thrombocytopenia."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Urgent flow cytometry on peripheral blood (CD34, CD117, HLA-DR, MPO, CD13, CD33, CD64, CD14, CD19, cCD79a, CD3, cCD3, TdT) to confirm lineage."
+},
+{
+"label": "",
+"text": "Urgent coagulation screen (PT, APTT, fibrinogen, D-dimer) to exclude DIC; acute promyelocytic leukaemia must be actively excluded."
+},
+{
+"label": "",
+"text": "Bone marrow aspirate and trephine with MPO cytochemistry, karyotype, FISH and a molecular panel (NPM1, FLT3, CEBPA, RUNX1, TP53 and others) for WHO 5th edition / ICC classification and risk stratification."
+},
+{
+"label": "",
+"text": "Kindly correlate clinically and inform the treating clinician urgently."
+}
+]
+}
+}
+},
+{
+"id": "ps-8c6d3f6f97",
+"type": "ps",
+"name": "Anaemia of Chronic Disease",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/PS Comment/Non-neoplastic/Anaemia of Chronic Disease.dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Haemoglobin 9.8 g/dL (reference 12.0 - 15.0 g/dL); RBC count 3.6 x 10^6 /cu mm (3.8 - 4.8 x 10^6 /cu mm); PCV 30.2% (36 - 46%); MCV 84 fL (83 - 101 fL); MCH 27.2 pg (27 - 32 pg); MCHC 32.4 g/dL (31.5 - 34.5 g/dL); RDW-CV 13.8% (11.6 - 14.0%); reticulocyte count 0.6% (0.5 - 2.5%), an inappropriately low response."
+},
+{
+"label": "",
+"text": "Predominantly normocytic normochromic red cells with a minor population of mildly hypochromic cells. Mild rouleaux formation. No significant poikilocytosis, no fragments, no nucleated red cells."
+},
+{
+"label": "",
+"text": "Supportive studies: serum ferritin 310 ng/mL (reference 15 - 150 ng/mL; raised as an acute phase reactant); serum iron / TIBC 38 µg/dL / 220 µg/dL; transferrin saturation 17%; soluble transferrin receptor normal."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count 8,900 /cu mm (reference 4,000 - 10,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Differential leucocyte count (100 cells): neutrophils 70% (40 - 80%), lymphocytes 22% (20 - 40%), monocytes 6% (2 - 10%), eosinophils 2% (1 - 6%), basophils 0% (0 - 2%)."
+},
+{
+"label": "",
+"text": "Normal count; mild neutrophilia within range. No toxic changes or immature cells."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Platelet count 4.3 x 10^5 /cu mm (reference 1.5 - 4.1 x 10^5 /cu mm)."
+},
+{
+"label": "",
+"text": "Mildly increased; normal morphology."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral smear:",
+"text": "Normocytic normochromic anaemia with rouleaux and reactive thrombocytosis, consistent with anaemia of chronic disease in the setting of rheumatoid arthritis."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with disease activity. Check renal function to exclude a contribution from chronic kidney disease."
+},
+{
+"label": "",
+"text": "If coexisting iron deficiency is suspected (ferritin under 100 ng/mL in inflammation), consider the soluble transferrin receptor / ferritin index. Treatment is directed at the underlying disease."
+}
+]
+}
+}
+},
+{
+"id": "ps-68e00e05a2",
+"type": "ps",
+"name": "Chronic Lymphocytic Leukaemia - Small Lymphocytic Lymphoma (CLL-SLL)",
+"group": "",
+"nature": "Neoplastic",
+"path": "Hematology/PS Comment/Neoplastic/Chronic Lymphocytic Leukaemia - Small Lymphocytic Lymphoma (CLL-SLL).dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Haemoglobin 12.8 g/dL (reference 13.0 - 17.0 g/dL); RBC count 4.3 x 10^6 /cu mm (4.5 - 5.5 x 10^6 /cu mm); PCV 38.6% (40 - 50%); MCV 90 fL (83 - 101 fL); MCH 29.8 pg (27 - 32 pg); MCHC 33.2 g/dL (31.5 - 34.5 g/dL); reticulocyte count 1.2% (0.5 - 2.5%)."
+},
+{
+"label": "",
+"text": "Predominantly normocytic normochromic red cells. No spherocytes, no polychromasia, no red cell agglutination (no smear evidence of autoimmune haemolysis)."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count 42,600 /cu mm (reference 4,000 - 10,000 /cu mm); absolute lymphocyte count 35,800 /cu mm (1,000 - 3,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Differential leucocyte count (100 cells): neutrophils 14% (40 - 80%), lymphocytes (small mature) 82% (20 - 40%), prolymphocytes 2% (0%), monocytes 2% (2 - 10%), eosinophils 0% (1 - 6%), basophils 0% (0 - 2%)."
+},
+{
+"label": "",
+"text": "Marked absolute lymphocytosis. The lymphocytes are small and mature-looking, slightly larger than red cells, with scanty cytoplasm, round nuclei and coarse, clumped (block-like, 'soccer ball') chromatin without visible nucleoli. Numerous smudge (basket) cells are seen. Prolymphocytes about 2% of lymphocytes (under 15%). Neutrophils show normal morphology."
+},
+{
+"label": "",
+"text": "Suggested Rai stage I / Binet A on clinical and smear data (to be confirmed clinically). Most likely category: mature B-cell neoplasm, morphology consistent with CLL."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Platelet count 1.9 x 10^5 /cu mm (reference 1.5 - 4.1 x 10^5 /cu mm)."
+},
+{
+"label": "",
+"text": "Adequate in number; normal morphology."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral smear:",
+"text": "Absolute lymphocytosis of small mature lymphocytes with numerous smudge cells, morphologically consistent with chronic lymphocytic leukaemia / small lymphocytic lymphoma (CLL/SLL), subject to flow cytometric confirmation."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Advise peripheral blood flow cytometry. The typical CLL immunophenotype is CD5+, CD19+, CD20 dim, CD23+, CD200+, with dim surface immunoglobulin light-chain restriction, and FMC7 and CD79b negative or weak (Matutes score 4 - 5). A sustained clonal B-cell count of at least 5 x 10^9/L is needed for a diagnosis of CLL."
+},
+{
+"label": "",
+"text": "If CD5+ and CD23 negative, exclude mantle cell lymphoma with cyclin D1 / SOX11 or t(11;14) FISH."
+},
+{
+"label": "",
+"text": "Before treatment, advise FISH for del(17p), del(11q), trisomy 12 and del(13q), TP53 mutation and IGHV mutational status. Direct antiglobulin test is advised if haemoglobin falls."
+}
+]
+}
+}
+},
+{
+"id": "ps-311d684f1c",
+"type": "ps",
+"name": "Iron Deficiency Anaemia",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/PS Comment/Non-neoplastic/Iron Deficiency Anaemia.dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Haemoglobin 8.4 g/dL (reference 12.0 - 15.0 g/dL); RBC count 3.9 x 10^6 /cu mm (3.8 - 4.8 x 10^6 /cu mm); PCV 27.5% (36 - 46%); MCV 68 fL (83 - 101 fL); MCH 21.5 pg (27 - 32 pg); MCHC 30.5 g/dL (31.5 - 34.5 g/dL); RDW-CV 19.8% (11.6 - 14.0%); reticulocyte count 0.8% (0.5 - 2.5%)."
+},
+{
+"label": "",
+"text": "Microcytic hypochromic red cells with marked anisopoikilocytosis. Pencil cells (elliptocytes), occasional target cells and tear drop cells. No basophilic stippling. No nucleated red cells."
+},
+{
+"label": "",
+"text": "Supportive iron studies: serum ferritin 6 ng/mL (reference 15 - 150 ng/mL); serum iron / TIBC 28 µg/dL / 465 µg/dL; transferrin saturation 6%. Mentzer index 17.4 (above 13, favours iron deficiency over thalassaemia trait)."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count 6,800 /cu mm (reference 4,000 - 10,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Differential leucocyte count (100 cells): neutrophils 62% (40 - 80%), lymphocytes 30% (20 - 40%), monocytes 5% (2 - 10%), eosinophils 3% (1 - 6%), basophils 0% (0 - 2%)."
+},
+{
+"label": "",
+"text": "Normal in number and morphology. No immature cells."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Platelet count 4.6 x 10^5 /cu mm (reference 1.5 - 4.1 x 10^5 /cu mm)."
+},
+{
+"label": "",
+"text": "Mildly increased (reactive thrombocytosis); normal morphology."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral smear:",
+"text": "Microcytic hypochromic anaemia with reactive thrombocytosis, consistent with iron deficiency anaemia."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Findings fit chronic blood loss from menorrhagia. Advise gynaecological evaluation and stool occult blood testing if indicated."
+},
+{
+"label": "",
+"text": "If ferritin is normal, consider haemoglobin electrophoresis (HPLC) to exclude beta thalassaemia trait. Repeat haemogram and reticulocyte count 2 - 4 weeks after starting iron therapy."
+}
+]
+}
+}
+},
+{
+"id": "ps-0de97c262e",
+"type": "ps",
+"name": "Megaloblastic Anaemia (Vitamin B12 Deficiency)",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/PS Comment/Non-neoplastic/Megaloblastic Anaemia (Vitamin B12 Deficiency).dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Haemoglobin 7.6 g/dL (reference 13.0 - 17.0 g/dL); RBC count 2.1 x 10^6 /cu mm (4.5 - 5.5 x 10^6 /cu mm); PCV 24.0% (40 - 50%); MCV 114 fL (83 - 101 fL); MCH 36.2 pg (27 - 32 pg); MCHC 31.7 g/dL (31.5 - 34.5 g/dL); RDW-CV 21.5% (11.6 - 14.0%); reticulocyte count 0.7% (0.5 - 2.5%)."
+},
+{
+"label": "",
+"text": "Marked anisopoikilocytosis with oval macrocytes, tear drop cells and occasional schistocytes. Howell-Jolly bodies and basophilic stippling seen. Occasional nucleated red cell with megaloblastic nuclear chromatin."
+},
+{
+"label": "",
+"text": "Supportive studies: serum vitamin B12 98 pg/mL (reference 200 - 900 pg/mL); serum folate 8.2 ng/mL (normal); LDH 2,850 U/L and indirect bilirubin 1.9 mg/dL (ineffective erythropoiesis)."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count 3,200 /cu mm (reference 4,000 - 10,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Differential leucocyte count (100 cells): neutrophils 56% (40 - 80%), lymphocytes 38% (20 - 40%), monocytes 4% (2 - 10%), eosinophils 2% (1 - 6%), basophils 0% (0 - 2%)."
+},
+{
+"label": "",
+"text": "Leucopenia. Hypersegmented neutrophils present (over 5% with 5 lobes; occasional 6-lobed forms). No blasts."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Platelet count 0.95 x 10^5 /cu mm (reference 1.5 - 4.1 x 10^5 /cu mm)."
+},
+{
+"label": "",
+"text": "Reduced; occasional large forms."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral smear:",
+"text": "Macrocytic anaemia with pancytopenia, oval macrocytes and hypersegmented neutrophils, suggestive of megaloblastic anaemia, consistent with vitamin B12 deficiency."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Dietary deficiency is likely; advise anti-intrinsic factor antibody testing to exclude pernicious anaemia. Neurological symptoms warrant prompt B12 replacement; do not give folate alone."
+},
+{
+"label": "",
+"text": "Expect a reticulocyte response in 5 - 7 days of treatment. Bone marrow examination is needed only if cytopenias fail to respond, to exclude MDS."
+}
+]
+}
+}
+},
+{
+"id": "ps-4d1a144294",
+"type": "ps",
+"name": "Neutrophilic Leukaemoid Reaction",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/PS Comment/Non-neoplastic/Neutrophilic Leukaemoid Reaction.dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Haemoglobin 11.2 g/dL (reference 13.0 - 17.0 g/dL); MCV 86 fL (83 - 101 fL)."
+},
+{
+"label": "",
+"text": "Normocytic normochromic red cells with mild anisocytosis. No nucleated red cells."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count 62,000 /cu mm (reference 4,000 - 10,000 /cu mm)."
+},
+{
+"label": "",
+"text": "Differential leucocyte count (200 cells): blasts 0%, promyelocytes 1%, myelocytes 6%, metamyelocytes 8%, band forms 18% (0 - 5%), neutrophils 58% (40 - 80%), lymphocytes 6% (20 - 40%), monocytes 3% (2 - 10%), eosinophils 0% (1 - 6%), basophils 0% (0 - 2%)."
+},
+{
+"label": "",
+"text": "Marked neutrophilic leucocytosis with a left shift to myelocytes and promyelocytes (myelocytes fewer than metamyelocytes; no myelocyte bulge). Neutrophils show coarse toxic granulation, Döhle bodies and cytoplasmic vacuolation. No blasts. No basophilia or eosinophilia. No dysplasia."
+},
+{
+"label": "",
+"text": "Leukaemoid reaction versus CML: toxic granulation and Döhle bodies present (usually absent in CML); basophilia / eosinophilia absent (present in CML); metamyelocytes and band forms predominate, with no myelocyte bulge; no blasts; no splenomegaly; NAP score expected high (low in CML); BCR::ABL1 not expected (positive in CML)."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Platelet count 4.2 x 10^5 /cu mm (reference 1.5 - 4.1 x 10^5 /cu mm)."
+},
+{
+"label": "",
+"text": "Mildly increased (reactive), with normal morphology."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral smear:",
+"text": "Neutrophilic leukaemoid reaction with left shift and toxic changes, consistent with severe bacterial infection (pneumonia / sepsis). No evidence of leukaemia on the smear."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Correlate with blood culture, CRP / procalcitonin and the clinical course; the count is expected to settle with treatment of the infection."
+},
+{
+"label": "",
+"text": "Advise NAP score and repeat haemogram after treatment. If leucocytosis persists, or basophilia, splenomegaly or blasts appear, test for BCR::ABL1 to exclude CML, and consider CSF3R testing for chronic neutrophilic leukaemia."
+}
+]
+}
+}
+},
+{
+"id": "ps-081a3ade3e",
+"type": "ps",
+"name": "Normal Peripheral Blood Picture",
+"group": "",
+"nature": "Non-neoplastic",
+"path": "Hematology/PS Comment/Non-neoplastic/Normal Peripheral Blood Picture.dotx",
+"values": {
+"RBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "No significant anisopoikilocytosis noted. Normocytic normochromic RBCs seen."
+},
+{
+"label": "",
+"text": "No increase in polychromatic cells or NRBCs seen."
+}
+]
+},
+"WBC SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Total leucocyte count and differential counts are within normal range. Normal segmentation and granulation noted within neutrophils, and lymphocytes appear normal in morphology. No atypical cells identified."
+}
+]
+},
+"PLATELET SERIES": {
+"1.0": [
+{
+"label": "",
+"text": "Adequate in smear, with normal morphology."
+},
+{
+"label": "",
+"text": "No platelet clumps seen."
+}
+]
+},
+"HEMOPARASITES": {
+"1.0": [
+{
+"label": "",
+"text": "Not identified."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Peripheral blood smear:",
+"text": "Normal peripheral blood picture."
+}
+]
+},
+"ADVICE": {
+"1.0": [
+{
+"label": "",
+"text": "Kindly correlate clinically."
+}
+]
+}
+}
 }
 ]
 }
