@@ -60,6 +60,8 @@ for p,name,i,s in L:
             case=parse(B.CASES+p+'/'+name)
     except Exception as e: skipped.append((p,name,str(e))); continue
     if case['title']!='Histopathology Report': continue
+    fx=getattr(B,'HEAD_FIX',{}).get(base)   # same section-heading fixes build.py applies (e.g. 'DIAGNOSIS' -> 'FINAL DIAGNOSIS')
+    if fx: case['tables']=[dict(t,head=fx[t['head']]) if fx.get(t['head']) else t for t in case['tables'] if not (t['head'] in fx and fx[t['head']] is None)]
     heads=[t['head'] for t in case['tables']]
     if 'MICROSCOPIC DESCRIPTION' not in heads or 'FINAL DIAGNOSIS' not in heads: skipped.append((p,name,'no micro/fd')); continue
     if base in NAMES: fname,nn=NAMES[base]

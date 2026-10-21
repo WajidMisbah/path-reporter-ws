@@ -1,7 +1,7 @@
 {
 "app": "Path Reporter WS",
-"version": "20261021001735",
-"generated": "2026-10-21T00:17:35",
+"version": "20261021113153",
+"generated": "2026-10-21T11:31:53",
 "layouts": {
 "histo": "templates/histopathology.dotx",
 "cap": "templates/cancer-cap.dotx",
@@ -36265,6 +36265,379 @@ null
 }
 ],
 "sections": "A1 terminal ileum (entirely embedded); B1 caecum and ascending colon (entirely embedded). Levels cut on both blocks."
+}
+},
+{
+"id": "dx-6fcadb7c1f",
+"name": "Endometrioid Carcinoma of Endometrium, FIGO Grade 2, pT1a pN0, FIGO 2023 IA2 (Total Hysterectomy)",
+"nature": "Neoplastic",
+"path": "Female Genital Tract/Uterus/03 Endometrial Carcinomas",
+"source": "02_Total_Hysterectomy_Endometrioid_Adenocarcinoma_FIGO_G2.docx",
+"layout": "cap",
+"micro": [
+{
+"label": "",
+"text": "Sections from the endometrial tumour show an endometrioid adenocarcinoma composed of crowded, back-to-back and cribriform glands lined by stratified columnar cells with oval nuclei, moderate atypia and occasional nucleoli. Solid non-squamous growth forms about 20% of the tumour (FIGO grade 2; low grade in the WHO two-tier scheme). Foci of squamous morular differentiation are present and are excluded from the solid component. Mitoses are readily seen. No serous, clear cell or high-grade nuclear features."
+},
+{
+"label": "",
+"text": "The tumour invades the inner myometrium to a depth of 0.6 cm out of a 1.6 cm wall (about 38%, less than 50%), with an infiltrative glandular pattern and desmoplastic stroma. Lymphovascular space invasion is focal (a single vessel involved near the invasive front). Lower uterine segment shows surface involvement only. Cervical stroma is free of tumour. Uterine serosa is free."
+},
+{
+"label": "",
+"text": "Background endometrium is atrophic. Fallopian tubes and ovaries were not submitted and cannot be assessed."
+},
+{
+"label": "",
+"text": "Fourteen pelvic lymph nodes (right 0/7, left 0/7) show reactive changes and no metastatic carcinoma."
+},
+{
+"label": "",
+"text": "Immunohistochemistry:"
+},
+{
+"label": "",
+"text": "ER: Result: Positive (strong, 90%); Interpretation: Supports endometrioid type."
+},
+{
+"label": "",
+"text": "PR: Result: Positive (moderate, 70%); Interpretation: Supports endometrioid type."
+},
+{
+"label": "",
+"text": "p53: Result: Wild-type (variable, heterogeneous); Interpretation: No TP53 aberration."
+},
+{
+"label": "",
+"text": "p16: Result: Patchy, non-block; Interpretation: Against serous carcinoma and HPV-associated endocervical adenocarcinoma."
+},
+{
+"label": "",
+"text": "Vimentin: Result: Positive; Interpretation: Favours endometrial over endocervical origin."
+},
+{
+"label": "",
+"text": "MLH1 / PMS2: Result: Retained; Interpretation: MMR proficient."
+},
+{
+"label": "",
+"text": "MSH2 / MSH6: Result: Retained; Interpretation: MMR proficient."
+},
+{
+"label": "",
+"text": "POLE: Result: Not tested; Interpretation: Sequencing not performed."
+}
+],
+"finalDiagnosis": [
+{
+"label": "",
+"text": "Uterus with cervix (total hysterectomy) and bilateral pelvic lymph nodes:"
+},
+{
+"label": "",
+"text": "- Endometrioid carcinoma of the endometrium, FIGO grade 2 (low grade), 3.2 cm."
+},
+{
+"label": "",
+"text": "- Myometrial invasion less than 50% (about 38%); focal lymphovascular space invasion."
+},
+{
+"label": "",
+"text": "- Cervical stroma and uterine serosa free of tumour. Adnexa not submitted."
+},
+{
+"label": "",
+"text": "- Fourteen pelvic lymph nodes negative for metastasis (0/14)."
+},
+{
+"label": "",
+"text": "- MMR proficient, p53 wild-type, POLE not tested: NSMP. ER and PR positive."
+},
+{
+"label": "",
+"text": "- pT1a pN0; FIGO 2023 stage IA2."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Low-grade endometrioid histology, less than half myometrial invasion and only focal LVSI place this tumour in FIGO 2023 stage IA2. Substantial LVSI (5 or more vessels) would have upstaged it to IIB, so the focal extent is specifically recorded. The ER/PR-positive, vimentin-positive, patchy p16 and wild-type p53 profile supports endometrioid carcinoma over serous carcinoma, HPV-associated endocervical adenocarcinoma and metastatic colorectal carcinoma. Tubes and ovaries were not received, so adnexal involvement (which would make the tumour stage IIIA) cannot be excluded pathologically; the stage assumes clinically and radiologically normal adnexa."
+},
+{
+"label": "",
+"text": "The molecular class is reported as NSMP on immunohistochemistry. Because POLE was not sequenced, a POLE-mutant tumour cannot be excluded; POLE testing may be considered if it would alter adjuvant therapy. MMR proficiency makes Lynch syndrome unlikely. Correlation in the gynae-oncology tumour board is advised."
+}
+],
+"cap": {
+"title": "(CAP Endometrium protocol v5.1.0.0, December 2024)",
+"sections": [
+{
+"heading": "Specimen",
+"numId": 1,
+"items": [
+{
+"label": "Procedure",
+"value": "Total hysterectomy (uterus with cervix); bilateral pelvic lymphadenectomy. No salpingo-oophorectomy",
+"ilvl": 0
+},
+{
+"label": "Specimen Integrity",
+"value": "Intact",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Tumor",
+"numId": 1,
+"items": [
+{
+"label": "Tumor Size",
+"value": "",
+"ilvl": 0
+},
+{
+"label": "Greatest gross dimension (if mass) in Centimeters (cm)",
+"value": "3.2 cm",
+"ilvl": 1
+},
+{
+"label": "Additional Dimension in Centimeters (cm)",
+"value": "2.8 x 1.5 cm",
+"ilvl": 1
+},
+{
+"label": "Histologic Type",
+"value": "Endometrioid carcinoma, NOS",
+"ilvl": 0
+},
+{
+"label": "Histologic Type Comment",
+"value": "Foci of squamous morular differentiation (excluded from the solid component); posterior fundus and upper body",
+"ilvl": 1
+},
+{
+"label": "Histologic Grade",
+"value": "FIGO grade 2 (endometrioid carcinoma); low grade in the two-tier scheme. Solid non-squamous growth about 20%",
+"ilvl": 0
+},
+{
+"label": "Molecular Type",
+"value": "No specific molecular profile (NSMP), provisional (POLE not tested)",
+"ilvl": 0
+},
+{
+"label": "MMR Immunohistochemistry",
+"value": "No loss of nuclear expression of MMR proteins: low probability of MSI-H (MLH1, PMS2, MSH2, MSH6 retained)",
+"ilvl": 1
+},
+{
+"label": "p53 Immunohistochemistry",
+"value": "Wild-type pattern",
+"ilvl": 1
+},
+{
+"label": "POLE Status",
+"value": "Not performed",
+"ilvl": 1
+},
+{
+"label": "Myometrial Invasion",
+"value": "Present, less than 50%",
+"ilvl": 0
+},
+{
+"label": "Specify Percentage",
+"value": "About 38% (depth of invasion 0.6 cm; myometrial thickness 1.6 cm)",
+"ilvl": 1
+},
+{
+"label": "Adenomyosis",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Uterine Serosal Involvement",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Lower Uterine Segment Involvement",
+"value": "Present, non-myoinvasive (surface involvement only)",
+"ilvl": 0
+},
+{
+"label": "Cervical Involvement",
+"value": "Not identified (cervical stroma free)",
+"ilvl": 0
+},
+{
+"label": "Other Tissue / Organ Involvement",
+"value": "Not identified in submitted tissue; fallopian tubes and ovaries not submitted (cannot be assessed)",
+"ilvl": 0
+},
+{
+"label": "Lymphatic and / or Vascular Invasion",
+"value": "Present, focal (fewer than 5 vessels)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Margins",
+"numId": 2,
+"items": [
+{
+"label": "Margin Status",
+"value": "All margins negative for invasive carcinoma",
+"ilvl": 0
+},
+{
+"label": "Closest Margin(s) to Invasive Carcinoma",
+"value": "Parametrial",
+"ilvl": 1
+},
+{
+"label": "Distance from Invasive Carcinoma to Closest Margin in Centimeters (cm)",
+"value": "1.0 cm",
+"ilvl": 1
+}
+]
+},
+{
+"heading": "Regional Lymph Nodes",
+"numId": 3,
+"items": [
+{
+"label": "Regional Lymph Node Status",
+"value": "All regional lymph nodes negative for tumor cells",
+"ilvl": 0
+},
+{
+"label": "Total Number of Pelvic Nodes Examined (sentinel and non-sentinel)",
+"value": "14",
+"ilvl": 1
+},
+{
+"label": "Number of Pelvic Sentinel Nodes Examined",
+"value": "Not applicable",
+"ilvl": 1
+},
+{
+"label": "Total Number of Para-aortic Nodes Examined (sentinel and non-sentinel)",
+"value": "0 (no para-aortic nodes submitted)",
+"ilvl": 1
+},
+{
+"label": "Regional Lymph Node Comment",
+"value": "Right pelvic 0/7; left pelvic 0/7",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Distant Metastasis",
+"numId": 3,
+"items": [
+{
+"label": "Distant Site(s) Involved",
+"value": "Not applicable",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "pTNM Classification (AJCC 8th Edition)",
+"numId": 3,
+"items": [
+{
+"label": "Modified Classification",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pT Category",
+"value": "pT1a: Tumor limited to the endometrium or invading less than half the myometrium",
+"ilvl": 0
+},
+{
+"label": "T Suffix",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pN Category",
+"value": "pN0: No regional lymph node metastasis",
+"ilvl": 0
+},
+{
+"label": "N Suffix",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pM Category",
+"value": "Not applicable - pM cannot be determined from the submitted specimen(s)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "FIGO Stage",
+"numId": 3,
+"items": [
+{
+"label": "FIGO Stage (FIGO 2009 Staging / 2018 FIGO Cancer Report)",
+"value": "IA: No or less than half myometrial invasion",
+"ilvl": 0
+},
+{
+"label": "FIGO Stage (2023 Staging for Cancer of the Endometrium)",
+"value": "IA2: Non-aggressive histological type involving less than half of the myometrium with no or focal LVSI (staged on submitted tissue; adnexa not submitted; NSMP does not modify stage, POLE status unknown)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Additional Findings",
+"numId": 3,
+"items": [
+{
+"label": null,
+"value": "Other: atrophic background endometrium",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Special Studies",
+"numId": 3,
+"items": [
+{
+"label": null,
+"value": "Immunohistochemistry: ER positive (strong, 90%); PR positive (moderate, 70%); p16 patchy, non-block; vimentin positive; MMR proficient; p53 wild-type. POLE sequencing not performed",
+"ilvl": 0
+}
+]
+}
+]
+},
+"exampleGross": {
+"containers": [
+{
+"text": "Uterus with cervix: Received in formalin, an intact uterus with cervix, weighing 130 g. No fallopian tubes or ovaries are attached. Uterus measures 8.5 x 5.5 x 4.0 cm; cervix 3.0 x 2.5 cm. Serosa smooth and glistening. Ectocervix smooth; external os slit-like. Bivalved: the endometrial cavity measures 5.0 cm long. A grey-white, friable, exophytic tumour measuring 3.2 x 2.8 x 1.5 cm occupies the posterior fundus and upper body. On serial sectioning it extends into the inner myometrium, deepest invasion 0.6 cm in a myometrium 1.6 cm thick (less than half). Lower uterine segment and endocervical canal appear uninvolved; tumour is 2.5 cm from the endocervical os. Remaining endometrium thin. Myometrium shows no leiomyomas. Adnexa: Not received.",
+"gross": "Partially embedded."
+},
+{
+"text": "Right pelvic lymph nodes: Fibrofatty tissue 6.0 x 4.0 x 1.5 cm, 7 nodes identified (0.4 to 1.5 cm).",
+"gross": "All embedded."
+},
+{
+"text": "Left pelvic lymph nodes: Fibrofatty tissue 5.5 x 3.5 x 1.5 cm, 7 nodes identified (0.3 to 1.3 cm).",
+"gross": "All embedded."
+}
+],
+"sections": "A1-A6 tumour with full-thickness myometrium (A3 deepest invasion); A7-A8 lower uterine segment; A9-A10 cervix anterior and posterior; A11 parametria; B1-B5 right nodes; C1-C5 left nodes."
 }
 }
 ]
