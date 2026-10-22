@@ -1,7 +1,7 @@
 {
 "app": "Path Reporter WS",
-"version": "20261021113153",
-"generated": "2026-10-21T11:31:53",
+"version": "20261022221046",
+"generated": "2026-10-22T22:10:46",
 "layouts": {
 "histo": "templates/histopathology.dotx",
 "cap": "templates/cancer-cap.dotx",
@@ -36638,6 +36638,303 @@ null
 }
 ],
 "sections": "A1-A6 tumour with full-thickness myometrium (A3 deepest invasion); A7-A8 lower uterine segment; A9-A10 cervix anterior and posterior; A11 parametria; B1-B5 right nodes; C1-C5 left nodes."
+}
+},
+{
+"id": "dx-8b14549472",
+"name": "Squamous Cell Carcinoma of Penis, HPV-independent, Usual (Keratinising) Type, Grade 2, pT2 pN0 (Partial Penectomy)",
+"nature": "Neoplastic",
+"path": "Male Genital Tract/Penis",
+"source": "01_Partial_Penectomy_Squamous_Cell_Carcinoma.docx",
+"layout": "cap",
+"micro": [
+{
+"label": "",
+"text": "A. Sections show an invasive squamous cell carcinoma arising from the glans epithelium, growing as irregular nests, cords and sheets of polygonal cells with abundant eosinophilic cytoplasm, distinct intercellular bridges and frequent keratin pearls. Nuclei show moderate pleomorphism with vesicular chromatin and prominent nucleoli; mitoses are readily found (moderately differentiated, grade 2). No basaloid, warty or sarcomatoid component is present. The tumour invades through the lamina propria into the corpus spongiosum of the glans (depth of invasion 9 mm). The tunica albuginea and corpora cavernosa are free. The urethra and periurethral tissue are free. No lymphovascular or perineural invasion is seen. Adjacent epithelium shows differentiated penile intraepithelial neoplasia (differentiated PeIN) and lichen sclerosus-like dermal sclerosis; no koilocytic/basaloid PeIN is seen. All surgical margins are free of invasive carcinoma and PeIN."
+},
+{
+"label": "",
+"text": "B. Four lymph nodes, all negative for metastatic carcinoma (0/4)."
+},
+{
+"label": "",
+"text": "C. Four lymph nodes, all negative for metastatic carcinoma (0/4)."
+},
+{
+"label": "",
+"text": "Immunohistochemistry:"
+},
+{
+"label": "",
+"text": "p16: Result: Negative (patchy weak, non-block); Interpretation: Against HPV-associated carcinoma."
+},
+{
+"label": "",
+"text": "HPV ISH: Result: Not performed; Interpretation: Not required with p16 negative and morphology."
+},
+{
+"label": "",
+"text": "p53: Result: Aberrant (strong diffuse basal/suprabasal staining); Interpretation: Supports HPV-independent pathway."
+}
+],
+"finalDiagnosis": [
+{
+"label": "",
+"text": "A. Penis, partial penectomy: INVASIVE SQUAMOUS CELL CARCINOMA, HPV-INDEPENDENT, USUAL (KERATINISING) TYPE, GRADE 2, 3.0 cm, invading corpus spongiosum of the glans. No LVI/PNI. Margins free. Differentiated PeIN in adjacent epithelium."
+},
+{
+"label": "",
+"text": "B, C. Bilateral inguinal lymph nodes: no metastatic carcinoma (0/8)."
+},
+{
+"label": "",
+"text": "Pathological stage (AJCC 8th): pT2 pN0."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Classified per WHO 5th edition (Urinary and Male Genital Tumours), which splits penile squamous carcinomas into HPV-associated and HPV-independent groups. Keratinising morphology, differentiated PeIN, lichen sclerosus-like background and negative p16 place this tumour in the HPV-independent group. HPV ISH was not needed."
+},
+{
+"label": "",
+"text": "Invasion of corpus spongiosum makes this pT2 whatever the grade or LVI status; corpora cavernosa involvement would make it pT3. Nodes are negative bilaterally. Clinical correlation and follow-up per the multidisciplinary team are advised."
+}
+],
+"cap": {
+"title": "(CAP Penis protocol v4.2.0.0, September 2023)",
+"sections": [
+{
+"heading": "Specimen",
+"numId": 1,
+"items": [
+{
+"label": "Procedure",
+"value": "Partial penectomy",
+"ilvl": 0
+},
+{
+"label": "Foreskin (presence and type)",
+"value": "Not identified (circumcised)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Tumor",
+"numId": 1,
+"items": [
+{
+"label": "Tumor Focality",
+"value": "Unifocal",
+"ilvl": 0
+},
+{
+"label": "Tumor Site",
+"value": "Glans: dorsal and lateral aspects, sparing the meatus",
+"ilvl": 0
+},
+{
+"label": "Tumor Macroscopic Features",
+"value": "Ulcerated; exophytic, grey-white, firm",
+"ilvl": 0
+},
+{
+"label": "Tumor Size",
+"value": "",
+"ilvl": 0
+},
+{
+"label": "Greatest Dimension in Centimeters (cm)",
+"value": "3.0 cm",
+"ilvl": 1
+},
+{
+"label": "Additional Dimension in Centimeters (cm)",
+"value": "2.6 x 1.4 cm",
+"ilvl": 1
+},
+{
+"label": "Histologic Type",
+"value": "HPV-independent squamous cell carcinoma: squamous cell carcinoma, usual type",
+"ilvl": 0
+},
+{
+"label": "Histologic Type Comment",
+"value": "Keratinising; no basaloid, warty or sarcomatoid component; p16 negative (WHO 5th edition)",
+"ilvl": 1
+},
+{
+"label": "Histologic Grade",
+"value": "G2, moderately differentiated",
+"ilvl": 0
+},
+{
+"label": "Tumor Depth of Invasion / Thickness",
+"value": "Depth of invasion (endophytic tumors): 9 mm",
+"ilvl": 0
+},
+{
+"label": "Tumor Extent",
+"value": "Glans: invades lamina propria; invades corpus spongiosum",
+"ilvl": 0
+},
+{
+"label": "Lymphatic and / or Vascular Invasion",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Perineural Invasion",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Tumor Comment",
+"value": "Tumour lies 6 mm from the tunica albuginea; tunica albuginea, corpora cavernosa and urethra not involved",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Margins",
+"numId": 2,
+"items": [
+{
+"label": "Margin Status for Invasive Carcinoma",
+"value": "All margins negative for invasive carcinoma",
+"ilvl": 0
+},
+{
+"label": "Closest Margin(s) to Invasive Carcinoma",
+"value": "Other (specify): proximal shaft (transverse) margin",
+"ilvl": 1
+},
+{
+"label": "Distance from Invasive Carcinoma to Closest Margin",
+"value": "Exact distance: 28 mm (urethral margin 29 mm)",
+"ilvl": 1
+},
+{
+"label": "Margin Status for Noninvasive Carcinoma / Carcinoma in Situ",
+"value": "All margins negative for non-invasive carcinoma / carcinoma in situ",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Regional Lymph Nodes",
+"numId": 3,
+"items": [
+{
+"label": "Regional Lymph Node Status",
+"value": "All regional lymph nodes negative for tumor",
+"ilvl": 0
+},
+{
+"label": "Number of Lymph Nodes Examined",
+"value": "8 (right inguinal 4, left inguinal 4)",
+"ilvl": 1
+}
+]
+},
+{
+"heading": "Distant Metastasis",
+"numId": 3,
+"items": [
+{
+"label": "Distant Site(s) Involved",
+"value": "Not applicable",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "pTNM Classification (AJCC 8th Edition)",
+"numId": 3,
+"items": [
+{
+"label": "Modified Classification",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pT Category",
+"value": "pT2: Tumor invades into corpus spongiosum (either glans or ventral shaft) with or without urethral invasion",
+"ilvl": 0
+},
+{
+"label": "T Suffix",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pN Category",
+"value": "pN0: No lymph node metastasis",
+"ilvl": 0
+},
+{
+"label": "pM Category",
+"value": "Not applicable - pM cannot be determined from the submitted specimen(s)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Additional Findings",
+"numId": 3,
+"items": [
+{
+"label": null,
+"value": "HPV-independent differentiated penile intraepithelial neoplasia (PeIN)",
+"ilvl": 0
+},
+{
+"label": null,
+"value": "Lichen sclerosus (lichen sclerosus-like dermal sclerosis)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Special Studies",
+"numId": 3,
+"items": [
+{
+"label": "p16 Immunohistochemistry",
+"value": "Negative (patchy weak, non-block)",
+"ilvl": 0
+},
+{
+"label": "HPV-ISH",
+"value": "Not performed",
+"ilvl": 0
+},
+{
+"label": "Other Ancillary Studies",
+"value": "Specify: p53 aberrant (strong diffuse basal/suprabasal staining), supports HPV-independent pathway",
+"ilvl": 0
+}
+]
+}
+]
+},
+"exampleGross": {
+"containers": [
+{
+"text": "Partial penectomy specimen: Received in formalin, a partial penectomy specimen measuring 6.5 cm in length, 3.8 cm in diameter at the proximal cut end. Foreskin is absent (circumcised). An exophytic, grey-white, firm, focally ulcerated tumour is seen on the glans, measuring 3.0 x 2.6 x 1.4 cm, involving the dorsal and lateral aspects and sparing the meatus. Cut section shows a grey-white tumour infiltrating into the underlying spongy tissue of the glans. The tumour lies 2.8 cm from the proximal (shaft) surgical margin and 0.6 cm from the tunica albuginea. Corpora cavernosa and urethra appear grossly uninvolved. Proximal margin inked blue; urethral margin, periurethral tissue and corpora margin shaved en face.",
+"gross": "Partially embedded."
+},
+{
+"text": "Right inguinal lymph nodes: Fibrofatty tissue 4.5 x 3.0 x 1.5 cm; four lymph nodes identified, largest 1.4 cm.",
+"gross": "All embedded."
+},
+{
+"text": "Left inguinal lymph nodes: Fibrofatty tissue 4.0 x 3.2 x 1.2 cm; four lymph nodes identified, largest 1.2 cm.",
+"gross": "All embedded."
+}
+],
+"sections": "A1 proximal shaft margin (en face, incl. urethra and corpora); A2-A5 tumour full thickness with deepest invasion; A6 tumour with urethral meatus; A7 tumour with corona/adjacent skin; A8 uninvolved glans; B1-B4 right inguinal nodes; C1-C4 left inguinal nodes."
 }
 }
 ]
