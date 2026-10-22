@@ -67,3 +67,16 @@ button.small{padding:6px 10px;min-height:34px;font-size:14px}
 /* docx-preview ignores insideH/insideV="none" on the header table: match Word (outer box, thick bottom, no inner lines) */
 section.docx header table td{border:none!important}
 section.docx header table{border:0.5pt solid #000!important;border-bottom:1.5pt solid #000!important;border-collapse:collapse}
+/* sections, rows & sign-out */
+.lsec{border:1px solid #dfe3f3;border-radius:12px;padding:10px;margin:10px 0;background:#fbfcff}
+.lsec.removed{opacity:.55;background:#f4f4f6}
+.lhead{font-weight:700;text-transform:uppercase}
+.lrow{display:flex;gap:8px;align-items:center;justify-content:space-between;border-bottom:1px solid #e6e8f2;padding:6px 0}
+.lrow>span{flex:1;font-size:14px;color:#334}
+.lrow.del>span{text-decoration:line-through;color:#a33}
+.lrow.add{display:grid;gap:6px;align-items:start}
+.lrow.add textarea{min-height:44px}
+.colprev{display:flex;gap:3px;margin-top:6px;height:18px}.colprev span{border:1.5px solid #2E3192;border-radius:3px}
+.choice-btn.sel{outline:3px solid #2E3192}
+.soprev{display:grid;grid-template-columns:4223fr 1407fr 4224fr;gap:6px;margin:10px 0;padding:10px;border:1px dashed #c8cbe0;border-radius:10px;background:#fff}
+.socol{text-align:center;font-weight:700;font-size:12px;font-family:Tinos,'Times New Roman',serif}

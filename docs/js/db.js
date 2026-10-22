@@ -1,9 +1,9 @@
 // IndexedDB storage - everything stays on this device.
 const DB=(function(){
-  const NAME='path-reporter-ws', VER=1, STORES=['reports','diagnoses','meta'];
+  const NAME='path-reporter-ws', VER=2, STORES=['reports','diagnoses','meta','doctors'];
   let dbp=null;
   function open(){ if(dbp) return dbp; dbp=new Promise((res,rej)=>{ const r=indexedDB.open(NAME,VER);
-    r.onupgradeneeded=()=>{ const d=r.result; for(const s of STORES) if(!d.objectStoreNames.contains(s)) d.createObjectStore(s,{keyPath:'id'}); };
+    r.onupgradeneeded=()=>{ /* additive only: never deletes an existing store */ const d=r.result; for(const s of STORES) if(!d.objectStoreNames.contains(s)) d.createObjectStore(s,{keyPath:'id'}); };
     r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); return dbp; }
   async function tx(store,mode,fn){ const d=await open(); return new Promise((res,rej)=>{ const t=d.transaction(store,mode); const s=t.objectStore(store); let out; const q=fn(s); if(q) q.onsuccess=()=>{out=q.result;}; t.oncomplete=()=>res(out); t.onerror=()=>rej(t.error); }); }
   return {
@@ -12,8 +12,8 @@ const DB=(function(){
     put:(s,v)=>tx(s,'readwrite',st=>st.put(v)),
     del:(s,id)=>tx(s,'readwrite',st=>st.delete(id)),
     clear:s=>tx(s,'readwrite',st=>st.clear()),
-    async exportAll(){ const o={app:'Path Reporter WS',kind:'backup',exported:new Date().toISOString(),version:1}; for(const s of ['reports','diagnoses']) o[s]=await this.all(s); return o; /* templates bundle is re-downloadable; not part of backups */ },
+    async exportAll(){ const o={app:'Path Reporter WS',kind:'backup',exported:new Date().toISOString(),version:1}; for(const s of ['reports','diagnoses','doctors']) o[s]=await this.all(s); return o; /* templates bundle is re-downloadable; not part of backups */ },
     async importAll(o,mode){ if(!o||o.app!=='Path Reporter WS'||o.kind!=='backup') throw new Error('Not a Path Reporter WS backup file');
-      for(const s of ['reports','diagnoses']){ if(mode==='replace') await this.clear(s); for(const v of (o[s]||[])) await this.put(s,v); } }
+      for(const s of ['reports','diagnoses','doctors']){ if(mode==='replace'&&!o[s]) continue; if(mode==='replace') await this.clear(s); for(const v of (o[s]||[])) await this.put(s,v); } }
   };
 })();

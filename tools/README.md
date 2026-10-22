@@ -39,3 +39,12 @@ Optional: give it a nicer name/description/order by adding an entry to `tools/re
 * `gen_bundle.py` – histopathology diagnoses, gross library, IHC panels, report types → `docs/templates/`.
   `PRWS_BASIC_DIR=/path` uses another Basic Templates folder (for testing).
 * `compare_docx.py` – compares two Word bodies (structure, text, bold).
+
+## Sections, rows & sign-out (all report types, app v8)
+`docs/js/docx.js` → `applyLayout()` runs after every engine (histo, ihc, generic) on the filled document:
+* `R.secLayout.secs[]` = ordered sections `{src:<template heading>|null, type, heading, removed, del:[template row idx], add:[[cell text…]]}`.
+  New sections use the 5 types from `Type of sections.docx` (OneDrive *Pathology Reporting Assets*): single 9638, two symmetrical 4819/4819,
+  two asymmetrical 3212/6426, three 3212/3213/3213, four 2409/2410/2409/2410. Heading row: CAPS, bold, bottom sz 18; last row: bottom sz 4;
+  one empty paragraph between tables; sectPr/header/footer untouched.
+* `R.signout = {n:1|2, left:[lines], right:[lines]}` rewrites only the text of the last row of the End-of-Report table (widths 4223/1407/4224 kept).
+* IndexedDB v2 adds store `doctors` (never touched by Update templates; included in backups). Tests: `test/e2e_layout.py`.

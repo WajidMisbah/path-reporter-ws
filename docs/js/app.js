@@ -97,6 +97,7 @@ function editor(){
    <label>Final diagnosis</label><textarea id="fd">${esc(itemsToText(R.finalDiagnosis))}</textarea>
    <label>Comment</label><textarea id="comment">${esc(itemsToText(R.comment))}</textarea>
    <p class="hint">One paragraph per line. Text between ** ** prints bold, e.g. <code>**Gallbladder, cholecystectomy:** Chronic cholecystitis.</code></p></div>
+  <div id="layoutBox"></div>
   <div class="card actions" style="position:sticky;bottom:8px"><button id="save">Save…</button><button id="docx" class="alt">Download .docx</button><button id="prev" class="violet">Preview</button><button id="print" class="pink">Print / PDF</button></div>
   <div id="previewBox"></div>`;
   $$('[data-h]').forEach(i=>i.oninput=()=>R.header[i.dataset.h]=i.value);
@@ -128,7 +129,8 @@ function editor(){
     if((R.micro.length||R.finalDiagnosis.length)&&!confirm('Replace microscopic, diagnosis and comment with "'+d.name+'"?')) return;
     R.dxId=d.id; R.dxName=d.name; R.layout=d.layout; R.micro=structuredClone(d.micro||[]); R.finalDiagnosis=structuredClone(d.finalDiagnosis||[]); R.comment=structuredClone(d.comment||[]); R.cap=d.cap?structuredClone(d.cap):null;
     $('#micro').value=itemsToText(R.micro); $('#fd').value=itemsToText(R.finalDiagnosis); $('#comment').value=itemsToText(R.comment);
-    $('#dxsel').innerHTML='Loaded: <b>'+esc(d.name)+'</b>'; renderCap(); renderDx(); toast('Diagnosis loaded'); };
+    if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout);
+    $('#dxsel').innerHTML='Loaded: <b>'+esc(d.name)+'</b>'; renderCap(); renderDx(); layoutCard($('#layoutBox')); toast('Diagnosis loaded'); };
   const renderCap=()=>{ const c=R.cap; if(!c){$('#capbox').innerHTML='';return;}
     $('#capbox').innerHTML=`<label>Synoptic report ${esc(c.title)}</label><div class="card" style="background:#fbfaff">${c.sections.map((s,si)=>`<div class="capsec"><input data-sh="${si}" value="${esc(s.heading)}" style="font-weight:700">${s.items.map((it,ii)=>`<div class="capitem"><input data-il="${si}.${ii}" value="${esc(it.label||'')}" placeholder="(no label)"><input data-iv="${si}.${ii}" value="${esc(it.value||'')}"><select data-ii="${si}.${ii}"><option value="0" ${!it.ilvl?'selected':''}>•</option><option value="1" ${it.ilvl==1?'selected':''}>◦</option><option value="2" ${it.ilvl==2?'selected':''}>▪</option></select><button class="small danger" data-ix="${si}.${ii}">✕</button></div>`).join('')}<button class="small light" data-ia="${si}">+ item</button></div>`).join('')}</div>`;
     const at=k=>k.split('.').map(Number);
@@ -141,7 +143,7 @@ function editor(){
   renderCap(); renderDx();
   $('#dxq').oninput=renderDx; $('#dxall').onchange=renderDx;
   $('#micro').oninput=e=>R.micro=textToItems(e.target.value); $('#fd').oninput=e=>R.finalDiagnosis=textToItems(e.target.value); $('#comment').oninput=e=>R.comment=textToItems(e.target.value);
-  $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+  layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
 }
 
 // ---------- save ----------
@@ -149,17 +151,18 @@ function saveDialog(){
   const R=S.report; const cur=allDx(R.type||'histo').find(d=>d.id===R.dxId);
   $('#modalBody').innerHTML=`<h3>Save report</h3><p class="hint">The report is always saved on this tablet. Choose what happens to the diagnosis text you edited:</p>
    <button class="choice-btn" data-m="patient"><b>This patient only</b><br><small>Keep the edits in this report; templates stay unchanged.</small></button>
-   <button class="choice-btn" data-m="new"><b>Save as a new diagnosis template</b><br><small>Adds a new entry you can pick for future cases.</small></button>
+   <button class="choice-btn" data-m="new"><b>Save as a new template</b><br><small>Adds a new entry under <b>${esc(typeShort(R.type))}</b> with your text, sections, rows and sign-out.</small></button>
    <button class="choice-btn" data-m="over" ${cur?'':'disabled'}><b>Overwrite the existing template</b><br><small>${cur?'Replaces "'+esc(cur.name)+'" on this tablet.':'No diagnosis loaded.'}</small></button>
    <div class="actions"><button class="light" id="mcancel">Cancel</button></div>`;
   $('#modal').classList.remove('hidden'); $('#mcancel').onclick=()=>$('#modal').classList.add('hidden');
   $$('[data-m]').forEach(b=>b.onclick=async()=>{ const m=b.dataset.m; const sp=S.bundle.specimens.find(s=>s.id===R.specimenId);
     const tpl=base=>(typeOf(R.type)||{}).engine==='generic'?({...(base||{}),type:R.type,values:structuredClone(R.values),user:true,saved:new Date().toISOString()}):R.type==='ihc'?({...(base||{}),type:'ihc',block:structuredClone(R.block),results:structuredClone(R.results),scoring:structuredClone(R.scoring),controls:structuredClone(R.controls),impression:structuredClone(R.impression),comment:structuredClone(R.comment),user:true,saved:new Date().toISOString()})
       :({...(base||{}),micro:R.micro,finalDiagnosis:R.finalDiagnosis,comment:R.comment,cap:R.cap,layout:R.cap?'cap':'histo',user:true,saved:new Date().toISOString()});
-    if(m==='new'){ const name=prompt('Name for the new diagnosis template:',R.dxName?R.dxName+' (modified)':''); if(!name) return;
-      const d=tpl({id:uid('mydx'),name,nature:cur?.nature||(sp?.kind==='Cancer'?'Neoplastic':'Non-neoplastic'),path:cur?.path||(sp?sp.organ:''),userOrgan:sp?.organ||null}); await DB.put('diagnoses',d); R.dxId=d.id; R.dxName=name; }
+    const tpl0=tpl; const tplL=base=>({...tpl0(base),secLayout:R.secLayout?structuredClone(R.secLayout):null,signout:R.signout?structuredClone(R.signout):null});
+    if(m==='new'){ const name=prompt('Name for the new template (saved under '+typeShort(R.type)+'):',R.dxName?R.dxName+' (modified)':''); if(!name) return;
+      const d=tplL({id:uid('mydx'),name,nature:cur?.nature||(sp?.kind==='Cancer'?'Neoplastic':'Non-neoplastic'),path:cur?.path||(sp?sp.organ:''),userOrgan:sp?.organ||null}); await DB.put('diagnoses',d); R.dxId=d.id; R.dxName=name; }
     if(m==='over'&&cur){ if(!confirm('Overwrite "'+cur.name+'" for all future reports on this tablet?')) return;
-      const d=tpl(cur); d.overrides=!cur.user||!!cur.overrides; await DB.put('diagnoses',d); }
+      const d=tplL(cur); d.overrides=!cur.user||!!cur.overrides; await DB.put('diagnoses',d); }
     R.updated=new Date().toISOString(); await DB.put('reports',structuredClone(R)); S.userDx=await DB.all('diagnoses');
     $('#modal').classList.add('hidden'); toast(m==='patient'?'Report saved':m==='new'?'Report saved + new template added':'Report saved + template overwritten'); });
 }
@@ -206,6 +209,7 @@ function genericEditor(T){
   <div class="card"><h3>Diagnosis / case template</h3><input id="dxq" placeholder="Search ${cases.length} templates"><div id="dxl" class="dxlist" style="margin-top:8px"></div>
    <p class="hint" id="dxsel">${R.dxName?'Loaded: <b>'+esc(R.dxName)+'</b>':'Choosing one fills the sections below (all editable).'+(T.blankOnPick&&T.blankOnPick.length?' '+esc(T.blankOnPick.join(', ').toLowerCase())+' stay as you entered them.':'')}</p></div>
   ${T.schema.sections.map(secHtml).join('')}
+  <div id="layoutBox"></div>
   <div class="card actions" style="position:sticky;bottom:8px"><button id="save">Save…</button><button id="docx" class="alt">Download .docx</button><button id="prev" class="violet">Preview</button><button id="print" class="pink">Print / PDF</button></div>
   <div id="previewBox"></div>`;
   const sec=i=>T.schema.sections[+i].heading;
@@ -228,9 +232,9 @@ function genericEditor(T){
     if(has&&!confirm('Replace the report sections with "'+d.name+'"?')) return;
     const keep=Object.fromEntries((T.blankOnPick||[]).filter(h=>R.values[h]).map(h=>[h,R.values[h]]));
     const nv=structuredClone(d.values||{}); for(const h of (T.blankOnPick||[])) delete nv[h];
-    R.values={...nv,...keep}; R.dxId=d.id; R.dxName=d.name; genericEditor(T); toast('Template loaded'); };
+    R.values={...nv,...keep}; R.dxId=d.id; R.dxName=d.name; if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout); genericEditor(T); toast('Template loaded'); };
   $('#dxq').oninput=renderDx; renderDx();
-  $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+  layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
 }
 // ---------- IHC ----------
 const IHC_CLIN=['Specimen:','Procedure:','Clinical history:','Previous histopathology no. / Block no.:','Referring diagnosis:','Test requested:'];
@@ -255,6 +259,7 @@ function ihcEditor(){
   <div class="card"><h3>7 · Controls</h3>${CTRL.map(l=>`<label>${esc(l)}</label><textarea data-ck="${esc(l)}" style="min-height:50px">${esc(R.controls[l]||'')}</textarea>`).join('')}</div>
   <div class="card"><h3>8 · Impression &amp; comment</h3><label>IMPRESSION</label><textarea id="imp">${esc(itemsToText(R.impression))}</textarea>
    <label>Comment</label><textarea id="comment">${esc(itemsToText(R.comment))}</textarea><p class="hint">One paragraph per line. Text between ** ** prints bold.</p></div>
+  <div id="layoutBox"></div>
   <div class="card actions" style="position:sticky;bottom:8px"><button id="save">Save…</button><button id="docx" class="alt">Download .docx</button><button id="prev" class="violet">Preview</button><button id="print" class="pink">Print / PDF</button></div>
   <div id="previewBox"></div>`;
   $$('[data-h]').forEach(i=>i.oninput=()=>R.header[i.dataset.h]=i.value);
@@ -284,14 +289,101 @@ function ihcEditor(){
     if(R.results.some(r=>r.some(v=>v))&&!confirm('Replace the IHC sections with "'+d.name+'"?')) return;
     Object.assign(R,{dxId:d.id,dxName:d.name,block:{...Object.fromEntries(BLOCK.map(l=>[l,''])),...structuredClone(d.block||{})},results:structuredClone(d.results||[]),scoring:d.scoring?structuredClone(d.scoring):null,
       controls:{...Object.fromEntries(CTRL.map(l=>[l,''])),...structuredClone(d.controls||{})},impression:structuredClone(d.impression||[]),comment:structuredClone(d.comment||[])});
+    if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout);
     ihcEditor(); toast('Panel loaded'); };
   $('#dxq').oninput=renderDx; renderDx();
   $('#imp').oninput=e=>R.impression=textToItems(e.target.value); $('#comment').oninput=e=>R.comment=textToItems(e.target.value);
-  $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+  layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+}
+
+// ---------- sections, rows & sign-out (all report types) ----------
+const DEFAULT_DOCTORS=[{id:'doc-wajid',name:'Dr. Wajid Misbahudheen',lines:['Dr. WAJID MISBAHUDHEEN, MD','ASSOCIATE CONSULTANT (PATHOLOGY)','VMSH']},
+  {id:'doc-sansina',name:'Dr. Sansina',lines:['Dr. SANSINA N, MD','ASSOCIATE CONSULTANT (PATHOLOGY)','VMSH']}];
+async function loadDoctors(){ if(!(await DB.get('meta','doctorsSeeded'))){ for(const d of DEFAULT_DOCTORS) if(!(await DB.get('doctors',d.id))) await DB.put('doctors',d); await DB.put('meta',{id:'doctorsSeeded',at:new Date().toISOString()}); }
+  S.doctors=(await DB.all('doctors')).sort((a,b)=>a.name.localeCompare(b.name)); }
+function layoutBuf(){ const R=S.report; if(R.type==='ihc') return S.layouts.ihc; const T=typeOf(R.type); if(T&&T.engine==='generic') return S.layouts[T.id]; return S.layouts[R.cap&&R.cap.sections?.length?'cap':'histo']; }
+function reconcileLayout(D){ const R=S.report; const L=R.secLayout=(R.secLayout&&R.secLayout.secs)?R.secLayout:{secs:[]}; const hs=D.sections.map(s=>s.heading);
+  L.secs=L.secs.filter(s=>s.src==null||hs.includes(s.src));
+  hs.forEach((h,i)=>{ if(!L.secs.some(s=>s.src===h)){ const prev=hs.slice(0,i).reverse().find(x=>L.secs.some(s=>s.src===x)); const at=prev?L.secs.findIndex(s=>s.src===prev)+1:0; L.secs.splice(at,0,{src:h,heading:h,del:[],add:[]}); } });
+  return L; }
+const colsOf=(s,D)=>{ if(s.src==null) return (DocxFill.SECTION_TYPES.find(t=>t.id===s.type)||{widths:[1]}).widths.length; const d=D.sections.find(x=>x.heading===s.src); const r=d.rows[d.rows.length-1]; return r?r.cells:d.cols; };
+function layoutCard(box){
+  const R=S.report; let D; try{ D=DocxFill.describe(layoutBuf()); }catch(e){ box.innerHTML=''; return; }
+  const L=reconcileLayout(D); const ST=DocxFill.SECTION_TYPES;
+  const sec=(s,i)=>{ const d=s.src!=null?D.sections.find(x=>x.heading===s.src):null; const n=colsOf(s,D);
+    const tname=s.src==null?(ST.find(t=>t.id===s.type)||ST[0]).name:'from template';
+    return `<div class="lsec ${s.removed?'removed':''}"><div class="row"><input class="lhead" data-lh="${i}" value="${esc(s.heading)}" ${s.removed?'disabled':''}>
+      <button class="small light" data-lu="${i}" style="flex:0 0 auto" ${i?'':'disabled'}>↑</button><button class="small light" data-ld="${i}" style="flex:0 0 auto" ${i<L.secs.length-1?'':'disabled'}>↓</button>
+      <button class="small ${s.removed?'alt':'danger'}" data-lrm="${i}" style="flex:0 0 auto">${s.removed?'Restore section':'Remove section'}</button></div>
+      <small class="hint">${esc(tname)} · ${n} column${n>1?'s':''}</small>
+      ${s.removed?'':`${d?d.rows.map((r,j)=>{const del=(s.del||[]).includes(j);return `<div class="lrow ${del?'del':''}"><span>${esc(r.text||'(empty row – filled above)')}</span><button class="small ${del?'alt':'danger'}" data-ldel="${i}.${j}">${del?'Undo':'Delete row'}</button></div>`;}).join(''):''}
+      ${(s.add||[]).map((r,k)=>`<div class="lrow add" style="grid-template-columns:repeat(${n},1fr) auto">${Array.from({length:n},(_,c)=>`<textarea data-lc="${i}.${k}.${c}" placeholder="${n>1?'Column '+(c+1):'New row – **bold** works'}">${esc(r[c]||'')}</textarea>`).join('')}<button class="small danger" data-lrx="${i}.${k}">✕</button></div>`).join('')}
+      <div class="actions"><button class="small light" data-lra="${i}">+ Add row</button><button class="small violet" data-las="${i}">+ Add section below</button></div>`}</div>`; };
+  box.innerHTML=`<div class="card"><h3>Sections &amp; rows</h3><p class="hint">Add or delete rows, add/remove/move sections, rename headings (always printed in CAPITALS, bold). The last row of each section keeps its thin bottom line. Text between ** ** prints bold.</p>
+    <div class="actions"><button class="small violet" data-las="-1">+ Add section at top</button></div>${L.secs.map(sec).join('')}</div><div id="signoutBox"></div>`;
+  const ij=k=>k.split('.').map(Number); const re=()=>layoutCard(box);
+  $$('[data-lh]',box).forEach(e=>e.oninput=()=>{ const v=e.value.toUpperCase(); if(v!==e.value){const p=e.selectionStart; e.value=v; e.setSelectionRange(p,p);} L.secs[+e.dataset.lh].heading=v; });
+  $$('[data-lu]',box).forEach(e=>e.onclick=()=>{const i=+e.dataset.lu; [L.secs[i-1],L.secs[i]]=[L.secs[i],L.secs[i-1]]; re();});
+  $$('[data-ld]',box).forEach(e=>e.onclick=()=>{const i=+e.dataset.ld; [L.secs[i+1],L.secs[i]]=[L.secs[i],L.secs[i+1]]; re();});
+  $$('[data-lrm]',box).forEach(e=>e.onclick=()=>{const s=L.secs[+e.dataset.lrm]; if(s.src==null&&!s.removed){ if(confirm('Remove the section "'+s.heading+'"?')) L.secs.splice(+e.dataset.lrm,1); } else s.removed=!s.removed; re();});
+  $$('[data-ldel]',box).forEach(e=>e.onclick=()=>{const[i,j]=ij(e.dataset.ldel); const s=L.secs[i]; s.del=s.del||[]; const d=D.sections.find(x=>x.heading===s.src);
+    if(s.del.includes(j)) s.del=s.del.filter(x=>x!==j); else { if(d&&s.del.length+1>=d.rows.length&&!(s.add||[]).length){ toast('A section needs at least one row – add a row first'); return; } s.del.push(j); } re();});
+  $$('[data-lc]',box).forEach(e=>e.oninput=()=>{const[i,k,c]=ij(e.dataset.lc); L.secs[i].add[k][c]=e.value;});
+  $$('[data-lrx]',box).forEach(e=>e.onclick=()=>{const[i,k]=ij(e.dataset.lrx); const s=L.secs[i]; const d=s.src!=null?D.sections.find(x=>x.heading===s.src):null; const left=(d?d.rows.length-(s.del||[]).length:0)+s.add.length-1;
+    if(left<1){ toast('A section needs at least one row'); return; } s.add.splice(k,1); re();});
+  $$('[data-lra]',box).forEach(e=>e.onclick=()=>{const s=L.secs[+e.dataset.lra]; s.add=s.add||[]; s.add.push(Array(colsOf(s,D)).fill('')); re();});
+  $$('[data-las]',box).forEach(e=>e.onclick=()=>addSectionDialog(+e.dataset.las,L,re));
+  signoutCard($('#signoutBox',box),D);
+}
+function addSectionDialog(after,L,done){
+  const ST=DocxFill.SECTION_TYPES;
+  $('#modalBody').innerHTML=`<h3>Add section</h3><label>Heading</label><input id="nsh" placeholder="E.G. SPECIAL STAINS" style="text-transform:uppercase;font-weight:700">
+   <label>Section type</label>${ST.map((t,i)=>`<button class="choice-btn ${i?'':'sel'}" data-st="${t.id}"><b>${esc(t.name)}</b><div class="colprev">${t.widths.map(w=>`<span style="flex:${w}"></span>`).join('')}</div></button>`).join('')}
+   <div class="actions"><button id="nsok">Add section</button><button class="light" id="mcancel">Cancel</button></div>`;
+  $('#modal').classList.remove('hidden'); let type=ST[0].id;
+  $$('[data-st]').forEach(b=>b.onclick=()=>{ type=b.dataset.st; $$('[data-st]').forEach(x=>x.classList.toggle('sel',x===b)); });
+  $('#mcancel').onclick=()=>$('#modal').classList.add('hidden');
+  $('#nsok').onclick=()=>{ const h=$('#nsh').value.trim().toUpperCase(); if(!h){ toast('Type a heading'); return; } const n=ST.find(t=>t.id===type).widths.length;
+    L.secs.splice(after+1,0,{src:null,type,heading:h,add:[Array(n).fill('')]}); $('#modal').classList.add('hidden'); done(); };
+}
+function signoutCard(box,D){
+  const R=S.report; const docs=S.doctors||[]; const byId=id=>docs.find(d=>d.id===id);
+  if(!R.signout){ R.signout={n:2,d1:'doc-sansina',d2:'doc-wajid'}; }
+  const so=R.signout; const resolve=()=>{ const a=byId(so.d1), b=byId(so.d2);
+    if(so.n===1){ so.left=['CHECKED BY']; so.right=a?a.lines.slice():(so.right||[]); } else { so.left=a?a.lines.slice():(so.left||[]); so.right=b?b.lines.slice():(so.right||[]); } };
+  resolve();
+  const opts=sel=>`<option value="">— choose doctor —</option>`+docs.map(d=>`<option value="${d.id}" ${d.id===sel?'selected':''}>${esc(d.name)}</option>`).join('');
+  const prevCol=lines=>`<div class="socol">${(lines||[]).map(l=>`<div>${esc(l)}</div>`).join('')||'&nbsp;'}</div>`;
+  box.innerHTML=`<div class="card"><h3>Sign-out</h3><div class="actions"><span class="hint" style="margin:0">Doctors signing:</span><button class="small ${so.n===1?'':'light'}" data-son="1">1 doctor</button><button class="small ${so.n===2?'':'light'}" data-son="2">2 doctors</button></div>
+    ${so.n===2?`<div class="grid"><div><label>Doctor 1 (left)</label><select data-sod="d1">${opts(so.d1)}</select></div><div><label>Doctor 2 (right)</label><select data-sod="d2">${opts(so.d2)}</select></div></div>`
+      :`<div class="grid"><div><label>Left</label><input value="CHECKED BY" disabled></div><div><label>Signing doctor (right)</label><select data-sod="d1">${opts(so.d1)}</select></div></div>`}
+    <div class="soprev">${prevCol(so.left)}<div class="socol mid"></div>${prevCol(so.right)}</div>
+    <div class="actions"><button class="small light" id="mandoc">Manage doctors…</button></div></div>`;
+  const re=()=>signoutCard(box,D);
+  $$('[data-son]',box).forEach(b=>b.onclick=()=>{ const n=+b.dataset.son; if(n===so.n) return; if(n===1){ so.d1=so.d2||so.d1; } else { so.d2=so.d1; so.d1=docs.find(d=>d.id!==so.d2)?.id||''; } so.n=n; re(); });
+  $$('[data-sod]',box).forEach(e=>e.onchange=()=>{ so[e.dataset.sod]=e.value; re(); });
+  $('#mandoc',box).onclick=()=>doctorsDialog(re);
+}
+function doctorsDialog(done){
+  const render=()=>{ const docs=S.doctors||[];
+    $('#modalBody').innerHTML=`<h3>Doctors (sign-out)</h3><p class="hint">Saved on this tablet only; never erased by Update templates.</p>
+     <div class="list">${docs.map(d=>`<div class="item"><div><b>${esc(d.name)}</b><br><small class="hint">${d.lines.map(esc).join(' · ')}</small></div><div class="actions"><button class="small light" data-de="${d.id}">Edit</button><button class="small danger" data-dd="${d.id}">Delete</button></div></div>`).join('')||'<p class="hint">No doctors.</p>'}</div>
+     <div class="actions"><button class="small violet" id="dadd">+ Add doctor</button><button class="light" id="mclose">Done</button></div>`;
+    $('#mclose').onclick=()=>{ $('#modal').classList.add('hidden'); done(); };
+    $('#dadd').onclick=()=>edit(null);
+    $$('[data-de]').forEach(b=>b.onclick=()=>edit(docs.find(d=>d.id===b.dataset.de)));
+    $$('[data-dd]').forEach(b=>b.onclick=async()=>{ const d=docs.find(x=>x.id===b.dataset.dd); if(!confirm('Delete '+d.name+'?')) return; await DB.del('doctors',d.id); await loadDoctors(); render(); }); };
+  const edit=d=>{ $('#modalBody').innerHTML=`<h3>${d?'Edit':'Add'} doctor</h3><label>Name (for the picker)</label><input id="dn" value="${esc(d?.name||'')}" placeholder="Dr. …">
+     <label>Sign-out lines (one per line, printed bold and centred)</label><textarea id="dl" style="min-height:110px" placeholder="Dr. NAME, MD&#10;DESIGNATION&#10;HOSPITAL">${esc((d?.lines||[]).join('\n'))}</textarea>
+     <div class="actions"><button id="dsave">Save</button><button class="light" id="dback">Back</button></div>`;
+    $('#dback').onclick=render;
+    $('#dsave').onclick=async()=>{ const name=$('#dn').value.trim(); const lines=$('#dl').value.split('\n').map(x=>x.trim()).filter(Boolean); if(!name){toast('Type a name');return;}
+      await DB.put('doctors',{id:d?.id||uid('doc'),name,lines:lines.length?lines:[name]}); await loadDoctors(); render(); }; };
+  $('#modal').classList.remove('hidden'); render();
 }
 // ---------- boot ----------
 $('#navHome').onclick=home; $('#navReports').onclick=reportsScreen; $('#navData').onclick=dataScreen;
-(async()=>{ try{ await loadBundle(false); home(); }catch(e){ app.innerHTML=`<div class="card"><h3>Templates not loaded</h3><p>${esc(e.message)}. Connect to the internet once to download the templates.</p></div>`; } })();
+(async()=>{ try{ await loadBundle(false); try{ await loadDoctors(); }catch(e){ S.doctors=DEFAULT_DOCTORS; } home(); }catch(e){ app.innerHTML=`<div class="card"><h3>Templates not loaded</h3><p>${esc(e.message)}. Connect to the internet once to download the templates.</p></div>`; } })();
 if('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}); let rl=false; navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(!rl){rl=true; location.reload();} }); }
 if(navigator.storage&&navigator.storage.persist) navigator.storage.persist();
 })();
