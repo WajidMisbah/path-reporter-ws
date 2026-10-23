@@ -136,13 +136,24 @@ function buildCap(doc,t,title,sections){
   if(lastB){ const tcw=kid(tcpr,'tcW'); tcpr.insertBefore(lastB,tcw?tcw.nextSibling:tcpr.firstChild); }
 }
 function fillHeader(doc,root,fields){
-  const norm=s=>s.trim().replace(/:$/,'').trim().toLowerCase();
+  // Supports both header layouts: (a) old = "Label:" cell + empty value cell to its right;
+  // (b) new (Oct 2026) = "Label: " and the value in the same cell. Label match ignores case, ':' and '.' (Dept./Ward = Dept/Ward).
+  const key=s=>s.toLowerCase().replace(/[:.]/g,'').replace(/\s*\/\s*/g,'/').replace(/\s+/g,' ').trim();
+  const F={}; for(const k of Object.keys(fields)) F[key(k)]=fields[k];
   for(const t of desc(root,'tbl')) for(const tr of rows(t)){
-    const cs=cells(tr);
-    for(let i=0;i<cs.length-1;i++){
-      const k=norm(text(cs[i])); if(!k) continue;
-      if(k in fields && text(cs[i+1]).trim()===''){ appendValue(doc,desc(cs[i+1],'p')[0],fields[k]||''); }
+    const cs=cells(tr); let filled=false;
+    for(let i=0;i<cs.length;i++){
+      for(const p of paras(cs[i])){
+        const raw=text(p); const m=raw.match(/^\s*([^:]+):\s*$/); if(!m) continue;
+        const k=key(m[1]); if(!(k in F)) continue;
+        const v=F[k]||''; filled=true;
+        if(paras(cs[i]).length===1 && i+1<cs.length && text(cs[i+1]).trim()===''){ appendValue(doc,desc(cs[i+1],'p')[0],v); continue; }
+        const lr=kids(p,'r').find(r=>desc(r,'t').some(x=>x.textContent.trim()));
+        const rpr=stripBold(lr?kid(lr,'rPr'):null); dropTrailingSpaceRuns(p);
+        if(v) p.appendChild(mkrun(doc,(text(p).endsWith(' ')?'':' ')+v,rpr));
+      }
     }
+    if(filled){ const trh=desc(tr,'trHeight')[0]; if(trh&&trh.getAttributeNS(W,'hRule')==='exact') trh.setAttributeNS(W,'w:hRule','atLeast'); }
   }
 }
 

@@ -62,3 +62,10 @@ Stored in `secLayout.secs[].img` as `{"t.<tplRow>.<col>"|"a.<addedRow>.<col>": {
   header, ids, dates, clinical values, IHC block values, `blankOnPick`/CLINICAL DETAILS values and image photos (image cells kept as placeholders `{w,h}`).
   Reports keep `type`=base engine plus `utype`/`utypeName`; templates saved under it get `utype` and are listed only there. Home shows a dashed card per type;
   rename/delete in *Templates & backup* (delete removes the type and its templates, never reports). Never touched by Update templates; in backups. Test: `test/e2e_titles.py`.
+
+### Header layout (2026-10-24)
+* Basic Templates use a new header table: label and value share one cell (`Name: value`), value runs non-bold; label is **Dept./Ward:**.
+  `fillHeader` in `docs/js/docx.js` handles both the new single-cell layout and the old label-cell/value-cell layout, and accepts
+  `Dept./Ward` and `Dept/Ward`. Rows are kept from wrapping (no-wrap value runs, fixed widths). Filename rule is unchanged.
+* Tests: `test/hdrcheck.py` (template header structure, unique paraIds), `test/e2e_header.py` + `test/header_layouts.js` (fill both layouts).
+* SW cache `prws-shell-v15`.

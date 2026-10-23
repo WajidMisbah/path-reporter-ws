@@ -1,7 +1,7 @@
 {
 "app": "Path Reporter WS",
-"version": "20261023230633",
-"generated": "2026-10-23T23:06:33",
+"version": "20261024001130",
+"generated": "2026-10-24T00:11:30",
 "layouts": {
 "histo": "templates/histopathology.dotx",
 "cap": "templates/cancer-cap.dotx",
