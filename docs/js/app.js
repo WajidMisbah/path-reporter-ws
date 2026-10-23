@@ -318,8 +318,8 @@ function layoutCard(box){
       <button class="small light" data-lu="${i}" style="flex:0 0 auto" ${i?'':'disabled'}>↑</button><button class="small light" data-ld="${i}" style="flex:0 0 auto" ${i<L.secs.length-1?'':'disabled'}>↓</button>
       <button class="small ${s.removed?'alt':'danger'}" data-lrm="${i}" style="flex:0 0 auto">${s.removed?'Restore section':'Remove section'}</button></div>
       <small class="hint">${esc(tname)} · ${n} column${n>1?'s':''}</small>
-      ${s.removed?'':`${d?d.rows.map((r,j)=>{const del=(s.del||[]).includes(j);return `<div class="lrow ${del?'del':''}"><span>${esc(r.text||'(empty row – filled above)')}</span><button class="small ${del?'alt':'danger'}" data-ldel="${i}.${j}">${del?'Undo':'Delete row'}</button></div>`;}).join(''):''}
-      ${(s.add||[]).map((r,k)=>`<div class="lrow add" style="grid-template-columns:repeat(${n},1fr) auto">${Array.from({length:n},(_,c)=>`<textarea data-lc="${i}.${k}.${c}" placeholder="${n>1?'Column '+(c+1):'New row – **bold** works'}">${esc(r[c]||'')}</textarea>`).join('')}<button class="small danger" data-lrx="${i}.${k}">✕</button></div>`).join('')}
+      ${s.removed?'':`${d?d.rows.map((r,j)=>{const del=(s.del||[]).includes(j);return `<div class="lrow ${del?'del':''}"><span>${esc(r.text||'(empty row – filled above)')}</span><button class="small ${del?'alt':'danger'}" data-ldel="${i}.${j}">${del?'Undo':'Delete row'}</button></div>${del?'':`<div class="imgcells">${Array.from({length:r.cells||1},(_,c)=>imgCtl(s,'t.'+j+'.'+c,i,(r.cells||1)>1?'Column '+(c+1):'Cell')).join('')}</div>`}`;}).join(''):''}
+      ${(s.add||[]).map((r,k)=>`<div class="lrow add" style="grid-template-columns:repeat(${n},1fr) auto">${Array.from({length:n},(_,c)=>`<div class="lcell">${(s.img||{})['a.'+k+'.'+c]?'':`<textarea data-lc="${i}.${k}.${c}" placeholder="${n>1?'Column '+(c+1):'New row – **bold** works'}">${esc(r[c]||'')}</textarea>`}${imgCtl(s,'a.'+k+'.'+c,i,'')}</div>`).join('')}<button class="small danger" data-lrx="${i}.${k}">✕</button></div>`).join('')}
       <div class="actions"><button class="small light" data-lra="${i}">+ Add row</button><button class="small violet" data-las="${i}">+ Add section below</button></div>`}</div>`; };
   box.innerHTML=`<div class="card"><h3>Sections &amp; rows</h3><p class="hint">Add or delete rows, add/remove/move sections, rename headings (always printed in CAPITALS, bold). The last row of each section keeps its thin bottom line. Text between ** ** prints bold.</p>
     <div class="actions"><button class="small violet" data-las="-1">+ Add section at top</button></div>${L.secs.map(sec).join('')}</div><div id="signoutBox"></div>`;
@@ -332,11 +332,26 @@ function layoutCard(box){
     if(s.del.includes(j)) s.del=s.del.filter(x=>x!==j); else { if(d&&s.del.length+1>=d.rows.length&&!(s.add||[]).length){ toast('A section needs at least one row – add a row first'); return; } s.del.push(j); } re();});
   $$('[data-lc]',box).forEach(e=>e.oninput=()=>{const[i,k,c]=ij(e.dataset.lc); L.secs[i].add[k][c]=e.value;});
   $$('[data-lrx]',box).forEach(e=>e.onclick=()=>{const[i,k]=ij(e.dataset.lrx); const s=L.secs[i]; const d=s.src!=null?D.sections.find(x=>x.heading===s.src):null; const left=(d?d.rows.length-(s.del||[]).length:0)+s.add.length-1;
-    if(left<1){ toast('A section needs at least one row'); return; } s.add.splice(k,1); re();});
+    if(left<1){ toast('A section needs at least one row'); return; } s.add.splice(k,1); if(s.img){ const o=s.img; s.img={}; for(const key in o){ const[a,r,c]=key.split('.'); if(a!=='a') s.img[key]=o[key]; else if(+r<k) s.img[key]=o[key]; else if(+r>k) s.img['a.'+(r-1)+'.'+c]=o[key]; } } re();});
   $$('[data-lra]',box).forEach(e=>e.onclick=()=>{const s=L.secs[+e.dataset.lra]; s.add=s.add||[]; s.add.push(Array(colsOf(s,D)).fill('')); re();});
   $$('[data-las]',box).forEach(e=>e.onclick=()=>addSectionDialog(+e.dataset.las,L,re));
+  $$('[data-imgk]',box).forEach(e=>e.onclick=async()=>{ const s=L.secs[+e.dataset.imgs]; const k=e.dataset.imgk; const act=e.dataset.imga;
+    if(act==='text'){ if(s.img){ delete s.img[k]; } re(); return; }
+    const f=await pickImage(e.dataset.cam==='1'); if(!f) return; try{ const im=await shrinkImage(f); s.img=s.img||{}; s.img[k]=im; re(); }catch(err){ toast('Could not read that image'); } });
   signoutCard($('#signoutBox',box),D);
 }
+
+// ---------- image cells ----------
+function imgCtl(s,k,i,label){ const im=(s.img||{})[k]; const L=label?esc(label)+': ':'';
+  if(im) return `<div class="imgctl"><img src="${im.data}" alt=""><span class="hint">${L}image cell</span><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick">Change</button><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" data-cam="1">📷</button><button class="small alt" data-imgs="${i}" data-imgk="${k}" data-imga="text">Text cell</button></div>`;
+  return `<div class="imgctl off">${label?`<span class="hint">${L}text</span>`:''}<button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" title="Make this an image cell (gallery)">🖼 Image</button><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" data-cam="1" title="Take a photo">📷</button></div>`; }
+function pickImage(camera){ return new Promise(res=>{ const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; if(camera) inp.setAttribute('capture','environment');
+  inp.onchange=()=>res(inp.files&&inp.files[0]||null); inp.style.display='none'; document.body.appendChild(inp); inp.click(); setTimeout(()=>inp.remove(),60000); }); }
+async function shrinkImage(file,max=1600,q=0.85){ // EXIF orientation respected by createImageBitmap/img (from-image)
+  let src; try{ src=await createImageBitmap(file,{imageOrientation:'from-image'}); }catch(e){ src=await new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=URL.createObjectURL(file); }); }
+  const w0=src.width||src.naturalWidth, h0=src.height||src.naturalHeight; const sc=Math.min(1,max/Math.max(w0,h0)); const w=Math.max(1,Math.round(w0*sc)), h=Math.max(1,Math.round(h0*sc));
+  const c=document.createElement('canvas'); c.width=w; c.height=h; const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,w,h); x.drawImage(src,0,0,w,h);
+  return {data:c.toDataURL('image/jpeg',q),w,h}; }
 function addSectionDialog(after,L,done){
   const ST=DocxFill.SECTION_TYPES;
   $('#modalBody').innerHTML=`<h3>Add section</h3><label>Heading</label><input id="nsh" placeholder="E.G. SPECIAL STAINS" style="text-transform:uppercase;font-weight:700">

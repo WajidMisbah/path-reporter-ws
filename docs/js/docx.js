@@ -218,6 +218,39 @@ function newSection(doc,type,heading,rowsVals){
   rv.forEach(v=>addRowTo(doc,t,v,n>1));
   return t;
 }
+
+// ---------- image cells ----------
+// s.img = {"a.<addedRow>.<col>":{data:'data:image/jpeg;base64,..',w,h}, "t.<templateRow>.<col>":{...}}
+const IMG_GAP=57; // twips = 1.0 mm minimum gap from every cell border
+const WP='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing', AA='http://schemas.openxmlformats.org/drawingml/2006/main', PIC='http://schemas.openxmlformats.org/drawingml/2006/picture', RR='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+function tblMar(tc,side){ // effective cell margin (twips): tcMar > tblCellMar > Word default (108 left/right, 0 top/bottom)
+  const pr=kid(tc,'tcPr'); const m=pr&&kid(pr,'tcMar'); const get=e=>{ if(!e) return null; const x=kid(e,side)||kid(e,side==='left'?'start':side==='right'?'end':side); return x?+x.getAttributeNS(W,'w'):null; };
+  let v=get(m); if(v!=null) return v; let t=tc.parentNode&&tc.parentNode.parentNode; const tp=t&&kid(t,'tblPr'); v=get(tp&&kid(tp,'tblCellMar')); if(v!=null) return v;
+  return (side==='left'||side==='right')?108:0; }
+function setImageCell(doc,tc,im){
+  if(!im||!im.data) return; const pr=kid(tc,'tcPr'); const tw=pr&&kid(pr,'tcW'); const cw=tw?+tw.getAttributeNS(W,'w'):0; if(!cw) return;
+  const mar={}; for(const sd of ['top','left','bottom','right']) mar[sd]=Math.max(tblMar(tc,sd),IMG_GAP);
+  let m=kid(pr,'tcMar'); if(m) pr.removeChild(m);
+  m=frag(doc,`<w:tcMar>${['top','left','bottom','right'].map(sd=>`<w:${sd} w:w="${mar[sd]}" w:type="dxa"/>`).join('')}</w:tcMar>`);
+  const after=['tcFitText','vAlign','hideMark','headers','cellIns','cellDel','cellMerge','tcPrChange']; let ref=null; for(const c of Array.from(pr.childNodes)) if(c.nodeType===1&&after.includes(c.localName)){ref=c;break;} pr.insertBefore(m,ref);
+  const tr=tc.parentNode; const trPr=tr&&kid(tr,'trPr'); const th=trPr&&kid(trPr,'trHeight'); if(th&&th.getAttributeNS(W,'hRule')==='exact') th.setAttributeNS(W,'w:hRule','atLeast');
+  const wTw=cw-mar.left-mar.right; let cx=Math.round(wTw*635), cy=Math.round(cx*(im.h||1)/(im.w||1)); const MAXH=22*360000; if(cy>MAXH){ cx=Math.round(cx*MAXH/cy); cy=MAXH; }
+  const ps=paras(tc); const p=ps[0]; ps.slice(1).forEach(x=>tc.removeChild(x)); Array.from(p.childNodes).forEach(n=>{ if(!(n.nodeType===1&&n.localName==='pPr')) p.removeChild(n); });
+  let ppr=kid(p,'pPr'); if(ppr) p.removeChild(ppr);
+  p.insertBefore(frag(doc,`<w:pPr><w:keepNext/><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="center"/></w:pPr>`),p.firstChild);
+  const L=doc._imgs=doc._imgs||[]; const n=L.length+1; const rid='rIdPrwsImg'+n; L.push({rid,n,data:im.data});
+  const d=new DOMParser().parseFromString(`<w:r xmlns:w="${W}" xmlns:wp="${WP}" xmlns:a="${AA}" xmlns:pic="${PIC}" xmlns:r="${RR}"><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="${9000+n}" name="Image ${n}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic><a:graphicData uri="${PIC}"><pic:pic><pic:nvPicPr><pic:cNvPr id="${9000+n}" name="image${n}.jpeg"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r>`,'application/xml');
+  p.appendChild(doc.importNode(d.documentElement,true));
+}
+function embedImages(zip,doc){
+  const L=doc._imgs||[]; if(!L.length) return;
+  const rp='word/_rels/document.xml.rels'; let rels=zip.file(rp).asText();
+  L.forEach(x=>{ const m=/^data:image\/(\w+);base64,(.*)$/.exec(x.data); const ext=m&&m[1]==='png'?'png':'jpeg'; x.target='media/prws_img'+x.n+'.'+ext; zip.file('word/'+x.target,m?m[2]:'',{base64:true});
+    rels=rels.replace('</Relationships>',`<Relationship Id="${x.rid}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="${x.target}"/></Relationships>`); });
+  zip.file(rp,rels); let ct=zip.file('[Content_Types].xml').asText();
+  for(const [e,t] of [['jpeg','image/jpeg'],['png','image/png']]) if(!new RegExp('Extension="'+e+'"','i').test(ct)) ct=ct.replace('<Override',`<Default Extension="${e}" ContentType="${t}"/><Override`);
+  zip.file('[Content_Types].xml',ct);
+}
 function capture(body){ const ts=topTables(body); return {tables:ts.slice(0,-1).map(t=>({t,h:text(rows(t)[0]).trim(),rows:rows(t).slice(1)})),signout:ts[ts.length-1]}; }
 function applySignout(doc,so,S){
   if(!so||!S||!S.n) return; const tr=rows(so)[rows(so).length-1]; const cs=cells(tr); if(cs.length<3) return;
@@ -248,9 +281,10 @@ function applyLayout(doc,body,pre,R){
       const dels=(s.del||[]).map(i=>x.rows[i]).filter(r=>r&&r.parentNode===t);
       if(dels.length){ const topB=cells(x.rows[0]||rows(t)[1]||rows(t)[0]).map(tc=>getBorder(tc,'top'));
         dels.forEach(r=>t.removeChild(r)); const r1=rows(t)[1]; if(r1&&topB[0]===18) cells(r1).forEach(tc=>setBorder(doc,tc,'top',18)); fixLast(doc,t); }
-      (s.add||[]).forEach(v=>addRowTo(doc,t,v,multi));
+      const IM=s.img||{}; Object.keys(IM).forEach(k=>{ const[a,j,c]=k.split('.'); if(a!=='t') return; const r=x.rows[+j]; if(r&&r.parentNode===t){ const tc=cells(r)[+c]; if(tc) setImageCell(doc,tc,IM[k]); } });
+      (s.add||[]).forEach((v,k)=>{ const tr=addRowTo(doc,t,v,multi); cells(tr).forEach((tc,c)=>{ if(IM['a.'+k+'.'+c]) setImageCell(doc,tc,IM['a.'+k+'.'+c]); }); });
       if(s.heading!=null&&s.heading.trim()&&s.heading.trim()!==s.src) setHeading(doc,t,s.heading);
-    } else { if(s.removed) continue; t=newSection(doc,s.type,s.heading,s.add); const sp=sepProto?stripW14(sepProto.cloneNode(true)):wel(doc,'p'); b=[t,sp]; }
+    } else { if(s.removed) continue; t=newSection(doc,s.type,s.heading,s.add); const IM=s.img||{}; rows(t).slice(1).forEach((tr,k)=>cells(tr).forEach((tc,c)=>{ if(IM['a.'+k+'.'+c]) setImageCell(doc,tc,IM['a.'+k+'.'+c]); })); const sp=sepProto?stripW14(sepProto.cloneNode(true)):wel(doc,'p'); b=[t,sp]; }
     for(const n of b) parent.insertBefore(n,startMark);
   }
   // template sections the layout does not mention stay (in their original order) after the listed ones
@@ -271,7 +305,7 @@ function buildDocx(templateBuf,report){
   fillCellParas(doc,cells(rows(table(body,'FINAL DIAGNOSIS'))[1])[0],report.finalDiagnosis||[]);
   fillCellParas(doc,cells(rows(table(body,'COMMENT'))[1])[0],report.comment||[]);
   applyLayout(doc,body,pre,report);
-  zip.file('word/document.xml',ser(doc));
+  embedImages(zip,doc); zip.file('word/document.xml',ser(doc));
   for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){
     const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,report.header||{}); zip.file(f,ser(h)); } }
   const ct=zip.file('[Content_Types].xml').asText(); zip.file('[Content_Types].xml',ct.replace(DOTX_CT,DOCX_CT));
@@ -324,7 +358,7 @@ function buildIhcDocx(templateBuf,R){
   fillFree(doc,table(body,'IMPRESSION'),(R.impression||[]).map(i=>i.label?[[i.label.endsWith(' ')?i.label:i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
   fillFree(doc,table(body,'COMMENT'),(R.comment||[]).map(i=>i.label?[[i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
   applyLayout(doc,body,pre,R);
-  zip.file('word/document.xml',ser(doc));
+  embedImages(zip,doc); zip.file('word/document.xml',ser(doc));
   for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){ const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,R.header||{}); zip.file(f,ser(h)); } }
   zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
   return zip.generate({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
@@ -355,11 +389,11 @@ function buildGenericDocx(templateBuf,R,schema){
     }
   }
   applyLayout(doc,body,pre,R);
-  zip.file('word/document.xml',ser(doc));
+  embedImages(zip,doc); zip.file('word/document.xml',ser(doc));
   for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){ const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,R.header||{}); zip.file(f,ser(h)); } }
   zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
   return zip.generate({type:typeof window!=='undefined'?'blob':'nodebuffer',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
 }
-const API={buildDocx,buildIhcDocx,buildGenericDocx,describe,SECTION_TYPES};
+const API={IMG_GAP,buildDocx,buildIhcDocx,buildGenericDocx,describe,SECTION_TYPES};
 if(typeof window!=='undefined') window.DocxFill=API; if(typeof module!=='undefined') module.exports=API;
 })();

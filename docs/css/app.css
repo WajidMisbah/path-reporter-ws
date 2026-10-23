@@ -80,3 +80,9 @@ section.docx header table{border:0.5pt solid #000!important;border-bottom:1.5pt 
 .choice-btn.sel{outline:3px solid #2E3192}
 .soprev{display:grid;grid-template-columns:4223fr 1407fr 4224fr;gap:6px;margin:10px 0;padding:10px;border:1px dashed #c8cbe0;border-radius:10px;background:#fff}
 .socol{text-align:center;font-weight:700;font-size:12px;font-family:Tinos,'Times New Roman',serif}
+
+.imgcells{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 6px}
+.lcell{display:flex;flex-direction:column;gap:4px}
+.imgctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.imgctl img{max-width:120px;max-height:90px;border:1px solid #ccd;border-radius:4px;object-fit:contain;background:#fff}
+.imgctl .small{padding:4px 8px}

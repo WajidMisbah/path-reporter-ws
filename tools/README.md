@@ -48,3 +48,8 @@ Optional: give it a nicer name/description/order by adding an entry to `tools/re
   one empty paragraph between tables; sectPr/header/footer untouched.
 * `R.signout = {n:1|2, left:[lines], right:[lines]}` rewrites only the text of the last row of the End-of-Report table (widths 4223/1407/4224 kept).
 * IndexedDB v2 adds store `doctors` (never touched by Update templates; included in backups). Tests: `test/e2e_layout.py`.
+
+## Image cells (app v12)
+Any cell listed in *Sections & rows* (template rows and added rows, all report types) can be switched to an image cell (🖼 gallery / 📷 camera) and back (*Text cell*).
+Stored in `secLayout.secs[].img` as `{"t.<tplRow>.<col>"|"a.<addedRow>.<col>": {data:<JPEG dataURL ≤1600px, q0.85>, w, h}}` – so it lives in reports, saved templates and backups (no new store, no DB upgrade).
+`docx.js` → `setImageCell()`: tcW kept; tcMar = max(template margin, 57 twips = 1 mm) on all sides; inline DrawingML picture, width = tcW − left − right margin, height by aspect ratio (cap 22 cm); paragraph centred; `exact` row height → `atLeast`. `embedImages()` adds `word/media/prws_img*.jpeg`, rels and the jpeg content type. Test: `test/e2e_images.py`.
