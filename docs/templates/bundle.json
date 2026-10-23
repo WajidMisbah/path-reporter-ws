@@ -1,7 +1,7 @@
 {
 "app": "Path Reporter WS",
-"version": "20261022221046",
-"generated": "2026-10-22T22:10:46",
+"version": "20261023191239",
+"generated": "2026-10-23T19:12:39",
 "layouts": {
 "histo": "templates/histopathology.dotx",
 "cap": "templates/cancer-cap.dotx",
@@ -36935,6 +36935,300 @@ null
 }
 ],
 "sections": "A1 proximal shaft margin (en face, incl. urethra and corpora); A2-A5 tumour full thickness with deepest invasion; A6 tumour with urethral meatus; A7 tumour with corona/adjacent skin; A8 uninvolved glans; B1-B4 right inguinal nodes; C1-C4 left inguinal nodes."
+}
+},
+{
+"id": "dx-e4b9ebfc09",
+"name": "Serous Borderline Tumour of Ovary, pT1a pNX, FIGO IA (Left Salpingo-oophorectomy)",
+"nature": "Neoplastic",
+"path": "Female Genital Tract/Ovary/03 Borderline Epithelial Tumours",
+"source": "01_Left_Salpingo_oophorectomy_Serous_Borderline_Tumour.docx",
+"layout": "cap",
+"micro": [
+{
+"label": "",
+"text": "A. Left ovary: Sections show a cystic tumour with an exophytic and endophytic papillary architecture. The papillae branch in a hierarchical manner, large papillae giving rise to progressively smaller ones, and have oedematous, loose fibrovascular cores. They are lined by stratified columnar to cuboidal serous-type epithelium with ciliated cells and hobnail cells, showing epithelial tufting and numerous detached cell clusters and small buds floating in the cyst spaces. Nuclei show mild to moderate atypia with small nucleoli; mitoses are rare (up to 2 per 10 HPF). Occasional psammoma bodies are seen."
+},
+{
+"label": "",
+"text": "No destructive stromal invasion is seen. No microinvasion (no foci of eosinophilic single cells or small clusters in the stroma). No micropapillary/cribriform pattern is identified (none; the 5 mm threshold for the micropapillary variant is not reached). The ovarian surface is free of tumour and the capsule is intact. Residual ovary shows stromal hyperplasia and corpora albicantia."
+},
+{
+"label": "",
+"text": "A. Left fallopian tube: Unremarkable tubal mucosa with mild congestion. No serous tubal intraepithelial carcinoma (STIC), no endosalpingiosis with atypia and no tumour."
+},
+{
+"label": "",
+"text": "B. Omentum: Mature adipose tissue. No non-invasive or invasive implants; no endosalpingiosis."
+},
+{
+"label": "",
+"text": "C. Peritoneal washings: Mesothelial cells, histiocytes and blood. Negative for tumour cells."
+},
+{
+"label": "",
+"text": "Immunohistochemistry:"
+},
+{
+"label": "",
+"text": "WT1: Result: Positive (diffuse nuclear); Interpretation: Supports serous (Mullerian) lineage."
+},
+{
+"label": "",
+"text": "PAX8: Result: Positive (nuclear); Interpretation: Mullerian origin."
+},
+{
+"label": "",
+"text": "ER: Result: Positive (about 80%, moderate-strong); Interpretation: Consistent with low-grade serous neoplasm."
+},
+{
+"label": "",
+"text": "p53: Result: Wild-type (variable, heterogeneous nuclear staining); Interpretation: Against high-grade serous carcinoma."
+},
+{
+"label": "",
+"text": "Ki-67: Result: Low (about 5%); Interpretation: Low proliferative activity."
+},
+{
+"label": "",
+"text": "p16: Result: Patchy (non-block); Interpretation: Against high-grade serous carcinoma."
+}
+],
+"finalDiagnosis": [
+{
+"label": "",
+"text": "Left ovary, salpingo-oophorectomy: SEROUS BORDERLINE TUMOUR (ATYPICAL PROLIFERATIVE SEROUS TUMOUR), 8.0 cm; capsule intact, surface not involved; no micropapillary pattern, no microinvasion."
+},
+{
+"label": "",
+"text": "Left fallopian tube: no tumour; no STIC."
+},
+{
+"label": "",
+"text": "Omental biopsy: no implants."
+},
+{
+"label": "",
+"text": "Peritoneal washings: negative for tumour cells."
+},
+{
+"label": "",
+"text": "pT1a pNX (AJCC 8th); FIGO stage IA (2021 FIGO Cancer Report)."
+}
+],
+"comment": [
+{
+"label": "",
+"text": "Serous borderline tumours have an excellent prognosis when confined to the ovary; they are not graded. Features that would change the diagnosis or management (micropapillary/cribriform growth over 5 mm, microinvasion, destructive invasion, invasive implants) were specifically looked for and are absent in the sections examined. The wild-type p53, patchy p16 and low Ki-67 support a low-grade serous pathway rather than high-grade serous carcinoma."
+},
+{
+"label": "",
+"text": "Staging here is limited to the received specimen. If comprehensive surgical staging (contralateral adnexa, peritoneal biopsies, nodes as clinically indicated) has not been done, correlation with the surgical team is advised; fertility-sparing surgery is an accepted option at this age where appropriate. Long-term clinical, imaging and CA-125 follow-up is recommended, as late recurrence (sometimes as low-grade serous carcinoma) can occur, particularly after conservative surgery."
+},
+{
+"label": "",
+"text": "Optional: KRAS/BRAF mutation testing may be performed on request; BRAF-mutated tumours are associated with a lower risk of progression to low-grade serous carcinoma."
+}
+],
+"cap": {
+"title": "(CAP Ovary, Fallopian Tube, or Peritoneum protocol v1.5.0.0, June 2024)",
+"sections": [
+{
+"heading": "Specimen",
+"numId": 1,
+"items": [
+{
+"label": "Procedure",
+"value": "Left salpingo-oophorectomy; omentectomy (omental biopsy); peritoneal washing",
+"ilvl": 0
+},
+{
+"label": "Specimen Integrity",
+"value": "",
+"ilvl": 0
+},
+{
+"label": "Left Ovary Integrity",
+"value": "Capsule intact",
+"ilvl": 1
+},
+{
+"label": "Left Fallopian Tube Integrity",
+"value": "Serosa intact",
+"ilvl": 1
+}
+]
+},
+{
+"heading": "Tumor",
+"numId": 1,
+"items": [
+{
+"label": "Tumor Site",
+"value": "Left ovary",
+"ilvl": 0
+},
+{
+"label": "Tumor Size",
+"value": "",
+"ilvl": 0
+},
+{
+"label": "Greatest Dimension in Centimeters (cm)",
+"value": "8.0 cm",
+"ilvl": 1
+},
+{
+"label": "Additional Dimension in Centimeters (cm)",
+"value": "7.0 x 6.0 cm",
+"ilvl": 1
+},
+{
+"label": "Histologic Type",
+"value": "Serous borderline tumor (atypical proliferative serous tumour)",
+"ilvl": 0
+},
+{
+"label": "Histologic Type Comment",
+"value": "No micropapillary / cribriform pattern; no microinvasion; no destructive stromal invasion",
+"ilvl": 1
+},
+{
+"label": "Histologic Grade",
+"value": "Not applicable (borderline tumours are not graded)",
+"ilvl": 0
+},
+{
+"label": "Ovarian Surface Involvement",
+"value": "Not identified",
+"ilvl": 0
+},
+{
+"label": "Fallopian Tube Surface Involvement",
+"value": "Not identified (no STIC)",
+"ilvl": 0
+},
+{
+"label": "Implants",
+"value": "Not identified (omentum)",
+"ilvl": 0
+},
+{
+"label": "Other Tissue / Organ Involvement",
+"value": "Not identified (right adnexa and uterus not received)",
+"ilvl": 0
+},
+{
+"label": "Peritoneal / Ascitic Fluid Involvement",
+"value": "Negative for malignant cells",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Regional Lymph Nodes",
+"numId": 3,
+"items": [
+{
+"label": "Regional Lymph Node Status",
+"value": "No lymph nodes submitted or found",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Distant Metastasis",
+"numId": 3,
+"items": [
+{
+"label": "Distant Site(s) Involved",
+"value": "Not applicable",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "pTNM Classification (AJCC 8th Edition)",
+"numId": 3,
+"items": [
+{
+"label": "Modified Classification",
+"value": "Not applicable",
+"ilvl": 0
+},
+{
+"label": "pT Category",
+"value": "pT1a: Tumor limited to one ovary (capsule intact) or fallopian tube, no tumor on ovarian or fallopian tube surface; no malignant cells in ascites or peritoneal washings",
+"ilvl": 0
+},
+{
+"label": "pN Category",
+"value": "pN not assigned (no nodes submitted or found)",
+"ilvl": 0
+},
+{
+"label": "pM Category",
+"value": "Not applicable - pM cannot be determined from the submitted specimen(s)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "FIGO Stage",
+"numId": 3,
+"items": [
+{
+"label": "FIGO Stage (2021 FIGO Cancer Report)",
+"value": "IA: Tumor limited to one ovary (capsule intact) or fallopian tube; no tumor on ovarian or fallopian tube surface; no malignant cells in the ascites or peritoneal washings (provisional: contralateral adnexa, uterus and nodes not examined)",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Additional Findings",
+"numId": 3,
+"items": [
+{
+"label": null,
+"value": "Psammoma bodies; ovarian stromal hyperplasia",
+"ilvl": 0
+}
+]
+},
+{
+"heading": "Special Studies",
+"numId": 3,
+"items": [
+{
+"label": "p53 Immunohistochemistry",
+"value": "Wild-type (variable, heterogeneous nuclear staining)",
+"ilvl": 0
+},
+{
+"label": null,
+"value": "Other IHC: WT1 and PAX8 positive; ER positive (about 80%); p16 patchy (non-block); Ki-67 low (about 5%) (details in Microscopic Description)",
+"ilvl": 0
+}
+]
+}
+]
+},
+"exampleGross": {
+"containers": [
+{
+"text": "Left salpingo-oophorectomy: Received in formalin, a left ovary with attached fallopian tube, together weighing 260 g. The ovary is enlarged to 8.0 x 7.0 x 6.0 cm; the capsule is intact, smooth and shows no surface excrescences. The tube measures 6.5 cm long x 0.6 cm diameter, fimbriated end unremarkable. On cutting, a unilocular to paucilocular cyst containing clear serous fluid; the inner lining shows multiple soft, friable, tan papillary excrescences occupying about 40% of the inner surface (largest 3.0 cm). No solid fleshy areas, haemorrhage or necrosis. Residual ovarian parenchyma compressed at one pole. Tube submitted entirely by SEE-FIM protocol.",
+"gross": "Partially embedded."
+},
+{
+"text": "Omental biopsy: Yellow fatty tissue 10.0 x 6.0 x 1.5 cm; no nodules palpable on serial slicing at 0.5 cm intervals. Representative sections submitted.",
+"gross": "Partially embedded."
+},
+{
+"text": "Peritoneal washings: 40 mL of clear fluid received for cytology; cytospin smears and cell block prepared.",
+"gross": "All embedded."
+}
+],
+"sections": "A1-A2 ovarian capsule/surface, including areas closest to papillae; A3-A10 cyst wall with papillary excrescences (1 block per cm of maximum tumour dimension); A11-A12 additional papillary areas and cyst wall with any firm/thickened areas; A13 residual ovarian parenchyma; A14 fimbrial end of tube, sectioned longitudinally (SEE-FIM); A15 ampulla, isthmus and paratubal tissue; B1-B5 omentum, representative; C peritoneal washings: cytospin smears and cell block."
 }
 }
 ]

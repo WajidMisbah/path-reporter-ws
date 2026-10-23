@@ -80,8 +80,8 @@ for p,name,i,s in L:
         cap={'title':B.CAPTITLE[proto],'sections':[{'heading':h,'numId':n,'items':[{'label':a,'value':b,'ilvl':c} for a,b,c in its]} for h,n,its in secs]}
     fd=B.fd_items(case)
     if base in B.FD_FIX:
-        old,new=B.FD_FIX[base]; fd=[(a,b.replace(old,new)) if isinstance(a,str) and isinstance((a,b),tuple) else a for a,b in [(x if isinstance(x,tuple) else (x,None)) for x in fd]]
-        fd=[(x[0],x[1]) if x[1] is not None else x[0] for x in fd]
+        old,new=B.FD_FIX[base]  # same rule as build.py: fix tuple values and plain-string items
+        fd=[(x[0],x[1].replace(old,new)) if isinstance(x,tuple) else x.replace(old,new) for x in fd]
     try:
         with contextlib.redirect_stdout(io.StringIO()):
             gp=B.gross_parts(case,base)
