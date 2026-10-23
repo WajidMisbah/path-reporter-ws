@@ -1,7 +1,7 @@
 {
 "app": "Path Reporter WS",
-"version": "20261023191239",
-"generated": "2026-10-23T19:12:39",
+"version": "20261023230633",
+"generated": "2026-10-23T23:06:33",
 "layouts": {
 "histo": "templates/histopathology.dotx",
 "cap": "templates/cancer-cap.dotx",
@@ -1656,7 +1656,7 @@
 "schema": {
 "title": [
 "DEPARTMENT OF PATHOLOGY",
-"Cytology Report"
+"Pap Smear Report"
 ],
 "sections": [
 {
@@ -3697,7 +3697,7 @@ null,
 "schema": {
 "title": [
 "DEPARTMENT OF PATHOLOGY",
-"Cytology Report"
+"Serous Effusion Cytology Report"
 ],
 "sections": [
 {
@@ -4286,7 +4286,7 @@ null,
 "schema": {
 "title": [
 "DEPARTMENT OF PATHOLOGY",
-"Cytology Report"
+"Body Fluid Cytology Report"
 ],
 "sections": [
 {
@@ -5674,7 +5674,7 @@ null
 "schema": {
 "title": [
 "DEPARTMENT OF PATHOLOGY",
-"Histopathology Report"
+"Bone Marrow Biopsy Report"
 ],
 "sections": [
 {
