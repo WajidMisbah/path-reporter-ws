@@ -29,12 +29,14 @@ async def main():
     await pg.click('#save'); await pg.screenshot(path=OUT+'ihc_05_save_dialog.png')
     await pg.evaluate("window.prompt=()=> 'My Luminal A panel'"); await pg.click('[data-m="new"]'); await pg.wait_for_timeout(300)
     async with pg.expect_download() as d: await pg.click('#docx')
+    print('suggested:',(await d.value).suggested_filename)
     await (await d.value).save_as(OUT+'sample_ihc_breast.docx')
     await pg.click('#prev'); await pg.wait_for_selector('#pv section.docx'); await pg.wait_for_timeout(800)
     await (await pg.query_selector('#pv')).screenshot(path=OUT+'ihc_06_preview.png')
     # a panel without scoring
     await pg.click('#navHome'); await pg.click('.type[data-k="ihc"]'); await pg.fill('#dxq','Leiomyosarcoma'); await pg.click('.dx >> nth=0'); await pg.wait_for_timeout(300)
     async with pg.expect_download() as d: await pg.click('#docx')
+    print('suggested:',(await d.value).suggested_filename)
     await (await d.value).save_as(OUT+'sample_ihc_leiomyosarcoma.docx')
     # compat checks
     await pg.click('#navData'); await pg.wait_for_timeout(300); await pg.screenshot(path=OUT+'ihc_07_templates_backup.png',full_page=True)
@@ -44,6 +46,7 @@ async def main():
     # old histo report still opens + builds docx; old template still listed for gallbladder
     await pg.click('#all [data-o] >> nth=-1'); await pg.wait_for_selector('#micro')
     async with pg.expect_download() as d: await pg.click('#docx')
+    print('suggested:',(await d.value).suggested_filename)
     await (await d.value).save_as(OUT+'compat_old_report.docx')
     await pg.check('#dxall'); await pg.fill('#dxq','My old'); print('old tpl listed:', await pg.inner_text('#dxl'))
     print('ERRORS',errs); await b.close()

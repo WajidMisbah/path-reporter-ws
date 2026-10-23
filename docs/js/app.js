@@ -170,12 +170,14 @@ function saveDialog(){
 // ---------- output ----------
 function makeBlob(){ const R=S.report; if(R.type==='ihc') return DocxFill.buildIhcDocx(S.layouts.ihc,R);
   const GT=typeOf(R.type); if(GT&&GT.engine==='generic') return DocxFill.buildGenericDocx(S.layouts[GT.id],R,GT.schema); const layout=R.cap&&R.cap.sections?.length?'cap':'histo'; const buf=S.layouts[layout]; return DocxFill.buildDocx(buf,R); }
-function fname(){ const R=S.report; return [typeShort(R.type),R.header['lab no'],R.header.name].filter(Boolean).join(' - ').replace(/[\\/:*?"<>|]/g,'_')+'.docx'; }
+function typeLong(id){ id=id||'histo'; const t=typeOf(id); return (t&&t.name)||(id==='histo'?'Histopathology':id==='ihc'?'IHC':id); }
+function baseName(h,type){ h=h||{}; const cl=x=>String(x||'').replace(/[\\/:*?"<>|\u0000-\u001f]/g,' ').replace(/\s+/g,' ').trim(); const sn=cl(h['sample no'])||cl(h['lab no']), nm=cl(h.name), t=cl(typeLong(type)); return (sn&&nm?sn+' '+nm:sn||nm?(sn||nm)+' '+t:'Unlabelled '+t).replace(/\s+/g,' ').trim().replace(/[. ]+$/,''); }
+function fname(ext){ const R=S.report; return baseName(R.header,R.type)+'.'+(ext||'docx'); }
 function download(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000); }
 function exportDocx(){ try{ download(makeBlob(),fname()); }catch(e){ console.error(e); toast('Could not build .docx: '+e.message); } }
 async function renderInto(el){ el.innerHTML=''; await docx.renderAsync(makeBlob(),el,null,{className:'docx',inWrapper:true,ignoreWidth:false,ignoreHeight:false,breakPages:true,renderHeaders:true,renderFooters:true,experimental:true,useBase64URL:true}); }
 async function preview(box){ box.innerHTML='<div class="card"><h3>Preview</h3><div class="preview-wrap" id="pv"></div></div>'; await renderInto($('#pv')); box.scrollIntoView({behavior:'smooth'}); }
-async function printReport(){ await renderInto($('#printArea')); await document.fonts.ready; setTimeout(()=>window.print(),300); }
+async function printReport(){ await renderInto($('#printArea')); await document.fonts.ready; const old=document.title; document.title=baseName(S.report.header,S.report.type); const back=()=>{document.title=old;window.removeEventListener('afterprint',back);}; window.addEventListener('afterprint',back); setTimeout(()=>{window.print(); setTimeout(back,60000);},300); }
 window.PRWS={state:()=>S,makeBlob};
 
 function openEditor(){ const T=typeOf(S.report.type); if(T&&T.engine==='generic') genericEditor(T); else if(S.report.type==='ihc') ihcEditor(); else editor(); }
