@@ -86,3 +86,7 @@ section.docx header table{border:0.5pt solid #000!important;border-bottom:1.5pt 
 .imgctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 .imgctl img{max-width:120px;max-height:90px;border:1px solid #ccd;border-radius:4px;object-fit:contain;background:#fff}
 .imgctl .small{padding:4px 8px}
+.titleprev{margin-top:10px;padding:10px;border:1px dashed var(--line);border-radius:10px;background:#fff;text-align:center;font-family:Tinos,'Times New Roman',serif;color:#000}
+.titleprev div{font-size:21px;font-weight:700;text-decoration:underline;min-height:1.2em}
+.titleprev div+div{margin-bottom:16px}
+.type.mine{border-style:dashed}

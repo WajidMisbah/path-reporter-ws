@@ -161,7 +161,30 @@ function describe(buf){
   const ts=topTables(desc(doc,'body')[0]); const so=ts[ts.length-1];
   return {sections:ts.slice(0,-1).map(t=>({heading:text(rows(t)[0]).trim(),cols:kids(kid(t,'tblGrid')||t,'gridCol').length||1,
       rows:rows(t).slice(1).map(tr=>({cells:cells(tr).length,text:cells(tr).map(tc=>paras(tc).map(text).join(' ').trim()).join(' | ')}))})),
+    titles:readTitles(desc(doc,'body')[0]),
     signout:so?cells(rows(so)[rows(so).length-1]).map(tc=>paras(tc).map(text).filter(x=>x.trim())):[]};
+}
+// ---------- title lines (report body lines 1-2) ----------
+// Line 1 department title: sz 32, ALL CAPS, bold, underline, centred. Line 2 report-type title: sz 32, Title Case, bold, underline, centred.
+// Line 3: one empty paragraph at sz 24 (12 pt), then the first section table.
+const capsTitle=t=>String(t||'').replace(/\s+/g,' ').trim().toUpperCase();
+const titleCase=t=>String(t||'').replace(/\s+/g,' ').trim().replace(/(^|[\s\/(\-–])([a-z])/g,(m,a,b)=>a+b.toUpperCase());
+function titleParas(body){ const out=[]; for(const n of Array.from(body.childNodes)){ if(n.nodeType!==1) continue; if(n.namespaceURI===W&&n.localName==='tbl') break; if(n.namespaceURI===W&&n.localName==='p') out.push(n); } return out; }
+function readTitles(body){ const ps=titleParas(body).filter(p=>text(p).trim()); return {dept:ps[0]?text(ps[0]).trim():'',type:ps[1]?text(ps[1]).trim():''}; }
+function applyTitles(doc,body,T){
+  T=T||{}; const all=titleParas(body); const ps=all.filter(p=>text(p).trim()); if(!ps.length) return;
+  const vals=[capsTitle(T.dept!=null&&String(T.dept).trim()?T.dept:text(ps[0])), titleCase(T.type!=null&&String(T.type).trim()?T.type:(ps[1]?text(ps[1]):''))];
+  const fontsOf=p=>{ const r=kids(p,'r')[0]; const rp=r&&kid(r,'rPr'); const f=rp&&kid(rp,'rFonts'); return f?f.cloneNode(true):null; };
+  let p2=ps[1]; if(!p2){ p2=stripW14(ps[0].cloneNode(true)); ps[0].parentNode.insertBefore(p2,ps[0].nextSibling); }
+  [ps[0],p2].forEach((p,i)=>{ const f=fontsOf(p); Array.from(p.childNodes).forEach(n=>{ if(!(n.nodeType===1&&n.localName==='pPr')) p.removeChild(n); });
+    let ppr=kid(p,'pPr'); if(!ppr){ ppr=wel(doc,'pPr'); p.insertBefore(ppr,p.firstChild); } kids(ppr,'jc').forEach(e=>ppr.removeChild(e));
+    const jc=wel(doc,'jc'); jc.setAttributeNS(W,'w:val','center'); const after=['textDirection','textAlignment','textboxTightWrap','outlineLvl','divId','cnfStyle','rPr','sectPr','pPrChange']; let ref=null; for(const c of Array.from(ppr.childNodes)) if(c.nodeType===1&&after.includes(c.localName)){ref=c;break;} ppr.insertBefore(jc,ref);
+    const rp=frag(doc,`<w:rPr><w:b/><w:bCs/><w:sz w:val="32"/><w:szCs w:val="32"/><w:u w:val="single"/><w:lang w:val="en-IN"/></w:rPr>`); if(f) rp.insertBefore(f,rp.firstChild);
+    p.appendChild(mkrun(doc,vals[i],rp)); });
+  // exactly one empty 12 pt paragraph between line 2 and the first section
+  all.filter(p=>p!==ps[0]&&p!==p2&&!text(p).trim()&&!desc(p,'drawing').length).forEach(p=>p.parentNode.removeChild(p));
+  const blank=frag(doc,`<w:p><w:pPr><w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:rPr><w:sz w:val="24"/><w:szCs w:val="24"/><w:lang w:val="en-IN"/></w:rPr></w:pPr></w:p>`);
+  p2.parentNode.insertBefore(blank,p2.nextSibling);
 }
 // bold markup: "**Word** rest" -> runs
 function boldRuns(doc,p,line,rpr){
@@ -228,7 +251,7 @@ function tblMar(tc,side){ // effective cell margin (twips): tcMar > tblCellMar >
   let v=get(m); if(v!=null) return v; let t=tc.parentNode&&tc.parentNode.parentNode; const tp=t&&kid(t,'tblPr'); v=get(tp&&kid(tp,'tblCellMar')); if(v!=null) return v;
   return (side==='left'||side==='right')?108:0; }
 function setImageCell(doc,tc,im){
-  if(!im||!im.data) return; const pr=kid(tc,'tcPr'); const tw=pr&&kid(pr,'tcW'); const cw=tw?+tw.getAttributeNS(W,'w'):0; if(!cw) return;
+  if(!im||!im.data) return; /* image placeholder (no photo yet) prints as an empty cell */ const pr=kid(tc,'tcPr'); const tw=pr&&kid(pr,'tcW'); const cw=tw?+tw.getAttributeNS(W,'w'):0; if(!cw) return;
   const mar={}; for(const sd of ['top','left','bottom','right']) mar[sd]=Math.max(tblMar(tc,sd),IMG_GAP);
   let m=kid(pr,'tcMar'); if(m) pr.removeChild(m);
   m=frag(doc,`<w:tcMar>${['top','left','bottom','right'].map(sd=>`<w:${sd} w:w="${mar[sd]}" w:type="dxa"/>`).join('')}</w:tcMar>`);
@@ -304,7 +327,7 @@ function buildDocx(templateBuf,report){
   if(report.cap&&report.cap.sections&&report.cap.sections.length) buildCap(doc,table(body,'SYNOPTIC REPORT (CAP protocol, June 2025)'),report.cap.title||'',report.cap.sections);
   fillCellParas(doc,cells(rows(table(body,'FINAL DIAGNOSIS'))[1])[0],report.finalDiagnosis||[]);
   fillCellParas(doc,cells(rows(table(body,'COMMENT'))[1])[0],report.comment||[]);
-  applyLayout(doc,body,pre,report);
+  applyLayout(doc,body,pre,report); applyTitles(doc,body,(report).titles);
   embedImages(zip,doc); zip.file('word/document.xml',ser(doc));
   for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){
     const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,report.header||{}); zip.file(f,ser(h)); } }
@@ -357,7 +380,7 @@ function buildIhcDocx(templateBuf,R){
   }
   fillFree(doc,table(body,'IMPRESSION'),(R.impression||[]).map(i=>i.label?[[i.label.endsWith(' ')?i.label:i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
   fillFree(doc,table(body,'COMMENT'),(R.comment||[]).map(i=>i.label?[[i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
-  applyLayout(doc,body,pre,R);
+  applyLayout(doc,body,pre,R); applyTitles(doc,body,(R).titles);
   embedImages(zip,doc); zip.file('word/document.xml',ser(doc));
   for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){ const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,R.header||{}); zip.file(f,ser(h)); } }
   zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
@@ -388,12 +411,12 @@ function buildGenericDocx(templateBuf,R,schema){
       else if(pt.k==='gross'){ fillGross(doc,t,v.containers||[],v.sections||''); }
     }
   }
-  applyLayout(doc,body,pre,R);
+  applyLayout(doc,body,pre,R); applyTitles(doc,body,(R).titles);
   embedImages(zip,doc); zip.file('word/document.xml',ser(doc));
   for(const f of Object.keys(zip.files)){ if(/^word\/header\d*\.xml$/.test(f)){ const h=P.parseFromString(zip.file(f).asText(),'application/xml'); fillHeader(h,h.documentElement,R.header||{}); zip.file(f,ser(h)); } }
   zip.file('[Content_Types].xml',zip.file('[Content_Types].xml').asText().replace(DOTX_CT,DOCX_CT));
   return zip.generate({type:typeof window!=='undefined'?'blob':'nodebuffer',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document',compression:'DEFLATE'});
 }
-const API={IMG_GAP,buildDocx,buildIhcDocx,buildGenericDocx,describe,SECTION_TYPES};
+const API={IMG_GAP,capsTitle,titleCase,buildDocx,buildIhcDocx,buildGenericDocx,describe,SECTION_TYPES};
 if(typeof window!=='undefined') window.DocxFill=API; if(typeof module!=='undefined') module.exports=API;
 })();

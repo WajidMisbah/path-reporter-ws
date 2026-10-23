@@ -53,3 +53,12 @@ Optional: give it a nicer name/description/order by adding an entry to `tools/re
 Any cell listed in *Sections & rows* (template rows and added rows, all report types) can be switched to an image cell (🖼 gallery / 📷 camera) and back (*Text cell*).
 Stored in `secLayout.secs[].img` as `{"t.<tplRow>.<col>"|"a.<addedRow>.<col>": {data:<JPEG dataURL ≤1600px, q0.85>, w, h}}` – so it lives in reports, saved templates and backups (no new store, no DB upgrade).
 `docx.js` → `setImageCell()`: tcW kept; tcMar = max(template margin, 57 twips = 1 mm) on all sides; inline DrawingML picture, width = tcW − left − right margin, height by aspect ratio (cap 22 cm); paragraph centred; `exact` row height → `atLeast`. `embedImages()` adds `word/media/prws_img*.jpeg`, rels and the jpeg content type. Test: `test/e2e_images.py`.
+
+## Title lines & user report types (app v13)
+* `docx.js` → `applyTitles()` (after `applyLayout`, all engines): body line 1 = `R.titles.dept` (default: template text) → UPPERCASE; line 2 = `R.titles.type` → Title Case
+  (first letter of each word capitalised, rest kept, e.g. FNAC stays). Both: one run, b/bCs, sz/szCs 32, u single, jc center (template rFonts kept). Then exactly one empty paragraph sz 24 before the first table. sectPr/header/footer untouched.
+  `describe(buf).titles` gives the defaults. `titles` is saved in reports and saved templates.
+* Save → *Save as a new report type*: IndexedDB v3 store `rtypes` `{id:'ut-…',name,base:<histo|ihc|generic id>,structure}`. `structure` = report snapshot without
+  header, ids, dates, clinical values, IHC block values, `blankOnPick`/CLINICAL DETAILS values and image photos (image cells kept as placeholders `{w,h}`).
+  Reports keep `type`=base engine plus `utype`/`utypeName`; templates saved under it get `utype` and are listed only there. Home shows a dashed card per type;
+  rename/delete in *Templates & backup* (delete removes the type and its templates, never reports). Never touched by Update templates; in backups. Test: `test/e2e_titles.py`.

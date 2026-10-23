@@ -8,7 +8,7 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 const HEADER=[['name','Name'],['uhid','UHID'],['age','Age'],['gender','Gender'],['lab no','Lab No'],['ref. doctor','Ref. Doctor'],['dept./ward','Dept./Ward'],['sample no','Sample No'],['received on','Received on'],['reported on','Reported on']];
 const TYPES=[['histo','Histopathology',true,'Gross, microscopy, diagnosis; CAP synoptic for cancers'],['ihc','Immunohistochemistry',true,'Results table, scoring (Allred, HER2, Ki-67…), controls, impression'],['cyto','Cytology / FNAC',false],['pap','PAP Smear',false],['fluid','Serous Effusion / Other Fluid',false],['bma','Bone Marrow Aspiration',false],['bmb','Bone Marrow Biopsy',false],['ps','Peripheral Smear Comment',false]];
 const GROSS_OPTS=['Saved.','All embedded.','Partially embedded.'];
-let S={bundle:null,layouts:{},userDx:[],report:null};
+let S={bundle:null,layouts:{},userDx:[],utypes:[],report:null};
 
 // ---------- item <-> text (one paragraph per line, **Label:** marks a bold heading) ----------
 const itemsToText=items=>(items||[]).map(i=>i.label?`**${i.label}** ${i.text||''}`.trimEnd():(i.text||'')).join('\n');
@@ -28,21 +28,23 @@ async function loadBundle(fromNetwork){
     if(fromNetwork){ const cnt=d=>d?d.diagnoses.length+d.specimens.length+(d.ihcPanels||[]).length+(d.reportTypes||[]).reduce((a,t)=>a+(t.cases||[]).length,0):0; const before=cnt(old&&old.data); const after=cnt(data);
       toast(old&&old.data.version===data.version?'Templates are already up to date':`Templates updated (${after-before>=0?'+':''}${after-before} items)`); }
   }
-  S.bundle=b.data; S.layouts=b.layouts; S.userDx=await DB.all('diagnoses');
+  S.bundle=b.data; S.layouts=b.layouts; S.userDx=await DB.all('diagnoses'); try{ S.utypes=await DB.all('rtypes'); }catch(e){ S.utypes=[]; }
   $('#bundleInfo').textContent=`${S.bundle.specimens.length} specimens · ${allDx().length} diagnoses · ${allDx('ihc').length} IHC panels · ${(S.bundle.reportTypes||[]).length} report types · templates ${S.bundle.version.slice(0,8)}`;
 }
 const dxType=d=>d.type||'histo';
-function allDx(type='histo'){ const gen=(S.bundle.reportTypes||[]).flatMap(t=>t.cases||[]); const m=new Map([...S.bundle.diagnoses,...(S.bundle.ihcPanels||[]),...gen].map(d=>[d.id,d])); for(const u of S.userDx) m.set(u.id,u); return [...m.values()].filter(d=>dxType(d)===type); }
+function allDx(type='histo',ut0){ const gen=(S.bundle.reportTypes||[]).flatMap(t=>t.cases||[]); const m=new Map([...S.bundle.diagnoses,...(S.bundle.ihcPanels||[]),...gen].map(d=>[d.id,d])); for(const u of S.userDx) m.set(u.id,u); const ut=ut0!==undefined?ut0:(S.report&&S.report.utype)||null; return [...m.values()].filter(d=>dxType(d)===type&&(d.utype||null)===ut); }
 
 // ---------- screens ----------
 function home(){
   const TY=(S.bundle.reportTypes||[]).map(t=>[t.id,t.name,['histo','ihc','generic'].includes(t.engine),t.desc]);
   app.innerHTML=`<h2>New report</h2><div class="types">${TY.map(([k,n,on,d])=>`<button class="type ${on?'on':'off'}" data-k="${k}" ${on?'':'disabled'}><span class="tname">${esc(n)}</span>${on?'':'<span class="tag grey">coming soon</span>'}<small>${esc(d||'Not in this version yet')}</small></button>`).join('')}</div>
   <div class="card" style="margin-top:16px"><h3>Recent reports</h3><div id="recent" class="list hint">Loading…</div></div>`;
+  const UT=(S.utypes||[]).slice().sort((a,b)=>a.name.localeCompare(b.name)); if(UT.length) $('.types').insertAdjacentHTML('beforeend',UT.map(u=>{ const ok=!!typeOf(u.base)||u.base==='histo'||u.base==='ihc'; return `<button class="type ${ok?'on':'off'} mine" data-k="${u.id}" ${ok?'':'disabled'}><span class="tname">${esc(u.name)}</span><span class="tag blue">my report type</span><small>${esc(ok?'Based on '+typeLong(u.base):'Its base template is no longer in the app')}</small></button>`; }).join(''));
   $$('.type.on').forEach(b=>b.onclick=()=>newReport(b.dataset.k));
   listReports($('#recent'),6);
 }
 function newReport(k){
+  if(String(k).startsWith('ut-')) return newFromUtype(k);
   if(k==='ihc') return newIhc();
   const T=typeOf(k); if(T&&T.engine==='generic') return newGeneric(T);
   S.report={id:uid('rep'),type:'histo',created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),
@@ -54,7 +56,7 @@ function newReport(k){
 async function listReports(el,limit){
   const rs=(await DB.all('reports')).sort((a,b)=>(b.updated||b.created).localeCompare(a.updated||a.created)).slice(0,limit||1e9);
   el.classList.remove('hint');
-  el.innerHTML=rs.length?rs.map(r=>`<div class="item"><div><b>${esc(r.header.name||'(no name)')}</b> · ${esc(r.header['lab no']||'')} <span class="tag ${r.type==='ihc'?'pink':r.type&&r.type!=='histo'?'purple':'blue'}">${esc(typeShort(r.type))}</span> <span class="tag blue">${esc(r.dxName||'no diagnosis')}</span><br><small class="hint">${esc(new Date(r.updated||r.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}))}</small></div><div class="actions"><button class="small" data-o="${r.id}">Open</button><button class="small danger" data-d="${r.id}">Delete</button></div></div>`).join(''):'<p class="hint">No saved reports yet.</p>';
+  el.innerHTML=rs.length?rs.map(r=>`<div class="item"><div><b>${esc(r.header.name||'(no name)')}</b> · ${esc(r.header['lab no']||'')} <span class="tag ${r.type==='ihc'?'pink':r.type&&r.type!=='histo'?'purple':'blue'}">${esc(r.utype?(typeShort(r.utype)!==r.utype?typeShort(r.utype):r.utypeName||typeShort(r.type)):typeShort(r.type))}</span> <span class="tag blue">${esc(r.dxName||'no diagnosis')}</span><br><small class="hint">${esc(new Date(r.updated||r.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}))}</small></div><div class="actions"><button class="small" data-o="${r.id}">Open</button><button class="small danger" data-d="${r.id}">Delete</button></div></div>`).join(''):'<p class="hint">No saved reports yet.</p>';
   $$('[data-o]',el).forEach(b=>b.onclick=async()=>{S.report=await DB.get('reports',b.dataset.o);openEditor();});
   $$('[data-d]',el).forEach(b=>b.onclick=async()=>{ if(confirm('Delete this report from this device?')){await DB.del('reports',b.dataset.d);listReports(el,limit);} });
 }
@@ -64,12 +66,19 @@ function dataScreen(){
   <div class="card"><h3>Update templates</h3><p class="hint">Loads the newest specimen and diagnosis templates from the app's website. Your own saved diagnosis templates and reports are kept.</p><p>Current: <b>${esc(S.bundle.version)}</b> · ${S.bundle.specimens.length} specimens · ${S.bundle.diagnoses.length} built-in diagnoses · ${(S.bundle.ihcPanels||[]).length} IHC panels · ${S.userDx.length} of your own</p><button id="upd" class="alt">Update templates</button></div>
   <div class="card"><h3>Backup</h3><p class="hint">Patient data never leaves this tablet. Export a backup file and keep it somewhere safe (it contains patient details).</p>
   <div class="actions"><button id="exp" class="violet">Export backup (.json)</button><label class="hint" style="margin:0"><input type="file" id="imp" accept="application/json,.json" style="display:none"><span class="purple" style="display:inline-block;padding:10px 16px;border-radius:10px;background:var(--purple);color:#fff;cursor:pointer">Import backup…</span></label></div></div>
+  <div class="card"><h3>My report types</h3><p class="hint">Made with Save → Save as a new report type. Kept when templates are updated; included in backups.</p><div id="myut" class="list"></div></div>
   <div class="card"><h3>My diagnosis templates</h3><div id="mydx" class="list"></div></div>`;
   $('#upd').onclick=async()=>{ try{ await loadBundle(true); dataScreen(); }catch(e){ toast('Could not update (offline?)'); } };
   $('#exp').onclick=async()=>{ const o=await DB.exportAll(); download(new Blob([JSON.stringify(o,null,1)],{type:'application/json'}),`PathReporterWS-backup-${new Date().toISOString().slice(0,10)}.json`); };
   $('#imp').onchange=async e=>{ const f=e.target.files[0]; if(!f) return; try{ const o=JSON.parse(await f.text()); const mode=confirm('OK = merge with what is on this tablet.\nCancel = replace everything on this tablet with the backup.')?'merge':'replace'; await DB.importAll(o,mode); S.userDx=await DB.all('diagnoses'); toast('Backup imported'); dataScreen(); }catch(err){ toast(err.message); } };
-  const el=$('#mydx'); el.innerHTML=S.userDx.length?S.userDx.map(d=>`<div class="item"><div><b>${esc(d.name)}</b> <span class="tag pink">${esc(typeShort(d.type))}</span> <span class="tag ${d.overrides?'purple':'blue'}">${d.overrides?'overwrites built-in':'my template'}</span></div><button class="small danger" data-x="${d.id}">${d.overrides?'Restore built-in':'Delete'}</button></div>`).join(''):'<p class="hint">None yet.</p>';
+  const el=$('#mydx'); el.innerHTML=S.userDx.length?S.userDx.map(d=>`<div class="item"><div><b>${esc(d.name)}</b> <span class="tag pink">${esc(typeShort(d.utype||d.type))}</span> <span class="tag ${d.overrides?'purple':'blue'}">${d.overrides?'overwrites built-in':'my template'}</span></div><button class="small danger" data-x="${d.id}">${d.overrides?'Restore built-in':'Delete'}</button></div>`).join(''):'<p class="hint">None yet.</p>';
   $$('[data-x]',el).forEach(b=>b.onclick=async()=>{ await DB.del('diagnoses',b.dataset.x); S.userDx=await DB.all('diagnoses'); dataScreen(); });
+  const ue=$('#myut'); const UT=(S.utypes||[]).slice().sort((a,b)=>a.name.localeCompare(b.name));
+  ue.innerHTML=UT.length?UT.map(u=>`<div class="item"><div><b>${esc(u.name)}</b> <span class="tag purple">based on ${esc(typeLong(u.base))}</span> <small class="hint">${S.userDx.filter(d=>d.utype===u.id).length} templates</small></div><div class="actions"><button class="small light" data-ur="${u.id}">Rename</button><button class="small danger" data-ux="${u.id}">Delete</button></div></div>`).join(''):'<p class="hint">None yet.</p>';
+  $$('[data-ur]',ue).forEach(b=>b.onclick=async()=>{ const u=S.utypes.find(x=>x.id===b.dataset.ur); const n=(prompt('New name for this report type:',u.name)||'').trim(); if(!n||n===u.name) return; u.name=n; u.updated=new Date().toISOString(); await DB.put('rtypes',u); S.utypes=await DB.all('rtypes'); toast('Renamed'); dataScreen(); });
+  $$('[data-ux]',ue).forEach(b=>b.onclick=async()=>{ const u=S.utypes.find(x=>x.id===b.dataset.ux); const own=S.userDx.filter(d=>d.utype===u.id);
+    if(!confirm('Delete the report type "'+u.name+'"'+(own.length?' and the '+own.length+' template(s) saved under it':'')+'?\nSaved patient reports are NOT deleted.')) return;
+    for(const d of own) await DB.del('diagnoses',d.id); await DB.del('rtypes',u.id); S.utypes=await DB.all('rtypes'); S.userDx=await DB.all('diagnoses'); toast('Report type deleted'); dataScreen(); });
 }
 
 // ---------- editor ----------
@@ -83,7 +92,7 @@ function nextBlank(ta){ const s=ta.selectionEnd||0; let i=ta.value.indexOf('____
 
 function editor(){
   const R=S.report; const specs=S.bundle.specimens;
-  app.innerHTML=`<h2>Histopathology report</h2>
+  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):'Histopathology')} report</h2>
   <div class="card"><h3>1 · Patient details</h3><div class="grid">${HEADER.map(([k,l])=>`<div><label>${esc(l)}</label><input data-h="${esc(k)}" value="${esc(R.header[k])}"></div>`).join('')}</div></div>
   <div class="card"><h3>2 · Clinical details</h3><div id="clin"></div><div class="actions"><button class="small light" id="addClin">+ Add row</button></div></div>
   <div class="card"><h3>3 · Specimen &amp; gross</h3>
@@ -129,7 +138,7 @@ function editor(){
     if((R.micro.length||R.finalDiagnosis.length)&&!confirm('Replace microscopic, diagnosis and comment with "'+d.name+'"?')) return;
     R.dxId=d.id; R.dxName=d.name; R.layout=d.layout; R.micro=structuredClone(d.micro||[]); R.finalDiagnosis=structuredClone(d.finalDiagnosis||[]); R.comment=structuredClone(d.comment||[]); R.cap=d.cap?structuredClone(d.cap):null;
     $('#micro').value=itemsToText(R.micro); $('#fd').value=itemsToText(R.finalDiagnosis); $('#comment').value=itemsToText(R.comment);
-    if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout);
+    if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout); if(d.titles) R.titles=structuredClone(d.titles);
     $('#dxsel').innerHTML='Loaded: <b>'+esc(d.name)+'</b>'; renderCap(); renderDx(); layoutCard($('#layoutBox')); toast('Diagnosis loaded'); };
   const renderCap=()=>{ const c=R.cap; if(!c){$('#capbox').innerHTML='';return;}
     $('#capbox').innerHTML=`<label>Synoptic report ${esc(c.title)}</label><div class="card" style="background:#fbfaff">${c.sections.map((s,si)=>`<div class="capsec"><input data-sh="${si}" value="${esc(s.heading)}" style="font-weight:700">${s.items.map((it,ii)=>`<div class="capitem"><input data-il="${si}.${ii}" value="${esc(it.label||'')}" placeholder="(no label)"><input data-iv="${si}.${ii}" value="${esc(it.value||'')}"><select data-ii="${si}.${ii}"><option value="0" ${!it.ilvl?'selected':''}>•</option><option value="1" ${it.ilvl==1?'selected':''}>◦</option><option value="2" ${it.ilvl==2?'selected':''}>▪</option></select><button class="small danger" data-ix="${si}.${ii}">✕</button></div>`).join('')}<button class="small light" data-ia="${si}">+ item</button></div>`).join('')}</div>`;
@@ -143,7 +152,7 @@ function editor(){
   renderCap(); renderDx();
   $('#dxq').oninput=renderDx; $('#dxall').onchange=renderDx;
   $('#micro').oninput=e=>R.micro=textToItems(e.target.value); $('#fd').oninput=e=>R.finalDiagnosis=textToItems(e.target.value); $('#comment').oninput=e=>R.comment=textToItems(e.target.value);
-  layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+  titlesCard(); layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
 }
 
 // ---------- save ----------
@@ -151,15 +160,19 @@ function saveDialog(){
   const R=S.report; const cur=allDx(R.type||'histo').find(d=>d.id===R.dxId);
   $('#modalBody').innerHTML=`<h3>Save report</h3><p class="hint">The report is always saved on this tablet. Choose what happens to the diagnosis text you edited:</p>
    <button class="choice-btn" data-m="patient"><b>This patient only</b><br><small>Keep the edits in this report; templates stay unchanged.</small></button>
-   <button class="choice-btn" data-m="new"><b>Save as a new template</b><br><small>Adds a new entry under <b>${esc(typeShort(R.type))}</b> with your text, sections, rows and sign-out.</small></button>
+   <button class="choice-btn" data-m="new"><b>Save as a new template</b><br><small>Adds a new entry under <b>${esc(typeShort(R.utype||R.type))}</b> with your text, sections, rows and sign-out.</small></button>
+   <button class="choice-btn" data-m="rtype"><b>Save as a new report type</b><br><small>Adds a new card on Home with these titles, sections, rows, image cells, sign-out and template text (no patient details).</small></button>
    <button class="choice-btn" data-m="over" ${cur?'':'disabled'}><b>Overwrite the existing template</b><br><small>${cur?'Replaces "'+esc(cur.name)+'" on this tablet.':'No diagnosis loaded.'}</small></button>
    <div class="actions"><button class="light" id="mcancel">Cancel</button></div>`;
   $('#modal').classList.remove('hidden'); $('#mcancel').onclick=()=>$('#modal').classList.add('hidden');
   $$('[data-m]').forEach(b=>b.onclick=async()=>{ const m=b.dataset.m; const sp=S.bundle.specimens.find(s=>s.id===R.specimenId);
     const tpl=base=>(typeOf(R.type)||{}).engine==='generic'?({...(base||{}),type:R.type,values:structuredClone(R.values),user:true,saved:new Date().toISOString()}):R.type==='ihc'?({...(base||{}),type:'ihc',block:structuredClone(R.block),results:structuredClone(R.results),scoring:structuredClone(R.scoring),controls:structuredClone(R.controls),impression:structuredClone(R.impression),comment:structuredClone(R.comment),user:true,saved:new Date().toISOString()})
       :({...(base||{}),micro:R.micro,finalDiagnosis:R.finalDiagnosis,comment:R.comment,cap:R.cap,layout:R.cap?'cap':'histo',user:true,saved:new Date().toISOString()});
-    const tpl0=tpl; const tplL=base=>({...tpl0(base),secLayout:R.secLayout?structuredClone(R.secLayout):null,signout:R.signout?structuredClone(R.signout):null});
-    if(m==='new'){ const name=prompt('Name for the new template (saved under '+typeShort(R.type)+'):',R.dxName?R.dxName+' (modified)':''); if(!name) return;
+    const tpl0=tpl; const tplL=base=>({...tpl0(base),secLayout:R.secLayout?structuredClone(R.secLayout):null,signout:R.signout?structuredClone(R.signout):null,titles:R.titles?structuredClone(R.titles):null,utype:R.utype||null});
+    if(m==='rtype'){ const def=DocxFill.titleCase(curTitles().type)||typeLong(R.type); const name=(prompt('Name for the new report type (a new card on Home):',def)||'').trim(); if(!name) return;
+      const u={id:uid('ut'),name,base:R.type||'histo',created:new Date().toISOString(),structure:reportStructure(R)}; await DB.put('rtypes',u); S.utypes=await DB.all('rtypes');
+      R.updated=new Date().toISOString(); await DB.put('reports',structuredClone(R)); $('#modal').classList.add('hidden'); toast('Report saved + new report type "'+name+'" added to Home'); return; }
+    if(m==='new'){ const name=prompt('Name for the new template (saved under '+typeShort(R.utype||R.type)+'):',R.dxName?R.dxName+' (modified)':''); if(!name) return;
       const d=tplL({id:uid('mydx'),name,nature:cur?.nature||(sp?.kind==='Cancer'?'Neoplastic':'Non-neoplastic'),path:cur?.path||(sp?sp.organ:''),userOrgan:sp?.organ||null}); await DB.put('diagnoses',d); R.dxId=d.id; R.dxName=name; }
     if(m==='over'&&cur){ if(!confirm('Overwrite "'+cur.name+'" for all future reports on this tablet?')) return;
       const d=tplL(cur); d.overrides=!cur.user||!!cur.overrides; await DB.put('diagnoses',d); }
@@ -170,19 +183,19 @@ function saveDialog(){
 // ---------- output ----------
 function makeBlob(){ const R=S.report; if(R.type==='ihc') return DocxFill.buildIhcDocx(S.layouts.ihc,R);
   const GT=typeOf(R.type); if(GT&&GT.engine==='generic') return DocxFill.buildGenericDocx(S.layouts[GT.id],R,GT.schema); const layout=R.cap&&R.cap.sections?.length?'cap':'histo'; const buf=S.layouts[layout]; return DocxFill.buildDocx(buf,R); }
-function typeLong(id){ id=id||'histo'; const t=typeOf(id); return (t&&t.name)||(id==='histo'?'Histopathology':id==='ihc'?'IHC':id); }
+function typeLong(id){ id=id||'histo'; const u=(S.utypes||[]).find(x=>x.id===id); if(u) return u.name; const t=typeOf(id); return (t&&t.name)||(id==='histo'?'Histopathology':id==='ihc'?'IHC':id); }
 function baseName(h,type){ h=h||{}; const cl=x=>String(x||'').replace(/[\\/:*?"<>|\u0000-\u001f]/g,' ').replace(/\s+/g,' ').trim(); const sn=cl(h['sample no'])||cl(h['lab no']), nm=cl(h.name), t=cl(typeLong(type)); return (sn&&nm?sn+' '+nm:sn||nm?(sn||nm)+' '+t:'Unlabelled '+t).replace(/\s+/g,' ').trim().replace(/[. ]+$/,''); }
-function fname(ext){ const R=S.report; return baseName(R.header,R.type)+'.'+(ext||'docx'); }
+function fname(ext){ const R=S.report; return baseName(R.header,R.utype&&typeLong(R.utype)!==R.utype?R.utype:R.type)+'.'+(ext||'docx'); }
 function download(blob,name){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000); }
 function exportDocx(){ try{ download(makeBlob(),fname()); }catch(e){ console.error(e); toast('Could not build .docx: '+e.message); } }
 async function renderInto(el){ el.innerHTML=''; await docx.renderAsync(makeBlob(),el,null,{className:'docx',inWrapper:true,ignoreWidth:false,ignoreHeight:false,breakPages:true,renderHeaders:true,renderFooters:true,experimental:true,useBase64URL:true}); }
 async function preview(box){ box.innerHTML='<div class="card"><h3>Preview</h3><div class="preview-wrap" id="pv"></div></div>'; await renderInto($('#pv')); box.scrollIntoView({behavior:'smooth'}); }
-async function printReport(){ await renderInto($('#printArea')); await document.fonts.ready; const old=document.title; document.title=baseName(S.report.header,S.report.type); const back=()=>{document.title=old;window.removeEventListener('afterprint',back);}; window.addEventListener('afterprint',back); setTimeout(()=>{window.print(); setTimeout(back,60000);},300); }
+async function printReport(){ await renderInto($('#printArea')); await document.fonts.ready; const old=document.title; document.title=fname('').replace(/\.$/,''); const back=()=>{document.title=old;window.removeEventListener('afterprint',back);}; window.addEventListener('afterprint',back); setTimeout(()=>{window.print(); setTimeout(back,60000);},300); }
 window.PRWS={state:()=>S,makeBlob};
 
 function openEditor(){ const T=typeOf(S.report.type); if(T&&T.engine==='generic') genericEditor(T); else if(S.report.type==='ihc') ihcEditor(); else editor(); }
 function typeOf(id){ return (S.bundle.reportTypes||[]).find(t=>t.id===(id||'histo')); }
-function typeShort(id){ id=id||'histo'; return id==='histo'?'Histo':id==='ihc'?'IHC':((typeOf(id)||{}).name||id); }
+function typeShort(id){ id=id||'histo'; const u=(S.utypes||[]).find(x=>x.id===id); if(u) return u.name; return id==='histo'?'Histo':id==='ihc'?'IHC':((typeOf(id)||{}).name||id); }
 // ---------- generic report types (sections from the .dotx) ----------
 function newGeneric(T){
   S.report={id:uid('rep'),type:T.id,created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),values:{},dxId:'',dxName:''};
@@ -206,7 +219,7 @@ function genericEditor(T){
     }
     return h+'</div>'; };
   const cases=allDx(T.id);
-  app.innerHTML=`<h2>${esc(T.name)} report</h2>
+  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):T.name)} report</h2>
   <div class="card"><h3>Patient details</h3><div class="grid">${HEADER.map(([k,l])=>`<div><label>${esc(l)}</label><input data-h="${esc(k)}" value="${esc(R.header[k])}"></div>`).join('')}</div></div>
   <div class="card"><h3>Diagnosis / case template</h3><input id="dxq" placeholder="Search ${cases.length} templates"><div id="dxl" class="dxlist" style="margin-top:8px"></div>
    <p class="hint" id="dxsel">${R.dxName?'Loaded: <b>'+esc(R.dxName)+'</b>':'Choosing one fills the sections below (all editable).'+(T.blankOnPick&&T.blankOnPick.length?' '+esc(T.blankOnPick.join(', ').toLowerCase())+' stay as you entered them.':'')}</p></div>
@@ -234,9 +247,9 @@ function genericEditor(T){
     if(has&&!confirm('Replace the report sections with "'+d.name+'"?')) return;
     const keep=Object.fromEntries((T.blankOnPick||[]).filter(h=>R.values[h]).map(h=>[h,R.values[h]]));
     const nv=structuredClone(d.values||{}); for(const h of (T.blankOnPick||[])) delete nv[h];
-    R.values={...nv,...keep}; R.dxId=d.id; R.dxName=d.name; if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout); genericEditor(T); toast('Template loaded'); };
+    R.values={...nv,...keep}; R.dxId=d.id; R.dxName=d.name; if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout); if(d.titles) R.titles=structuredClone(d.titles); genericEditor(T); toast('Template loaded'); };
   $('#dxq').oninput=renderDx; renderDx();
-  layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+  titlesCard(); layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
 }
 // ---------- IHC ----------
 const IHC_CLIN=['Specimen:','Procedure:','Clinical history:','Previous histopathology no. / Block no.:','Referring diagnosis:','Test requested:'];
@@ -250,7 +263,7 @@ function newIhc(){
 }
 function ihcEditor(){
   const R=S.report;
-  app.innerHTML=`<h2>Immunohistochemistry report</h2>
+  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):'Immunohistochemistry')} report</h2>
   <div class="card"><h3>1 · Patient details</h3><div class="grid">${HEADER.map(([k,l])=>`<div><label>${esc(l)}</label><input data-h="${esc(k)}" value="${esc(R.header[k])}"></div>`).join('')}</div></div>
   <div class="card"><h3>2 · Clinical details</h3><div id="clin"></div><div class="actions"><button class="small light" id="addClin">+ Add row</button></div></div>
   <div class="card"><h3>3 · Panel / diagnosis</h3><input id="dxq" placeholder="Search IHC panels"><div id="dxl" class="dxlist" style="margin-top:8px"></div>
@@ -291,11 +304,11 @@ function ihcEditor(){
     if(R.results.some(r=>r.some(v=>v))&&!confirm('Replace the IHC sections with "'+d.name+'"?')) return;
     Object.assign(R,{dxId:d.id,dxName:d.name,block:{...Object.fromEntries(BLOCK.map(l=>[l,''])),...structuredClone(d.block||{})},results:structuredClone(d.results||[]),scoring:d.scoring?structuredClone(d.scoring):null,
       controls:{...Object.fromEntries(CTRL.map(l=>[l,''])),...structuredClone(d.controls||{})},impression:structuredClone(d.impression||[]),comment:structuredClone(d.comment||[])});
-    if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout);
+    if(d.secLayout&&d.secLayout.secs) R.secLayout=structuredClone(d.secLayout); if(d.signout) R.signout=structuredClone(d.signout); if(d.titles) R.titles=structuredClone(d.titles);
     ihcEditor(); toast('Panel loaded'); };
   $('#dxq').oninput=renderDx; renderDx();
   $('#imp').oninput=e=>R.impression=textToItems(e.target.value); $('#comment').oninput=e=>R.comment=textToItems(e.target.value);
-  layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
+  titlesCard(); layoutCard($('#layoutBox')); $('#save').onclick=saveDialog; $('#docx').onclick=()=>exportDocx(); $('#prev').onclick=()=>preview($('#previewBox')); $('#print').onclick=printReport;
 }
 
 // ---------- sections, rows & sign-out (all report types) ----------
@@ -343,6 +356,7 @@ function layoutCard(box){
 
 // ---------- image cells ----------
 function imgCtl(s,k,i,label){ const im=(s.img||{})[k]; const L=label?esc(label)+': ':'';
+  if(im&&!im.data) return `<div class="imgctl"><span class="hint">${L}image cell – no photo yet</span><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick">🖼 Image</button><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" data-cam="1">📷</button><button class="small alt" data-imgs="${i}" data-imgk="${k}" data-imga="text">Text cell</button></div>`;
   if(im) return `<div class="imgctl"><img src="${im.data}" alt=""><span class="hint">${L}image cell</span><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick">Change</button><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" data-cam="1">📷</button><button class="small alt" data-imgs="${i}" data-imgk="${k}" data-imga="text">Text cell</button></div>`;
   return `<div class="imgctl off">${label?`<span class="hint">${L}text</span>`:''}<button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" title="Make this an image cell (gallery)">🖼 Image</button><button class="small light" data-imgs="${i}" data-imgk="${k}" data-imga="pick" data-cam="1" title="Take a photo">📷</button></div>`; }
 function pickImage(camera){ return new Promise(res=>{ const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; if(camera) inp.setAttribute('capture','environment');
@@ -398,6 +412,37 @@ function doctorsDialog(done){
       await DB.put('doctors',{id:d?.id||uid('doc'),name,lines:lines.length?lines:[name]}); await loadDoctors(); render(); }; };
   $('#modal').classList.remove('hidden'); render();
 }
+// ---------- title lines ----------
+function curTitles(){ const R=S.report; let d={dept:'',type:''}; try{ d=DocxFill.describe(layoutBuf()).titles||d; }catch(e){} const t=R.titles||{}; return {dept:(t.dept!=null&&String(t.dept).trim())?t.dept:d.dept, type:(t.type!=null&&String(t.type).trim())?t.type:d.type}; }
+function titlesCard(){
+  const R=S.report; const h2=$('#app > h2'); if(!h2) return; const old=$('#titlesBox'); if(old) old.remove();
+  const t=curTitles();
+  h2.insertAdjacentHTML('afterend',`<div class="card" id="titlesBox"><h3>Report titles</h3><p class="hint">Line 1 always prints in CAPITALS, line 2 in Title Case – both 16 pt, bold, underlined and centred, followed by one empty 12 pt line.</p>
+   <label>Line 1 · Department title</label><input id="tDept" value="${esc(t.dept)}" style="text-transform:uppercase">
+   <label>Line 2 · Report type title</label><input id="tType" value="${esc(t.type)}">
+   <div class="titleprev"><div id="tpDept"></div><div id="tpType"></div></div></div>`);
+  const upd=()=>{ const c=curTitles(); $('#tpDept').textContent=DocxFill.capsTitle(c.dept); $('#tpType').textContent=DocxFill.titleCase(c.type); };
+  $('#tDept').oninput=e=>{ R.titles=R.titles||{}; R.titles.dept=e.target.value; upd(); };
+  $('#tType').oninput=e=>{ R.titles=R.titles||{}; R.titles.type=e.target.value; upd(); };
+  $('#tType').onchange=e=>{ e.target.value=DocxFill.titleCase(e.target.value); R.titles.type=e.target.value; upd(); };
+  upd(); }
+// ---------- user report types ----------
+const PATIENT_BLANK=['CLINICAL DETAILS'];
+function reportStructure(R){ // structure + template text only; patient data stripped
+  const x=structuredClone(R); for(const k of ['id','created','updated','header','dxId','dxName','utype','utypeName']) delete x[k];
+  if(Array.isArray(x.clinical)) x.clinical=x.clinical.map(c=>({label:c.label,text:''}));
+  if(x.values){ const T=typeOf(R.type); for(const h of [...PATIENT_BLANK,...((T&&T.blankOnPick)||[])]) delete x.values[h]; }
+  if(x.block) x.block=Object.fromEntries(Object.keys(x.block).map(k=>[k,'']));
+  if(x.secLayout&&x.secLayout.secs) for(const s of x.secLayout.secs) if(s.img) for(const k in s.img) s.img[k]={w:s.img[k].w,h:s.img[k].h}; // keep image cells, drop photos
+  if(x.titles){ x.titles={dept:x.titles.dept,type:x.titles.type}; }
+  return x; }
+function newFromUtype(id){
+  const u=S.utypes.find(x=>x.id===id); if(!u) return;
+  const st=structuredClone(u.structure||{}); const base=u.base||'histo';
+  if(base==='ihc') newIhc(); else if(base==='histo') newReport('histo'); else { const T=typeOf(base); if(!T){ toast('Base template missing'); return; } newGeneric(T); }
+  const keep={id:S.report.id,type:base,created:S.report.created,updated:null,header:S.report.header,dxId:'',dxName:''};
+  if(!st.titles) st.titles={dept:'',type:u.name}; if(!st.titles.type) st.titles.type=u.name;
+  S.report=Object.assign({},S.report,st,keep,{utype:u.id,utypeName:u.name}); openEditor(); }
 // ---------- boot ----------
 $('#navHome').onclick=home; $('#navReports').onclick=reportsScreen; $('#navData').onclick=dataScreen;
 (async()=>{ try{ await loadBundle(false); try{ await loadDoctors(); }catch(e){ S.doctors=DEFAULT_DOCTORS; } home(); }catch(e){ app.innerHTML=`<div class="card"><h3>Templates not loaded</h3><p>${esc(e.message)}. Connect to the internet once to download the templates.</p></div>`; } })();
