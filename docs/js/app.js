@@ -444,6 +444,50 @@ function newFromUtype(id){
   if(!st.titles) st.titles={dept:'',type:u.name}; if(!st.titles.type) st.titles.type=u.name;
   S.report=Object.assign({},S.report,st,keep,{utype:u.id,utypeName:u.name}); openEditor(); }
 // ---------- boot ----------
+
+// ---------- custom gross descriptions (IndexedDB store 'gross'; this device only) ----------
+let gTarget=null;
+const gBundled=()=>((S.bundle&&S.bundle.specimens)||[]).map(sp=>({id:'b:'+sp.id,name:sp.name,organ:'',text:(sp.containers||[]).map(c=>c.text||'').join('\n\n'),bundled:true}));
+function grossBarUpdate(){ const a=document.activeElement; const ok=a&&a.tagName==='TEXTAREA'&&app.contains(a); if(ok) gTarget=a; $('#grossBar').classList.toggle('hidden',!ok); }
+document.addEventListener('focusin',grossBarUpdate);
+document.addEventListener('focusout',()=>setTimeout(()=>{ if($('#modal').classList.contains('hidden')) grossBarUpdate(); },150));
+$('#grossBar').addEventListener('mousedown',e=>e.preventDefault());
+function setCell(ta,v){ ta.value=v; ta.dispatchEvent(new Event('input',{bubbles:true})); ta.dispatchEvent(new Event('change',{bubbles:true})); }
+function grossEdit(g,after){ const isNew=!g||!g.id;
+  $('#modalBody').innerHTML=`<h3>${isNew?'Save as gross description':'Edit gross description'}</h3><p class="hint">Saved on this tablet only; never erased by app or template updates. **bold** markup works.</p>
+   <label>Name</label><input id="gname" value="${esc(g?.name||'')}" placeholder="e.g. Gallbladder – routine cholecystectomy">
+   <label>Organ / specimen (optional)</label><input id="gorgan" value="${esc(g?.organ||'')}" placeholder="e.g. Gallbladder">
+   <label>Text</label><textarea id="gtext" style="min-height:160px">${esc(g?.text||'')}</textarea>
+   <div class="row" style="margin-top:10px"><button id="gok">Save</button><button id="gcan" class="light">Cancel</button></div>`;
+  $('#modal').classList.remove('hidden'); $('#gname').focus();
+  $('#gcan').onclick=()=>{ $('#modal').classList.add('hidden'); after&&after(false); };
+  $('#gok').onclick=async()=>{ const name=$('#gname').value.trim(), text=$('#gtext').value; if(!name){ toast('Give it a name'); return; } if(!text.trim()){ toast('Text is empty'); return; }
+    const now=new Date().toISOString(); const v={id:g?.id||uid('gross'),name,organ:$('#gorgan').value.trim(),text,created:g?.created||now,updated:now};
+    await DB.put('gross',v); $('#modal').classList.add('hidden'); toast(isNew?'Gross description "'+name+'" saved':'Updated'); after&&after(true); };
+}
+async function grossLibrary(target){
+  gTarget=target||null; let q='';
+  const render=async()=>{ const mine=(await DB.all('gross')).sort((a,b)=>a.name.localeCompare(b.name)); const ql=q.toLowerCase();
+    const m=g=>!ql||(g.name+' '+(g.organ||'')+' '+g.text).toLowerCase().includes(ql);
+    const item=g=>`<div class="gitem" data-gid="${esc(g.id)}"><div class="row"><b style="flex:1">${esc(g.name)}</b>${g.organ?`<span class="tag blue" style="flex:0 0 auto">${esc(g.organ)}</span>`:''}${g.bundled?'<span class="tag grey" style="flex:0 0 auto">template</span>':''}</div><pre>${esc(g.text)}</pre><div class="row">
+      ${gTarget?`<button class="small" data-gins="r">Insert</button><button class="small light" data-gins="a">Append</button>`:''}${g.bundled?'':`<button class="small light" data-gedit>Edit / rename</button><button class="small danger" data-gdel>Delete</button>`}</div></div>`;
+    const M=mine.filter(m), B=gBundled().filter(m);
+    $('#glist').innerHTML=`<h4>My gross descriptions (${M.length})</h4>${M.map(item).join('')||'<p class="hint">None yet. Tap a text cell, then "Save as gross description".</p>'}<h4>Bundled specimen templates (${B.length})</h4>${B.map(item).join('')}`;
+    const find=id=>[...mine,...gBundled()].find(g=>g.id===id);
+    $$('[data-gins]').forEach(b=>b.onclick=()=>{ const g=find(b.closest('.gitem').dataset.gid); const ta=gTarget; if(!ta) return;
+      setCell(ta,b.dataset.gins==='a'&&ta.value.trim()?ta.value.replace(/\s+$/,'')+'\n'+g.text:g.text); $('#modal').classList.add('hidden'); toast('Inserted "'+g.name+'"'); ta.focus(); });
+    $$('[data-gedit]').forEach(b=>b.onclick=()=>grossEdit(find(b.closest('.gitem').dataset.gid),()=>grossLibrary(gTarget)));
+    $$('[data-gdel]').forEach(b=>b.onclick=async()=>{ const g=find(b.closest('.gitem').dataset.gid); if(!confirm('Delete gross description "'+g.name+'"?')) return; await DB.del('gross',g.id); toast('Deleted'); render(); });
+  };
+  $('#modalBody').innerHTML=`<h3>Gross descriptions</h3><div class="row"><input id="gq" placeholder="Search name, organ or text…"><button id="gnew" class="small light" style="flex:0 0 auto">+ New</button><button id="gclose" class="small light" style="flex:0 0 auto">Close</button></div><div id="glist" class="glist"></div>`;
+  $('#modal').classList.remove('hidden'); $('#gq').oninput=e=>{q=e.target.value;render();};
+  $('#gclose').onclick=()=>{ $('#modal').classList.add('hidden'); };
+  $('#gnew').onclick=()=>grossEdit(null,()=>grossLibrary(gTarget));
+  await render();
+}
+$('#gbIns').onclick=()=>grossLibrary(gTarget);
+$('#gbSave').onclick=()=>{ const ta=gTarget; if(!ta||!ta.value.trim()){ toast('This cell is empty'); return; } const sp=S.report&&S.bundle.specimens.find(x=>x.id===S.report.specimenId); grossEdit({name:'',organ:sp?sp.name:'',text:ta.value},()=>{}); };
+$('#navGross').onclick=()=>grossLibrary(null);
 $('#navHome').onclick=home; $('#navReports').onclick=reportsScreen; $('#navData').onclick=dataScreen;
 (async()=>{ try{ await loadBundle(false); try{ await loadDoctors(); }catch(e){ S.doctors=DEFAULT_DOCTORS; } home(); }catch(e){ app.innerHTML=`<div class="card"><h3>Templates not loaded</h3><p>${esc(e.message)}. Connect to the internet once to download the templates.</p></div>`; } })();
 if('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>r.update()).catch(()=>{}); let rl=false; navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(!rl){rl=true; location.reload();} }); }
