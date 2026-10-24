@@ -157,7 +157,7 @@ for t in RTYPES:
 print('WS case templates: %d used, %d skipped'%(len(_wsu),len(_wss)))
 for r,tn in _wsu: print('  ws ok  ',tn,'<-',r)
 for r,why in _wss: print('  ws SKIP',r,'--',why)
-json.dump({'used':_wsu,'skipped':_wss},open(ROOT+'/build_cache/ws_cases_report.json','w'),indent=1)
+os.makedirs(ROOT+'/build_cache',exist_ok=True); json.dump({'used':_wsu,'skipped':_wss},open(ROOT+'/build_cache/ws_cases_report.json','w'),indent=1)
 _lay=lambda tid:next((t['layout'] for t in RTYPES if t['id']==tid),None)
 bundle={'app':'Path Reporter WS','schema':2,'version':datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
  'generated':datetime.datetime.now().isoformat(timespec='seconds'),
