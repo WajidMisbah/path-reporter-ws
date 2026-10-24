@@ -1,8 +1,8 @@
 {
 "app": "Path Reporter WS",
 "schema": 2,
-"version": "20261025002951",
-"generated": "2026-10-25T00:29:51",
+"version": "20261025012619",
+"generated": "2026-10-25T01:26:19",
 "layouts": {
 "histo": "templates/histo.dotx",
 "cap": "templates/cap.dotx",
@@ -1314,6 +1314,99 @@
 "CLINICAL DETAILS"
 ],
 "cases": [
+{
+"id": "ws-dd438b2505",
+"type": "fnac",
+"name": "Fibroadenoma (WS)",
+"group": "My reports",
+"nature": "",
+"path": "WS/FNAC Template/Fibroadenoma (WS).docx",
+"values": {
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Smears are highly cellular and show cohesive clusters and branching (staghorn) sheets of uniform ductal epithelial cells with bland nuclei and scant cytoplasm, admixed with good number bare bipolar nuclei and fragments of fibromyxoid stroma. No significant nuclear atypia, pleomorphism, or mitotic activity is identified. The background appears blood mixed fatty with no necrotic debris."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Breast swelling; FNAC:",
+"text": "Features consistent with fibroadenoma."
+},
+{
+"label": "IAC Yokohama System:",
+"text": "Category - 2 (Benign)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "The cytological features are benign. Clinical and radiological correlation is recommended. If clinical suspicion of malignancy persists or the lesion is atypical on imaging, core needle biopsy or excision is advised for definitive diagnosis."
+}
+]
+}
+},
+"ws": true
+},
+{
+"id": "ws-997fa13c1d",
+"type": "fnac",
+"name": "Inflamed keratinous cyst (WS)",
+"group": "My reports",
+"nature": "",
+"path": "WS/FNAC Template/Inflamed keratinous cyst (WS).docx",
+"values": {
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Smears show abundant anucleate squames, fewer mature nucleated squamous cells, and lamellated keratinous debris along with neutrophils, macrophages, foreign-body giant cells, and cholesterol crystals in a dirty/proteinaceous background. No significant nuclear atypia or mitotic activity identified."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Swelling; FNAC:",
+"text": "Inflamed keratinous cyst."
+}
+]
+}
+},
+"ws": true
+},
+{
+"id": "ws-27692d2b68",
+"type": "fnac",
+"name": "Keratinous cyst (WS)",
+"group": "My reports",
+"nature": "",
+"path": "WS/FNAC Template/Keratinous cyst (WS).docx",
+"values": {
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Smears show abundant anucleate squames, fewer mature nucleated squamous cells, and lamellated keratinous debris in a dirty/proteinaceous background. No significant nuclear atypia or mitotic activity identified."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Swelling; FNAC:",
+"text": "Keratinous cyst."
+}
+]
+}
+},
+"ws": true
+},
 {
 "id": "ws-72e27257c3",
 "type": "fnac",
