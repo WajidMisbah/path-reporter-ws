@@ -6,9 +6,15 @@ The Home screen builds its cards from that list, so nothing in the app code has 
 
 | engine | used by | schema |
 |---|---|---|
-| `histo` | Histopathology (+ Cancer CAP layout for CAP cases) | custom editor |
-| `ihc` | Immunohistochemistry | custom editor |
-| `generic` | Cytology/FNAC, PAP, Serous Effusion, Other Fluid, BM Aspiration, BM Biopsy, PS Comment, **and any new Basic Template** | detected from the `.dotx` by `schema.py` |
+| `histo` | Histopathology; Histopathology CAP (same editor, `capOnly` — lists CAP diagnoses only, CAP layout) | custom editor |
+| `ihc` | every template with an IMMUNOHISTOCHEMISTRY RESULTS table: IHC, IHC with Images, IHC Breast Panel (and any future panel template) | custom editor; panel cases with ER+PR+HER2+Ki-67 go to the Breast Panel type |
+| `generic` | FNAC, Other Cytology, PAP, Serous, Fluid Cytology, Fluid for Malignant Cell, Other Fluid, BM Aspiration, BM Biopsy, PS Comment, **and any new Basic Template** | detected from the `.dotx` by `schema.py` |
+
+**No file names are hard-coded.** `gen_bundle.py` scans the Basic Templates folder (`$PRWS_BASIC_DIR`, default
+`/workspace/casetemplates/basic/`) via `/workspace/casetemplates/tools/basic_templates.py`, which gives each file a stable
+type id (by OneDrive item id in `basic/_onedrive_items.json`, then aliases, then keywords), so renames keep the same id;
+an unknown file gets a slug id and a generic card. Card name = file name minus " Template". Case templates are assigned to
+the type of the Basic Template they were built from. `tools/report_types.json` is optional (descriptions + card order by id).
 
 `schema.py` reads each table of the template (heading = first row) and makes editable parts:
 `label` (a "Label:" paragraph – value written after it), `free` (empty cell – paragraphs, `**Label:**` prints bold),
@@ -22,7 +28,7 @@ writes values back with the same primitives Wajid's case-template builders use, 
 cp "Frozen Section Template.dotx" /workspace/casetemplates/basic/
 # 2. (only if case templates for it exist in /workspace/casetemplates) rebuild the case cache
 python3 tools/build_cache.py
-#    and add a block to tools/report_types.json with "case_prefixes" pointing at the built-case folder
+#    (cases are assigned automatically by the template they were built from; optionally add a desc in tools/report_types.json)
 # 3. regenerate the bundle – a brand-new .dotx gets a 'generic' Home card automatically
 python3 tools/gen_bundle.py
 # 4. check the app's filler reproduces the builders exactly (optional, needs: cd tools/node && npm i)

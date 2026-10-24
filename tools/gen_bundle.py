@@ -17,9 +17,11 @@ with contextlib.redirect_stdout(io.StringIO()):
     import importlib.util as _u
     _sp=_u.spec_from_file_location('gr_texts',GR+'/texts.py'); texts=_u.module_from_spec(_sp); _sp.loader.exec_module(texts)
 
-OUTDIR=ROOT+'/docs/templates'; os.makedirs(OUTDIR, exist_ok=True)
-LAYOUTS={'histo':('Histopathology Template.dotx','histopathology'),'cap':('Cancer CAP Template.dotx','cancer-cap'),'ihc':('IHC Template.dotx','ihc')}
-for k,(f,o) in LAYOUTS.items(): shutil.copy(B.B+f, OUTDIR+'/'+o+'.dotx')
+OUTDIR=os.environ.get('PRWS_OUTDIR',ROOT+'/docs/templates'); os.makedirs(OUTDIR, exist_ok=True)
+import basic_templates as BT   # role-based discovery of the Basic Templates (no hard-coded file names)
+BASIC=os.environ.get('PRWS_BASIC_DIR',BT.BASIC_DIR).rstrip('/')+'/'
+for _f in os.listdir(OUTDIR):              # drop layout copies of templates that were renamed / removed
+    if _f.endswith('.dotx'): os.remove(OUTDIR+'/'+_f)
 
 # ---------- specimens (gross library) ----------
 def gb_src(kind):
@@ -92,48 +94,64 @@ for p,name,i,s in L:
         'micro':items(micro),'finalDiagnosis':items(fd),'comment':items(B.comment_items(case)),'cap':cap,
         'exampleGross':({'containers':[{'text':c,'gross':g} for c,g in zip(gp[0],gp[1])],'sections':gp[2]} if gp else None)})
 
-def ihc_panels():
+def ihc_panels(type_of_case):
     out=[]
     for f in (CT+'/ihc_cases/cases.json',CT+'/ihc_breast2/cases.json'):
         for c in json.load(open(f)):
             parts=c['rel'].split('/'); name=parts[-1][:-5]
-            out.append({'id':'ihc-'+hashlib.sha1(c['src'].encode()).hexdigest()[:10],'type':'ihc','name':name,'site':parts[2],'nature':parts[3],'path':c['src'],
+            out.append({'id':'ihc-'+hashlib.sha1(c['src'].encode()).hexdigest()[:10],'type':type_of_case(c),'name':name,'site':parts[2],'nature':parts[3],'path':c['src'],
               'block':c['block'],'results':c['results'],'scoring':c.get('scoring'),'controls':c['controls'],
               'impression':[{'label':c['imp'][0].strip(),'text':c['imp'][1]}] if c['imp'][0].strip() else [{'label':'','text':c['imp'][1]}],
               'comment':[{'label':'','text':x} for x in c['comment']]})
     return out
-# ---------- report types (data-driven Home) ----------
+# ---------- report types (data-driven Home: one card per Basic Template, discovered by scanning the folder) ----------
 import importlib.util as _iu
 _sp=_iu.spec_from_file_location('schema',os.path.dirname(os.path.abspath(__file__))+'/schema.py'); schema=_iu.module_from_spec(_sp); _sp.loader.exec_module(schema)
-TYPES_CFG=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/report_types.json'))
-BASIC=os.environ.get('PRWS_BASIC_DIR',B.B).rstrip('/')+'/'
-def slug(n): return re.sub(r'[^a-z0-9]+','-',n.lower()).strip('-')
+TYPES_CFG=json.load(open(os.path.dirname(os.path.abspath(__file__))+'/report_types.json'))   # optional extras keyed by type id
+def has_table(path,heading):
+    from lxml import etree
+    W='{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
+    r=etree.fromstring(zipfile.ZipFile(path).read('word/document.xml'))
+    for t in r.find(W+'body').findall(W+'tbl'):
+        tr=t.find(W+'tr')
+        if tr is not None and ''.join(x.text or '' for x in tr.iter(W+'t')).strip().upper().startswith(heading): return True
+    return False
 def report_types():
-    types=[]; known={c['template'] for c in TYPES_CFG['types']}|set(TYPES_CFG.get('layout_only',[]))
-    cfgs=list(TYPES_CFG['types'])
-    for f in sorted(os.listdir(BASIC)):            # any brand-new Basic Template -> generic type automatically
-        if f.endswith('.dotx') and f not in known:
-            cfgs.append({'id':slug(f[:-5].replace(' Template','')),'name':f[:-5].replace(' Template',''),'template':f,'engine':'generic','desc':'New Basic Template (sections detected automatically)'})
+    cfg=TYPES_CFG.get('types',{}); order=TYPES_CFG.get('order',[])
+    files=BT.files(BASIC)
     built=json.load(open(ROOT+'/build_cache/built.json')) if os.path.exists(ROOT+'/build_cache/built.json') else []
-    for c in cfgs:
-        lay=c.get('layout_name') or slug(c['template'][:-5]); shutil.copy(BASIC+c['template'],OUTDIR+'/'+lay+'.dotx')
-        t={k:c[k] for k in ('id','name','engine','desc') if k in c}; t['layout']='templates/'+lay+'.dotx'; t['template']=c['template']
-        if c['engine']=='generic':
-            sch=schema.detect(BASIC+c['template']); t['schema']=sch; t['blankOnPick']=c.get('blank_on_pick',['CLINICAL DETAILS'])
+    types=[]
+    for f in files:
+        role=BT.role_of(f,BASIC); tid=BT.type_id(f,BASIC); c=cfg.get(tid,{})
+        engine='histo' if role in ('histo','cap') else 'ihc' if has_table(BASIC+f,'IMMUNOHISTOCHEMISTRY RESULTS') else 'generic'
+        shutil.copy(BASIC+f,OUTDIR+'/'+tid+'.dotx')
+        t={'id':tid,'name':c.get('name') or BT.stem(f),'engine':engine,'desc':c.get('desc') or ('New Basic Template (sections detected automatically)' if not c else ''),
+           'layout':'templates/'+tid+'.dotx','template':f}
+        if role=='cap': t['capOnly']=True
+        if engine=='generic':
+            sch=schema.detect(BASIC+f); t['schema']=sch; t['blankOnPick']=c.get('blank_on_pick',['CLINICAL DETAILS'])
             cases=[]
-            for b in built:
-                out=b[2]; rel=out.split('/out/',1)[1]
-                if not any(rel.startswith(pref) for pref in c.get('case_prefixes',[])): continue
+            for bb in built:
+                tpl=os.path.basename(bb[1]); out=bb[2]; rel=out.split('/out/',1)[1]
+                if tpl!=f and not (tpl not in files and any(rel.startswith(p) for p in c.get('case_prefixes',[]))): continue
                 parts=rel.split('/'); vals=schema.extract(out,sch)
                 for h in t['blankOnPick']: vals.pop(h,None)
-                cases.append({'id':c['id']+'-'+hashlib.sha1(rel.encode()).hexdigest()[:10],'type':c['id'],'name':parts[-1][:-5],
+                cases.append({'id':tid+'-'+hashlib.sha1(rel.encode()).hexdigest()[:10],'type':tid,'name':parts[-1][:-5],
                     'group':parts[2] if len(parts)>4 else '', 'nature':parts[-2],'path':rel,'values':vals})
             t['cases']=sorted(cases,key=lambda x:(x['group'],x['name']))
         types.append(t)
-    return types
-bundle={'app':'Path Reporter WS','version':datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
+    rank=lambda t:(order.index(t['id']) if t['id'] in order else len(order),t['name'])
+    return sorted(types,key=rank)
+RTYPES=report_types()
+_ihc_ids={t['id'] for t in RTYPES if t['engine']=='ihc'}
+def _ihc_type(c):
+    mk={str(r[0]).upper().split(' (')[0].replace('-','').strip() for r in c.get('results',[])}
+    if 'ihc-breast' in _ihc_ids and {'ER','PR','HER2','KI67'}<=mk: return 'ihc-breast'
+    return 'ihc' if 'ihc' in _ihc_ids else sorted(_ihc_ids)[0]
+_lay=lambda tid:next((t['layout'] for t in RTYPES if t['id']==tid),None)
+bundle={'app':'Path Reporter WS','schema':2,'version':datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
  'generated':datetime.datetime.now().isoformat(timespec='seconds'),
- 'layouts':{'histo':'templates/histopathology.dotx','cap':'templates/cancer-cap.dotx','ihc':'templates/ihc.dotx'},'ihcPanels':ihc_panels(),'reportTypes':report_types(),
+ 'layouts':{k:v for k,v in {'histo':_lay('histo'),'cap':_lay('cap'),'ihc':_lay('ihc')}.items() if v},'ihcPanels':ihc_panels(_ihc_type),'reportTypes':RTYPES,
  'specimens':specimens,'diagnoses':diagnoses}
 json.dump(bundle,open(OUTDIR+'/bundle.json','w'),ensure_ascii=False,indent=0)
 [print('  type %-28s %-8s %d cases'%(t['name'],t['engine'],len(t.get('cases',[])))) for t in bundle['reportTypes']]

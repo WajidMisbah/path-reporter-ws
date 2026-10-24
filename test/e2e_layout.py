@@ -62,7 +62,7 @@ async def main():
     f=OUT+'cyto.docx'; await (await d.value).save_as(f); r,h,c=check(f,['CELL COUNTS']); print('cyto',r,h,c, 'COMMENT removed:', 'COMMENT' not in h)
     # ---- IHC ----
     await pg.click('#navHome'); await pg.click('.type[data-k="ihc"]'); await pg.wait_for_selector('#dxl'); await pg.click('.dx >> nth=0'); await pg.wait_for_timeout(200)
-    await pg.click('[data-lra="2"]'); await pg.fill('[data-lc="2.0.0"]','Ki-67 (MIB-1)'); await pg.fill('[data-lc="2.0.1"]','Positive')
+    await pg.click('[data-lra="4"]'); await pg.fill('[data-lc="4.0.0"]','Ki-67 (MIB-1)'); await pg.fill('[data-lc="4.0.1"]','Positive')  # Results is section 4 in the new IHC order (Impression, Comment before Results)
     async with pg.expect_download() as d: await pg.click('#docx')
     f=OUT+'ihc.docx'; await (await d.value).save_as(f); r,h,c=check(f,[]); print('ihc',r,h,c)
     # ---- reload: template + doctor persist, layout restored on pick ----

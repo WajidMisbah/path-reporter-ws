@@ -387,7 +387,12 @@ function buildIhcDocx(templateBuf,R){
   if(sc&&sc.rows&&sc.rows.length){
     let sp=rt.nextSibling; while(sp&&sp.nodeType!==1) sp=sp.nextSibling;
     const st=scoreTable(doc,sc.title||'SCORING',sc.cols,sc.widths,sc.rows);
-    body.insertBefore(st,sp.nextSibling); body.insertBefore(sp.cloneNode(true),st.nextSibling);
+    const ex=pre.tables.find(x=>/^SCORING\b/i.test(x.h));
+    if(ex){ ex.t.parentNode.replaceChild(st,ex.t); ex.t=st; ex.rows=rows(st).slice(1); }   // template already has a SCORING section (e.g. Breast Panel): replace, never duplicate
+    else { body.insertBefore(st,sp.nextSibling); body.insertBefore(sp.cloneNode(true),st.nextSibling);
+      // register the scoring table as its own section right after Results, so moving/removing Results in the layout editor keeps scoring
+      const ri=pre.tables.findIndex(x=>x.t===rt); const ent={t:st,h:'SCORING',rows:rows(st).slice(1)}; pre.tables.splice(ri+1,0,ent);
+      const L=R.secLayout; if(L&&L.secs&&!L.secs.some(s=>s.src==='SCORING')){ const k=L.secs.findIndex(s=>s.src==='IMMUNOHISTOCHEMISTRY RESULTS'); if(k>=0){ R={...R,secLayout:{...L,secs:[...L.secs.slice(0,k+1),{src:'SCORING'},...L.secs.slice(k+1)]}}; } } }
   }
   fillFree(doc,table(body,'IMPRESSION'),(R.impression||[]).map(i=>i.label?[[i.label.endsWith(' ')?i.label:i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));
   fillFree(doc,table(body,'COMMENT'),(R.comment||[]).map(i=>i.label?[[i.label+' ',true],[i.text||'',false]]:[[i.text||'',false]]));

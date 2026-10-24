@@ -17,11 +17,11 @@ const textToItems=t=>String(t||'').split('\n').map(l=>l.trimEnd()).filter(l=>l.t
 // ---------- templates bundle ----------
 async function loadBundle(fromNetwork){
   let b=fromNetwork?null:await DB.get('meta','bundle');
-  if(b&&(!b.layouts||!b.layouts.ihc||!b.data.reportTypes)) b=null; // older cached bundle: fetch the new one; user stores untouched
+  if(b&&(!b.layouts||!b.layouts.ihc||!b.data.reportTypes||(b.data.schema||1)<2||(b.data.reportTypes||[]).some(t=>t.engine!=='histo'&&!b.layouts[t.id]))) b=null; // older cached bundle: fetch the new one; user stores untouched
   if(!b){
     const r=await fetch('templates/bundle.json?ts='+Date.now(),{cache:'no-store'}); if(!r.ok) throw new Error('bundle '+r.status);
     const data=await r.json(); const L={};
-    for(const t of (data.reportTypes||[])) if(t.engine==='generic') data.layouts[t.id]=t.layout;
+    for(const t of (data.reportTypes||[])) if(t.engine!=='histo'&&t.layout) data.layouts[t.id]=t.layout;
     for(const [k,p] of Object.entries(data.layouts)){ const x=await fetch(p+'?ts='+Date.now(),{cache:'no-store'}); if(!x.ok) throw new Error(p); L[k]=await x.arrayBuffer(); }
     const old=await DB.get('meta','bundle');
     b={id:'bundle',data,layouts:L,fetched:new Date().toISOString()}; await DB.put('meta',b);
@@ -29,9 +29,10 @@ async function loadBundle(fromNetwork){
       toast(old&&old.data.version===data.version?'Templates are already up to date':`Templates updated (${after-before>=0?'+':''}${after-before} items)`); }
   }
   S.bundle=b.data; S.layouts=b.layouts; S.userDx=await DB.all('diagnoses'); try{ S.utypes=await DB.all('rtypes'); }catch(e){ S.utypes=[]; }
-  $('#bundleInfo').textContent=`${S.bundle.specimens.length} specimens · ${allDx().length} diagnoses · ${allDx('ihc').length} IHC panels · ${(S.bundle.reportTypes||[]).length} report types · templates ${S.bundle.version.slice(0,8)}`;
+  $('#bundleInfo').textContent=`${S.bundle.specimens.length} specimens · ${allDx().length} diagnoses · ${ihcDx().length} IHC panels · ${(S.bundle.reportTypes||[]).length} report types · templates ${S.bundle.version.slice(0,8)}`;
 }
 const dxType=d=>d.type||'histo';
+function ihcDx(cur){ const ids=new Set((S.bundle.reportTypes||[]).filter(t=>t.engine==='ihc').map(t=>t.id)); ids.add('ihc'); const m=new Map(); for(const id of ids) for(const d of allDx(id)) m.set(d.id,d); return [...m.values()].sort((a,b)=>((dxType(b)===cur)-(dxType(a)===cur))||a.name.localeCompare(b.name)); }
 function allDx(type='histo',ut0){ const gen=(S.bundle.reportTypes||[]).flatMap(t=>t.cases||[]); const m=new Map([...S.bundle.diagnoses,...(S.bundle.ihcPanels||[]),...gen].map(d=>[d.id,d])); for(const u of S.userDx) m.set(u.id,u); const ut=ut0!==undefined?ut0:(S.report&&S.report.utype)||null; return [...m.values()].filter(d=>dxType(d)===type&&(d.utype||null)===ut); }
 
 // ---------- screens ----------
@@ -45,9 +46,10 @@ function home(){
 }
 function newReport(k){
   if(String(k).startsWith('ut-')) return newFromUtype(k);
-  if(k==='ihc') return newIhc();
+  if(k==='ihc'||engineOf(k)==='ihc') return newIhc(k);
   const T=typeOf(k); if(T&&T.engine==='generic') return newGeneric(T);
-  S.report={id:uid('rep'),type:'histo',created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),
+  const capOnly=!!(T&&T.capOnly);
+  S.report={capOnly,id:uid('rep'),type:'histo',created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),
     clinical:[{label:'Specimen:',text:''},{label:'Procedure:',text:''},{label:'Clinical history:',text:''}],
     specimenId:'',gross:{containers:[{text:'',gross:''}],sections:''},dxId:'',dxName:'',layout:'histo',micro:[],finalDiagnosis:[],comment:[],cap:null};
   S.report.header['reported on']=new Date().toLocaleDateString('en-GB');
@@ -56,7 +58,7 @@ function newReport(k){
 async function listReports(el,limit){
   const rs=(await DB.all('reports')).sort((a,b)=>(b.updated||b.created).localeCompare(a.updated||a.created)).slice(0,limit||1e9);
   el.classList.remove('hint');
-  el.innerHTML=rs.length?rs.map(r=>`<div class="item"><div><b>${esc(r.header.name||'(no name)')}</b> · ${esc(r.header['lab no']||'')} <span class="tag ${r.type==='ihc'?'pink':r.type&&r.type!=='histo'?'purple':'blue'}">${esc(r.utype?(typeShort(r.utype)!==r.utype?typeShort(r.utype):r.utypeName||typeShort(r.type)):typeShort(r.type))}</span> <span class="tag blue">${esc(r.dxName||'no diagnosis')}</span><br><small class="hint">${esc(new Date(r.updated||r.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}))}</small></div><div class="actions"><button class="small" data-o="${r.id}">Open</button><button class="small danger" data-d="${r.id}">Delete</button></div></div>`).join(''):'<p class="hint">No saved reports yet.</p>';
+  el.innerHTML=rs.length?rs.map(r=>`<div class="item"><div><b>${esc(r.header.name||'(no name)')}</b> · ${esc(r.header['lab no']||'')} <span class="tag ${engineOf(r.type)==='ihc'?'pink':r.type&&r.type!=='histo'?'purple':'blue'}">${esc(r.utype?(typeShort(r.utype)!==r.utype?typeShort(r.utype):r.utypeName||typeShort(r.type)):typeShort(r.type))}</span> <span class="tag blue">${esc(r.dxName||'no diagnosis')}</span><br><small class="hint">${esc(new Date(r.updated||r.created).toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'}))}</small></div><div class="actions"><button class="small" data-o="${r.id}">Open</button><button class="small danger" data-d="${r.id}">Delete</button></div></div>`).join(''):'<p class="hint">No saved reports yet.</p>';
   $$('[data-o]',el).forEach(b=>b.onclick=async()=>{S.report=await DB.get('reports',b.dataset.o);openEditor();});
   $$('[data-d]',el).forEach(b=>b.onclick=async()=>{ if(confirm('Delete this report from this device?')){await DB.del('reports',b.dataset.d);listReports(el,limit);} });
 }
@@ -92,7 +94,7 @@ function nextBlank(ta){ const s=ta.selectionEnd||0; let i=ta.value.indexOf('____
 
 function editor(){
   const R=S.report; const specs=S.bundle.specimens;
-  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):'Histopathology')} report</h2>
+  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):R.capOnly?((S.bundle.reportTypes||[]).find(t=>t.capOnly)||{name:'Histopathology CAP'}).name:'Histopathology')} report</h2>
   <div class="card"><h3>1 · Patient details</h3><div class="grid">${HEADER.map(([k,l])=>`<div><label>${esc(l)}</label><input data-h="${esc(k)}" value="${esc(R.header[k])}"></div>`).join('')}</div></div>
   <div class="card"><h3>2 · Clinical details</h3><div id="clin"></div><div class="actions"><button class="small light" id="addClin">+ Add row</button></div></div>
   <div class="card"><h3>3 · Specimen &amp; gross</h3>
@@ -130,7 +132,7 @@ function editor(){
     if(sp&&!R.clinical[0].text) { R.clinical[0].text=sp.organ+'.'; renderClin(); }
     renderDx(); };
   const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const sp=specs.find(s=>s.id===R.specimenId); const all=$('#dxall').checked||!sp;
-    let L=allDx().filter(d=>(all||d.userOrgan===sp?.organ||new RegExp(sp.match,'i').test(d.path||''))&&(!q||(d.name+' '+(d.path||'')).toLowerCase().includes(q)));
+    let L=allDx().filter(d=>(!S.report.capOnly||d.layout==='cap')&&(all||d.userOrgan===sp?.organ||new RegExp(sp.match,'i').test(d.path||''))&&(!q||(d.name+' '+(d.path||'')).toLowerCase().includes(q)));
     if(sp&&!all){ const want=sp.kind==='Cancer'?'Neoplastic':'Non-neoplastic'; L.sort((a,b)=>((a.nature===want?0:1)-(b.nature===want?0:1))||a.name.localeCompare(b.name)); } else L.sort((a,b)=>a.name.localeCompare(b.name));
     $('#dxl').innerHTML=L.length?L.slice(0,300).map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.layout==='cap'?'<span class="tag purple">CAP</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')} · ${esc((d.path||'').split('/').slice(0,2).join(' / '))}</small></div>`).join(''):`<p class="hint" style="padding:10px">No diagnoses for this specimen yet${sp?' — tick "all organs" to see everything':''}.</p>`;
     $$('[data-dx]').forEach(el=>el.onclick=()=>pickDx(el.dataset.dx)); };
@@ -166,7 +168,7 @@ function saveDialog(){
    <div class="actions"><button class="light" id="mcancel">Cancel</button></div>`;
   $('#modal').classList.remove('hidden'); $('#mcancel').onclick=()=>$('#modal').classList.add('hidden');
   $$('[data-m]').forEach(b=>b.onclick=async()=>{ const m=b.dataset.m; const sp=S.bundle.specimens.find(s=>s.id===R.specimenId);
-    const tpl=base=>(typeOf(R.type)||{}).engine==='generic'?({...(base||{}),type:R.type,values:structuredClone(R.values),user:true,saved:new Date().toISOString()}):R.type==='ihc'?({...(base||{}),type:'ihc',block:structuredClone(R.block),results:structuredClone(R.results),scoring:structuredClone(R.scoring),controls:structuredClone(R.controls),impression:structuredClone(R.impression),comment:structuredClone(R.comment),user:true,saved:new Date().toISOString()})
+    const tpl=base=>(typeOf(R.type)||{}).engine==='generic'?({...(base||{}),type:R.type,values:structuredClone(R.values),user:true,saved:new Date().toISOString()}):isIhc(R)?({...(base||{}),type:R.type,block:structuredClone(R.block),results:structuredClone(R.results),scoring:structuredClone(R.scoring),controls:structuredClone(R.controls),impression:structuredClone(R.impression),comment:structuredClone(R.comment),user:true,saved:new Date().toISOString()})
       :({...(base||{}),micro:R.micro,finalDiagnosis:R.finalDiagnosis,comment:R.comment,cap:R.cap,layout:R.cap?'cap':'histo',user:true,saved:new Date().toISOString()});
     const tpl0=tpl; const tplL=base=>({...tpl0(base),secLayout:R.secLayout?structuredClone(R.secLayout):null,signout:R.signout?structuredClone(R.signout):null,titles:R.titles?structuredClone(R.titles):null,utype:R.utype||null});
     if(m==='rtype'){ const def=DocxFill.titleCase(curTitles().type)||typeLong(R.type); const name=(prompt('Name for the new report type (a new card on Home):',def)||'').trim(); if(!name) return;
@@ -181,7 +183,7 @@ function saveDialog(){
 }
 
 // ---------- output ----------
-function makeBlob(){ const R=S.report; if(R.type==='ihc') return DocxFill.buildIhcDocx(S.layouts.ihc,R);
+function makeBlob(){ const R=S.report; if(isIhc(R)) return DocxFill.buildIhcDocx(ihcLayout(R),R);
   const GT=typeOf(R.type); if(GT&&GT.engine==='generic') return DocxFill.buildGenericDocx(S.layouts[GT.id],R,GT.schema); const layout=R.cap&&R.cap.sections?.length?'cap':'histo'; const buf=S.layouts[layout]; return DocxFill.buildDocx(buf,R); }
 function typeLong(id){ id=id||'histo'; const u=(S.utypes||[]).find(x=>x.id===id); if(u) return u.name; const t=typeOf(id); return (t&&t.name)||(id==='histo'?'Histopathology':id==='ihc'?'IHC':id); }
 function baseName(h,type){ h=h||{}; const cl=x=>String(x||'').replace(/[\\/:*?"<>|\u0000-\u001f]/g,' ').replace(/\s+/g,' ').trim(); const sn=cl(h['sample no'])||cl(h['lab no']), nm=cl(h.name), t=cl(typeLong(type)); return (sn&&nm?sn+' '+nm:sn||nm?(sn||nm)+' '+t:'Unlabelled '+t).replace(/\s+/g,' ').trim().replace(/[. ]+$/,''); }
@@ -193,7 +195,10 @@ async function preview(box){ box.innerHTML='<div class="card"><h3>Preview</h3><d
 async function printReport(){ await renderInto($('#printArea')); await document.fonts.ready; const old=document.title; document.title=fname('').replace(/\.$/,''); const back=()=>{document.title=old;window.removeEventListener('afterprint',back);}; window.addEventListener('afterprint',back); setTimeout(()=>{window.print(); setTimeout(back,60000);},300); }
 window.PRWS={state:()=>S,makeBlob};
 
-function openEditor(){ const T=typeOf(S.report.type); if(T&&T.engine==='generic') genericEditor(T); else if(S.report.type==='ihc') ihcEditor(); else editor(); }
+function openEditor(){ const T=typeOf(S.report.type); if(T&&T.engine==='generic') genericEditor(T); else if(isIhc(S.report)) ihcEditor(); else editor(); }
+function engineOf(id){ const t=typeOf(id); return t?t.engine:(id==='ihc'?'ihc':'histo'); }
+const isIhc=R=>engineOf(R.type)==='ihc';
+const ihcLayout=R=>S.layouts[R.type]||S.layouts.ihc;
 function typeOf(id){ return (S.bundle.reportTypes||[]).find(t=>t.id===(id||'histo')); }
 function typeShort(id){ id=id||'histo'; const u=(S.utypes||[]).find(x=>x.id===id); if(u) return u.name; return id==='histo'?'Histo':id==='ihc'?'IHC':((typeOf(id)||{}).name||id); }
 // ---------- generic report types (sections from the .dotx) ----------
@@ -255,25 +260,25 @@ function genericEditor(T){
 const IHC_CLIN=['Specimen:','Procedure:','Clinical history:','Previous histopathology no. / Block no.:','Referring diagnosis:','Test requested:'];
 const BLOCK=['Block tested:','Fixative:','Platform:']; const CTRL=['External control:','Internal control:'];
 const SCORE_DEF={title:'SCORING',cols:['Marker','Scoring system','Score','Interpretation'],widths:[1800,2700,2338,2800],rows:[['','','','']]};
-function newIhc(){
-  S.report={id:uid('rep'),type:'ihc',created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),
+function newIhc(k){
+  S.report={id:uid('rep'),type:k||'ihc',created:new Date().toISOString(),updated:null,header:Object.fromEntries(HEADER.map(([k])=>[k,''])),
     clinical:IHC_CLIN.map(l=>({label:l,text:''})),block:Object.fromEntries(BLOCK.map(l=>[l,''])),results:[['','','']],scoring:null,
     controls:Object.fromEntries(CTRL.map(l=>[l,''])),impression:[],comment:[],dxId:'',dxName:''};
   S.report.header['reported on']=new Date().toLocaleDateString('en-GB'); ihcEditor();
 }
 function ihcEditor(){
   const R=S.report;
-  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):'Immunohistochemistry')} report</h2>
+  app.innerHTML=`<h2>${esc(R.utype?typeShort(R.utype):((typeOf(R.type)||{}).name||'Immunohistochemistry'))} report</h2>
   <div class="card"><h3>1 · Patient details</h3><div class="grid">${HEADER.map(([k,l])=>`<div><label>${esc(l)}</label><input data-h="${esc(k)}" value="${esc(R.header[k])}"></div>`).join('')}</div></div>
   <div class="card"><h3>2 · Clinical details</h3><div id="clin"></div><div class="actions"><button class="small light" id="addClin">+ Add row</button></div></div>
   <div class="card"><h3>3 · Panel / diagnosis</h3><input id="dxq" placeholder="Search IHC panels"><div id="dxl" class="dxlist" style="margin-top:8px"></div>
    <p class="hint" id="dxsel">${R.dxName?'Loaded: <b>'+esc(R.dxName)+'</b>':'Choosing a panel fills block details, results, scoring, controls, impression and comment (all editable).'}</p></div>
   <div class="card"><h3>4 · Specimen and block details</h3>${BLOCK.map(l=>`<label>${esc(l)}</label><input data-bk="${esc(l)}" value="${esc(R.block[l]||'')}">`).join('')}</div>
-  <div class="card"><h3>5 · Immunohistochemistry results</h3><div id="res"></div><div class="actions"><button class="small light" id="addRes">+ Add marker</button></div></div>
-  <div class="card"><h3>6 · Scoring</h3><div id="score"></div></div>
-  <div class="card"><h3>7 · Controls</h3>${CTRL.map(l=>`<label>${esc(l)}</label><textarea data-ck="${esc(l)}" style="min-height:50px">${esc(R.controls[l]||'')}</textarea>`).join('')}</div>
-  <div class="card"><h3>8 · Impression &amp; comment</h3><label>IMPRESSION</label><textarea id="imp">${esc(itemsToText(R.impression))}</textarea>
+    <div class="card"><h3>5 · Impression &amp; comment</h3><label>IMPRESSION</label><textarea id="imp">${esc(itemsToText(R.impression))}</textarea>
    <label>Comment</label><textarea id="comment">${esc(itemsToText(R.comment))}</textarea><p class="hint">One paragraph per line. Text between ** ** prints bold.</p></div>
+  <div class="card"><h3>6 · Immunohistochemistry results</h3><div id="res"></div><div class="actions"><button class="small light" id="addRes">+ Add marker</button></div></div>
+  <div class="card"><h3>7 · Scoring</h3><div id="score"></div></div>
+  <div class="card"><h3>8 · Controls</h3>${CTRL.map(l=>`<label>${esc(l)}</label><textarea data-ck="${esc(l)}" style="min-height:50px">${esc(R.controls[l]||'')}</textarea>`).join('')}</div>
   <div id="layoutBox"></div>
   <div class="card actions" style="position:sticky;bottom:8px"><button id="save">Save…</button><button id="docx" class="alt">Download .docx</button><button id="prev" class="violet">Preview</button><button id="print" class="pink">Print / PDF</button></div>
   <div id="previewBox"></div>`;
@@ -288,7 +293,7 @@ function ihcEditor(){
     $$('[data-rx]').forEach(e=>e.onclick=()=>{R.results.splice(+e.dataset.rx,1);renderRes();}); };
   renderRes(); $('#addRes').onclick=()=>{R.results.push(['','','']);renderRes();};
   const renderScore=()=>{ const sc=R.scoring;
-    if(!sc){ $('#score').innerHTML='<p class="hint">No scoring table (added between Results and Controls only when a marker is scored).</p><button class="small light" id="addSc">+ Add scoring table</button>'; $('#addSc').onclick=()=>{R.scoring=structuredClone(SCORE_DEF);renderScore();}; return; }
+    if(!sc){ $('#score').innerHTML='<p class="hint">No scoring table (printed right after Results, before Controls, only when a marker is scored).</p><button class="small light" id="addSc">+ Add scoring table</button>'; $('#addSc').onclick=()=>{R.scoring=structuredClone(SCORE_DEF);renderScore();}; return; }
     const gc=`grid-template-columns:repeat(${sc.cols.length},1fr) 40px`;
     $('#score').innerHTML=`<input id="scT" value="${esc(sc.title)}" style="font-weight:700;margin-bottom:6px"><div class="capitem" style="${gc}">${sc.cols.map((c,j)=>`<input data-sh="${j}" value="${esc(c)}" style="font-weight:700">`).join('')}<span></span></div>`+sc.rows.map((r,i)=>`<div class="capitem" style="${gc}">${sc.cols.map((_,j)=>`<input data-s="${i}.${j}" value="${esc(r[j]||'')}">`).join('')}<button class="small danger" data-sx="${i}">✕</button></div>`).join('')+`<div class="actions"><button class="small light" id="addScR">+ Add row</button><button class="small danger" id="delSc">Remove scoring table</button></div>`;
     $('#scT').oninput=e=>sc.title=e.target.value;
@@ -297,10 +302,10 @@ function ihcEditor(){
     $$('[data-sx]').forEach(e=>e.onclick=()=>{sc.rows.splice(+e.dataset.sx,1);renderScore();});
     $('#addScR').onclick=()=>{sc.rows.push(sc.cols.map(()=>''));renderScore();}; $('#delSc').onclick=()=>{R.scoring=null;renderScore();}; };
   renderScore();
-  const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const L=allDx('ihc').filter(d=>!q||(d.name+' '+(d.site||'')).toLowerCase().includes(q)).sort((a,b)=>a.name.localeCompare(b.name));
+  const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const L=ihcDx(R.type).filter(d=>!q||(d.name+' '+(d.site||'')).toLowerCase().includes(q)); 
     $('#dxl').innerHTML=L.map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.scoring?'<span class="tag purple">scoring</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')} · ${esc(d.site||'')} · ${(d.results||[]).length} markers</small></div>`).join('')||'<p class="hint" style="padding:10px">No panels found.</p>';
     $$('[data-dx]').forEach(el=>el.onclick=()=>pick(el.dataset.dx)); };
-  const pick=id=>{ const d=allDx('ihc').find(x=>x.id===id); if(!d) return;
+  const pick=id=>{ const d=ihcDx(R.type).find(x=>x.id===id); if(!d) return;
     if(R.results.some(r=>r.some(v=>v))&&!confirm('Replace the IHC sections with "'+d.name+'"?')) return;
     Object.assign(R,{dxId:d.id,dxName:d.name,block:{...Object.fromEntries(BLOCK.map(l=>[l,''])),...structuredClone(d.block||{})},results:structuredClone(d.results||[]),scoring:d.scoring?structuredClone(d.scoring):null,
       controls:{...Object.fromEntries(CTRL.map(l=>[l,''])),...structuredClone(d.controls||{})},impression:structuredClone(d.impression||[]),comment:structuredClone(d.comment||[])});
@@ -316,7 +321,7 @@ const DEFAULT_DOCTORS=[{id:'doc-wajid',name:'Dr. Wajid Misbahudheen',lines:['Dr.
   {id:'doc-sansina',name:'Dr. Sansina',lines:['Dr. SANSINA N, MD','ASSOCIATE CONSULTANT (PATHOLOGY)','VMSH']}];
 async function loadDoctors(){ if(!(await DB.get('meta','doctorsSeeded'))){ for(const d of DEFAULT_DOCTORS) if(!(await DB.get('doctors',d.id))) await DB.put('doctors',d); await DB.put('meta',{id:'doctorsSeeded',at:new Date().toISOString()}); }
   S.doctors=(await DB.all('doctors')).sort((a,b)=>a.name.localeCompare(b.name)); }
-function layoutBuf(){ const R=S.report; if(R.type==='ihc') return S.layouts.ihc; const T=typeOf(R.type); if(T&&T.engine==='generic') return S.layouts[T.id]; return S.layouts[R.cap&&R.cap.sections?.length?'cap':'histo']; }
+function layoutBuf(){ const R=S.report; if(isIhc(R)) return ihcLayout(R); const T=typeOf(R.type); if(T&&T.engine==='generic') return S.layouts[T.id]; return S.layouts[R.cap&&R.cap.sections?.length?'cap':'histo']; }
 function reconcileLayout(D){ const R=S.report; const L=R.secLayout=(R.secLayout&&R.secLayout.secs)?R.secLayout:{secs:[]}; const hs=D.sections.map(s=>s.heading);
   L.secs=L.secs.filter(s=>s.src==null||hs.includes(s.src));
   hs.forEach((h,i)=>{ if(!L.secs.some(s=>s.src===h)){ const prev=hs.slice(0,i).reverse().find(x=>L.secs.some(s=>s.src===x)); const at=prev?L.secs.findIndex(s=>s.src===prev)+1:0; L.secs.splice(at,0,{src:h,heading:h,del:[],add:[]}); } });
@@ -439,7 +444,7 @@ function reportStructure(R){ // structure + template text only; patient data str
 function newFromUtype(id){
   const u=S.utypes.find(x=>x.id===id); if(!u) return;
   const st=structuredClone(u.structure||{}); const base=u.base||'histo';
-  if(base==='ihc') newIhc(); else if(base==='histo') newReport('histo'); else { const T=typeOf(base); if(!T){ toast('Base template missing'); return; } newGeneric(T); }
+  if(base==='ihc'||engineOf(base)==='ihc') newIhc(base); else if(base==='histo') newReport('histo'); else { const T=typeOf(base); if(!T){ toast('Base template missing'); return; } newGeneric(T); }
   const keep={id:S.report.id,type:base,created:S.report.created,updated:null,header:S.report.header,dxId:'',dxName:''};
   if(!st.titles) st.titles={dept:'',type:u.name}; if(!st.titles.type) st.titles.type=u.name;
   S.report=Object.assign({},S.report,st,keep,{utype:u.id,utypeName:u.name}); openEditor(); }

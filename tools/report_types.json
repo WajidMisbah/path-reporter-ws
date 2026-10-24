@@ -1,94 +1,67 @@
 {
- "_doc": "Home cards, in order. engine: histo | ihc (custom editors) | generic (sections detected from the .dotx by tools/schema.py). Any .dotx in the Basic Templates folder not listed here (and not in layout_only) gets a generic card automatically.",
- "layout_only": [
-  "Cancer CAP Template.dotx"
+ "_doc": "OPTIONAL extras keyed by type id. Report types themselves are discovered by scanning the Basic Templates folder (/workspace/casetemplates/tools/basic_templates.py maps each file to a stable id by OneDrive item id, alias or keywords; unknown files get a slug id). Card name = file name without ' Template'. Cases are assigned by the Basic Template each case was built from. 'order' sets Home card order; unknown types go last.",
+ "order": [
+  "histo",
+  "cap",
+  "ihc",
+  "ihc-images",
+  "ihc-breast",
+  "fnac",
+  "cyto",
+  "pap",
+  "serous",
+  "fluid-cytology",
+  "fluid-malignant",
+  "fluid",
+  "bma",
+  "bmb",
+  "ps"
  ],
- "types": [
-  {
-   "id": "histo",
-   "name": "Histopathology",
-   "template": "Histopathology Template.dotx",
-   "engine": "histo",
-   "desc": "Gross, microscopy, diagnosis; CAP synoptic for cancers",
-   "layout_name": "histopathology"
+ "types": {
+  "histo": {
+   "desc": "Gross, microscopy, diagnosis; CAP synoptic for cancers"
   },
-  {
-   "id": "ihc",
-   "name": "Immunohistochemistry",
-   "template": "IHC Template.dotx",
-   "engine": "ihc",
-   "desc": "Results table, scoring (Allred, HER2, Ki-67…), controls, impression",
-   "layout_name": "ihc"
+  "cap": {
+   "desc": "Cancer resections with CAP synoptic checklist"
   },
-  {
-   "id": "cyto",
-   "name": "Cytology / FNAC",
-   "template": "Cytology Template.dotx",
-   "engine": "generic",
-   "desc": "FNAC and other cytology: procedure, microscopy, impression",
-   "case_prefixes": [
-    "Cytopathology/FNAC/"
-   ]
+  "ihc": {
+   "desc": "IHC without images: results, scoring, controls, impression"
   },
-  {
-   "id": "pap",
-   "name": "PAP Smear",
-   "template": "PAP Smear Template.dotx",
-   "engine": "generic",
-   "desc": "Adequacy, findings, Bethesda 2014 synoptic",
-   "case_prefixes": [
-    "Cytopathology/PAP Smear/"
-   ]
+  "ihc-images": {
+   "desc": "IHC with an images section for representative photomicrographs"
   },
-  {
-   "id": "serous",
-   "name": "Serous Effusion Cytology",
-   "template": "Serous Effusion Cytology Template.dotx",
-   "engine": "generic",
-   "desc": "Ascitic, peritoneal wash, pleural, pericardial fluid",
-   "case_prefixes": [
-    "Cytopathology/Serous Effusion/"
-   ]
+  "ihc-breast": {
+   "desc": "ER, PR, HER2, Ki-67 panel with scoring (Allred, HER2) and images"
   },
-  {
-   "id": "fluid",
-   "name": "Other Fluid Cytology",
-   "template": "Other Fluid Cytology Template.dotx",
-   "engine": "generic",
-   "desc": "CSF, urine, BAL, synovial, cyst fluid…",
-   "case_prefixes": [
-    "Cytopathology/Fluid Cytology/"
-   ]
+  "fnac": {
+   "desc": "Palpation FNAC: site, aspirate, microscopy, impression"
   },
-  {
-   "id": "bma",
-   "name": "Bone Marrow Aspiration",
-   "template": "BM Aspiration Template.dotx",
-   "engine": "generic",
-   "desc": "PB findings, aspirate morphology, differential count",
-   "case_prefixes": [
-    "Hematology/Bone Marrow Aspiration/"
-   ]
+  "cyto": {
+   "desc": "USG/CT-guided FNAC, biliary brush, scrape and other cytology"
   },
-  {
-   "id": "bmb",
-   "name": "Bone Marrow Biopsy",
-   "template": "BM Biopsy Template.dotx",
-   "engine": "generic",
-   "desc": "Trephine: gross, microscopy, special stains",
-   "case_prefixes": [
-    "Hematology/Bone Marrow Biopsy/"
-   ]
+  "pap": {
+   "desc": "Adequacy, findings, Bethesda 2014 synoptic"
   },
-  {
-   "id": "ps",
-   "name": "Peripheral Smear Comment",
-   "template": "PS Comment Template.dotx",
-   "engine": "generic",
-   "desc": "RBC, WBC, platelets, haemoparasites, impression",
-   "case_prefixes": [
-    "Hematology/PS Comment/"
-   ]
+  "serous": {
+   "desc": "Ascitic, peritoneal wash, pleural, pericardial fluid"
+  },
+  "fluid-cytology": {
+   "desc": "Routine body fluid cytology"
+  },
+  "fluid-malignant": {
+   "desc": "Fluid cytology for malignant cells"
+  },
+  "fluid": {
+   "desc": "CSF, urine, BAL, synovial, cyst fluid…"
+  },
+  "bma": {
+   "desc": "PB findings, aspirate morphology, differential count"
+  },
+  "bmb": {
+   "desc": "Trephine: gross, microscopy, special stains"
+  },
+  "ps": {
+   "desc": "RBC, WBC, platelets, haemoparasites, impression"
   }
- ]
+ }
 }

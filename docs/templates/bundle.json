@@ -1,16 +1,17 @@
 {
 "app": "Path Reporter WS",
-"version": "20261024001130",
-"generated": "2026-10-24T00:11:30",
+"schema": 2,
+"version": "20261024211412",
+"generated": "2026-10-24T21:14:12",
 "layouts": {
-"histo": "templates/histopathology.dotx",
-"cap": "templates/cancer-cap.dotx",
+"histo": "templates/histo.dotx",
+"cap": "templates/cap.dotx",
 "ihc": "templates/ihc.dotx"
 },
 "ihcPanels": [
 {
 "id": "ihc-50d39cc326",
-"type": "ihc",
+"type": "ihc-breast",
 "name": "Invasive Breast Carcinoma NST, ER PR HER2 Ki-67 Panel, Left Breast (Core Biopsy)",
 "site": "Breast",
 "nature": "Neoplastic",
@@ -590,7 +591,7 @@
 },
 {
 "id": "ihc-75c12d9580",
-"type": "ihc",
+"type": "ihc-breast",
 "name": "Invasive Breast Carcinoma NST Grade 1, Luminal A-like (ER+ PR+ HER2 0), Right Breast (Core Biopsy)",
 "site": "Breast",
 "nature": "Neoplastic",
@@ -705,7 +706,7 @@
 },
 {
 "id": "ihc-b9752c88ff",
-"type": "ihc",
+"type": "ihc-breast",
 "name": "Invasive Breast Carcinoma NST Grade 2, Luminal B-like HER2-negative (ER+ PR-low HER2 1+), Left Breast (Modified Radical Mastectomy)",
 "site": "Breast",
 "nature": "Neoplastic",
@@ -820,7 +821,7 @@
 },
 {
 "id": "ihc-86ad939072",
-"type": "ihc",
+"type": "ihc-breast",
 "name": "Invasive Breast Carcinoma NST Grade 2, Luminal B-like HER2-positive (HER2 2+ ISH Amplified), Right Breast (Core Biopsy)",
 "site": "Breast",
 "nature": "Neoplastic",
@@ -941,7 +942,7 @@
 },
 {
 "id": "ihc-2e191279fe",
-"type": "ihc",
+"type": "ihc-breast",
 "name": "Invasive Breast Carcinoma NST Grade 3, HER2-enriched (ER- PR- HER2 3+), Left Breast (Modified Radical Mastectomy)",
 "site": "Breast",
 "nature": "Neoplastic",
@@ -1056,7 +1057,7 @@
 },
 {
 "id": "ihc-e107ed7e93",
-"type": "ihc",
+"type": "ihc-breast",
 "name": "Invasive Breast Carcinoma NST Grade 3, Triple-negative Basal-like (CK5-6+ EGFR+ PD-L1 CPS 20), Right Breast (Core Biopsy)",
 "site": "Breast",
 "nature": "Neoplastic",
@@ -1197,24 +1198,421 @@
 "name": "Histopathology",
 "engine": "histo",
 "desc": "Gross, microscopy, diagnosis; CAP synoptic for cancers",
-"layout": "templates/histopathology.dotx",
+"layout": "templates/histo.dotx",
 "template": "Histopathology Template.dotx"
 },
 {
+"id": "cap",
+"name": "Histopathology CAP",
+"engine": "histo",
+"desc": "Cancer resections with CAP synoptic checklist",
+"layout": "templates/cap.dotx",
+"template": "Histopathology CAP Template.dotx",
+"capOnly": true
+},
+{
 "id": "ihc",
-"name": "Immunohistochemistry",
+"name": "IHC",
 "engine": "ihc",
-"desc": "Results table, scoring (Allred, HER2, Ki-67…), controls, impression",
+"desc": "IHC without images: results, scoring, controls, impression",
 "layout": "templates/ihc.dotx",
 "template": "IHC Template.dotx"
 },
 {
-"id": "cyto",
-"name": "Cytology / FNAC",
+"id": "ihc-images",
+"name": "IHC with Images",
+"engine": "ihc",
+"desc": "IHC with an images section for representative photomicrographs",
+"layout": "templates/ihc-images.dotx",
+"template": "IHC with Images Template.dotx"
+},
+{
+"id": "ihc-breast",
+"name": "IHC Breast Panel",
+"engine": "ihc",
+"desc": "ER, PR, HER2, Ki-67 panel with scoring (Allred, HER2) and images",
+"layout": "templates/ihc-breast.dotx",
+"template": "IHC Breast Panel Template.dotx"
+},
+{
+"id": "fnac",
+"name": "FNAC",
 "engine": "generic",
-"desc": "FNAC and other cytology: procedure, microscopy, impression",
-"layout": "templates/cytology-template.dotx",
-"template": "Cytology Template.dotx",
+"desc": "Palpation FNAC: site, aspirate, microscopy, impression",
+"layout": "templates/fnac.dotx",
+"template": "FNAC Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Fine Needle Aspiration Cytology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Chief complaints:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Examination findings:"
+}
+]
+},
+{
+"heading": "PROCEDURE DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Site of FNAC:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Aspirate:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "IMPRESSION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": [
+{
+"id": "fnac-442c3f0719",
+"type": "fnac",
+"name": "Malignant - Ductal Carcinoma NST, Yokohama Category 5",
+"group": "Breast",
+"nature": "Neoplastic",
+"path": "Cytopathology/FNAC/Breast/Neoplastic/Malignant - Ductal Carcinoma NST, Yokohama Category 5.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Right breast lump, upper outer quadrant.",
+"2.0": "Palpation-guided fine needle aspiration (23G needle, 3 passes); needle rinse for cell block. Slides: 6 (3 air-dried Giemsa, 3 alcohol-fixed Pap). Cell block prepared."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate and representative (IAC Yokohama criteria)."
+},
+{
+"label": "",
+"text": "Cellularity: Highly cellular smears."
+},
+{
+"label": "",
+"text": "Architecture: Numerous loosely cohesive, crowded, overlapping three-dimensional clusters, with many dispersed single intact malignant cells. Occasional cells within fibrofatty stromal fragments."
+},
+{
+"label": "",
+"text": "Cell morphology: Moderately to markedly pleomorphic ductal epithelial cells, 2 to 3 times the size of benign ductal cells, with high N:C ratio, irregular nuclear membranes, coarse hyperchromatic chromatin and prominent nucleoli. Moderate amount of cytoplasm. Mitotic figures seen."
+},
+{
+"label": "",
+"text": "Myoepithelial cells: Bipolar bare nuclei and myoepithelial cells are absent."
+},
+{
+"label": "",
+"text": "Background: Necrotic debris and blood. No apocrine metaplasia, foam cells, mucin or signet-ring cells."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Right breast lump, FNAC:",
+"text": "Malignant – carcinoma, consistent with ductal carcinoma (no special type). IAC Yokohama System (2020): Category 5 – Malignant (risk of malignancy about 99 to 100%)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Invasion cannot be assessed on cytology; differentiation from high-grade DCIS requires histology. Correlation with the clinical (triple assessment) and imaging (BI-RADS 5) findings is concordant."
+},
+{
+"label": "",
+"text": "Recommend ultrasound-guided core needle biopsy for histological type, Nottingham grade and ER, PR, HER2 and Ki-67 assessment, and FNA of the palpable right axillary node for staging. Cell block retained for ancillary testing if required."
+}
+]
+}
+}
+},
+{
+"id": "fnac-a548b85d07",
+"type": "fnac",
+"name": "Benign Reactive Lymphoid Hyperplasia",
+"group": "Lymph Node",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Non-neoplastic/Benign Reactive Lymphoid Hyperplasia.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Right posterior cervical lymph node.",
+"2.0": "Blood-mixed, whitish material. Fine needle aspiration (23G needle, 2 passes). Slides: 8 (4 air-dried MGG, 4 alcohol-fixed Pap / H&E)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate, cellular and representative."
+},
+{
+"label": "",
+"text": "Cellularity and pattern: Smears are cellular and show a polymorphous population of lymphoid cells dominated by small mature lymphocytes, with admixed centrocytes, centroblasts, immunoblasts and occasional plasma cells."
+},
+{
+"label": "",
+"text": "Background: Scattered tingible body macrophages and lymphohistiocytic aggregates (germinal centre fragments) are seen. Lymphoglandular bodies are present in the background."
+},
+{
+"label": "",
+"text": "Atypical cells: No granulomas, necrosis, Reed–Sternberg-like cells, monomorphic atypical lymphoid population or metastatic malignant cells are seen."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Right posterior cervical lymph node, FNAC:",
+"text": "Benign – reactive lymphoid hyperplasia. Sydney System (2020): Category II – Benign (approximate risk of malignancy low, <5%)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Polymorphous lymphoid population with tingible body macrophages; ancillary studies are not required."
+},
+{
+"label": "",
+"text": "Clinical correlation and follow-up. Re-aspiration or excision biopsy if the node persists beyond 4–6 weeks or enlarges."
+}
+]
+}
+}
+},
+{
+"id": "fnac-5448bc7f69",
+"type": "fnac",
+"name": "Metastatic Keratinising Squamous Cell Carcinoma",
+"group": "Lymph Node",
+"nature": "Neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Neoplastic/Metastatic Keratinising Squamous Cell Carcinoma.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Right level II cervical lymph node.",
+"2.0": "Greyish-white, partly necrotic material. Fine needle aspiration (22G needle, 2 passes). Slides: 6 (MGG and Pap stained smears)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate."
+},
+{
+"label": "",
+"text": "Tumour cells: Smears are cellular and show malignant squamous cells in sheets, clusters and singly. Cells show marked pleomorphism, including polygonal, tadpole and spindle forms, with hyperchromatic, irregular nuclei with coarse chromatin."
+},
+{
+"label": "",
+"text": "Keratinisation and background: Keratinised cells with dense orangeophilic cytoplasm on Pap stain, keratin pearls and anucleate squames are seen. The background shows necrosis, keratinous debris and an inflammatory infiltrate."
+},
+{
+"label": "",
+"text": "Lymphoid cells: Residual lymphoid cells are scanty."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Right level II cervical lymph node, FNAC:",
+"text": "Positive for malignancy – metastatic keratinising squamous cell carcinoma. Sydney System (2020): Category V – Malignant (approximate risk of malignancy high, >95%)."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Probable primary: oral cavity (tongue), on clinical correlation. p16 / HPV testing is advised if an oropharyngeal primary is suspected."
+},
+{
+"label": "",
+"text": "Biopsy of the tongue lesion and staging work-up."
+}
+]
+}
+}
+},
+{
+"id": "fnac-f6c539098c",
+"type": "fnac",
+"name": "Rosai-Dorfman Disease",
+"group": "Lymph Node",
+"nature": "Neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Neoplastic/Rosai-Dorfman Disease.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Left cervical lymph node.",
+"2.0": "Whitish-grey, blood-mixed material. Fine needle aspiration (non-guided, 23G needle, 2 passes); needle rinse for cell block. Slides: 6 (3 MGG, 2 Pap, 1 H&E); cell block prepared."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate and representative."
+},
+{
+"label": "",
+"text": "Cellularity and background: Highly cellular smears with a polymorphous population of small lymphocytes, many mature plasma cells, scattered neutrophils and occasional eosinophils. No necrosis, granulomas or caseation."
+},
+{
+"label": "",
+"text": "Histiocytes: Numerous large histiocytes, singly and in loose clusters, with abundant pale to foamy, finely vacuolated cytoplasm and round to oval vesicular nuclei with a small distinct nucleolus. Binucleate and occasional multinucleate forms are present."
+},
+{
+"label": "",
+"text": "Emperipolesis: Many histiocytes contain intact lymphocytes and plasma cells within the cytoplasm, several surrounded by a clear halo (emperipolesis), best seen on MGG."
+},
+{
+"label": "",
+"text": "Atypical cells: Occasional large binucleate cells are present. No convincing Reed–Sternberg cells with macronucleoli, no sheets of atypical lymphoid cells and no cohesive epithelial clusters."
+},
+{
+"label": "",
+"text": "Cell block immunohistochemistry: S100 positive (nuclear and cytoplasmic in large histiocytes, highlighting engulfed lymphocytes); CD68 / CD163 positive; OCT2 positive; CD1a / Langerin negative; CD30 / CD15 negative in large cells; PAX5 / CD20 / CD3 mixed B and T cells with no aberrant population; pan-CK (AE1/AE3) negative; IgG4+ cells < 10/HPF, IgG4/IgG ratio < 40%."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Left cervical lymph node, FNAC:",
+"text": "Histiocytic proliferation with emperipolesis, consistent with Rosai–Dorfman disease (sinus histiocytosis with massive lymphadenopathy). S100+, CD68+, OCT2+, CD1a−. Sydney system: Benign (category II), with recommendation for excision."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "The cytomorphology and immunoprofile support Rosai–Dorfman disease. As RDD is uncommon at this age and RDD-like changes may coexist with lymphoma (including Hodgkin lymphoma) or other neoplasms, a coexisting process cannot be fully excluded on FNA."
+},
+{
+"label": "",
+"text": "Excision biopsy of the most accessible node (preferably an inguinal node) is recommended to confirm the diagnosis and exclude a coexisting lymphoma. Suggest CBC, ESR, serum immunoglobulins and imaging to assess extranodal involvement."
+}
+]
+}
+}
+},
+{
+"id": "fnac-8bd49a875d",
+"type": "fnac",
+"name": "Tuberculous Granulomatous Lymphadenitis",
+"group": "Lymph Node",
+"nature": "Non-neoplastic",
+"path": "Cytopathology/FNAC/Lymph Node/Non-neoplastic/Tuberculous Granulomatous Lymphadenitis.dotx",
+"values": {
+"PROCEDURE DETAILS": {
+"1.0": "Left supraclavicular / lower cervical matted lymph nodes.",
+"2.0": "Cheesy, creamy-white material; part sent for CBNAAT / GeneXpert. Fine needle aspiration (23G needle, 2 passes). Slides: 6 (MGG, Pap and Ziehl–Neelsen stained smears)."
+},
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Adequacy: Adequate."
+},
+{
+"label": "",
+"text": "Granulomas: Smears show multiple epithelioid cell granulomas: cohesive clusters of epithelioid histiocytes with elongated, slipper-shaped nuclei and pale cytoplasm."
+},
+{
+"label": "",
+"text": "Giant cells and background: Occasional Langhans-type multinucleated giant cells are present. The background shows abundant amorphous, granular eosinophilic caseous necrosis with degenerated inflammatory cells and a mixed lymphoid population."
+},
+{
+"label": "",
+"text": "Atypical cells: No atypical or malignant cells are seen."
+},
+{
+"label": "",
+"text": "Special stain: Ziehl–Neelsen (AFB) positive: occasional acid-fast bacilli (AFB 1+)."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Left cervical lymph node, FNAC:",
+"text": "Necrotising granulomatous lymphadenitis with acid-fast bacilli, consistent with tuberculous lymphadenitis. Sydney System (2020): Category II – Benign."
+}
+]
+},
+"COMMENT": {
+"1.0": [
+{
+"label": "",
+"text": "Epithelioid granulomas with caseous necrosis, AFB positive (ZN); CBNAAT sent."
+},
+{
+"label": "",
+"text": "Correlate with CBNAAT / culture and clinical findings; manage per national TB programme guidelines."
+}
+]
+}
+}
+}
+]
+},
+{
+"id": "cyto",
+"name": "Other Cytology",
+"engine": "generic",
+"desc": "USG/CT-guided FNAC, biliary brush, scrape and other cytology",
+"layout": "templates/cyto.dotx",
+"template": "Other Cytology Template.dotx",
 "schema": {
 "title": [
 "DEPARTMENT OF PATHOLOGY",
@@ -1295,301 +1693,6 @@
 ],
 "cases": [
 {
-"id": "cyto-442c3f0719",
-"type": "cyto",
-"name": "Malignant - Ductal Carcinoma NST, Yokohama Category 5",
-"group": "Breast",
-"nature": "Neoplastic",
-"path": "Cytopathology/FNAC/Breast/Neoplastic/Malignant - Ductal Carcinoma NST, Yokohama Category 5.dotx",
-"values": {
-"PROCEDURE DETAILS": {
-"1.0": "Palpation-guided fine needle aspiration (23G needle, 3 passes); needle rinse for cell block.",
-"2.0": "Right breast lump, upper outer quadrant.",
-"3.0": "6 (3 air-dried Giemsa, 3 alcohol-fixed Pap). Cell block prepared."
-},
-"MICROSCOPIC DESCRIPTION": {
-"1.0": [
-{
-"label": "",
-"text": "Adequacy: Adequate and representative (IAC Yokohama criteria)."
-},
-{
-"label": "",
-"text": "Cellularity: Highly cellular smears."
-},
-{
-"label": "",
-"text": "Architecture: Numerous loosely cohesive, crowded, overlapping three-dimensional clusters, with many dispersed single intact malignant cells. Occasional cells within fibrofatty stromal fragments."
-},
-{
-"label": "",
-"text": "Cell morphology: Moderately to markedly pleomorphic ductal epithelial cells, 2 to 3 times the size of benign ductal cells, with high N:C ratio, irregular nuclear membranes, coarse hyperchromatic chromatin and prominent nucleoli. Moderate amount of cytoplasm. Mitotic figures seen."
-},
-{
-"label": "",
-"text": "Myoepithelial cells: Bipolar bare nuclei and myoepithelial cells are absent."
-},
-{
-"label": "",
-"text": "Background: Necrotic debris and blood. No apocrine metaplasia, foam cells, mucin or signet-ring cells."
-}
-]
-},
-"IMPRESSION": {
-"1.0": [
-{
-"label": "Right breast lump, FNAC:",
-"text": "Malignant – carcinoma, consistent with ductal carcinoma (no special type). IAC Yokohama System (2020): Category 5 – Malignant (risk of malignancy about 99 to 100%)."
-}
-]
-},
-"COMMENT": {
-"1.0": [
-{
-"label": "",
-"text": "Invasion cannot be assessed on cytology; differentiation from high-grade DCIS requires histology. Correlation with the clinical (triple assessment) and imaging (BI-RADS 5) findings is concordant."
-},
-{
-"label": "",
-"text": "Recommend ultrasound-guided core needle biopsy for histological type, Nottingham grade and ER, PR, HER2 and Ki-67 assessment, and FNA of the palpable right axillary node for staging. Cell block retained for ancillary testing if required."
-}
-]
-}
-}
-},
-{
-"id": "cyto-a548b85d07",
-"type": "cyto",
-"name": "Benign Reactive Lymphoid Hyperplasia",
-"group": "Lymph Node",
-"nature": "Non-neoplastic",
-"path": "Cytopathology/FNAC/Lymph Node/Non-neoplastic/Benign Reactive Lymphoid Hyperplasia.dotx",
-"values": {
-"PROCEDURE DETAILS": {
-"1.0": "Fine needle aspiration (23G needle, 2 passes). Aspirate: blood-mixed, whitish material.",
-"2.0": "Right posterior cervical lymph node.",
-"3.0": "8 (4 air-dried MGG, 4 alcohol-fixed Pap / H&E)."
-},
-"MICROSCOPIC DESCRIPTION": {
-"1.0": [
-{
-"label": "",
-"text": "Adequacy: Adequate, cellular and representative."
-},
-{
-"label": "",
-"text": "Cellularity and pattern: Smears are cellular and show a polymorphous population of lymphoid cells dominated by small mature lymphocytes, with admixed centrocytes, centroblasts, immunoblasts and occasional plasma cells."
-},
-{
-"label": "",
-"text": "Background: Scattered tingible body macrophages and lymphohistiocytic aggregates (germinal centre fragments) are seen. Lymphoglandular bodies are present in the background."
-},
-{
-"label": "",
-"text": "Atypical cells: No granulomas, necrosis, Reed–Sternberg-like cells, monomorphic atypical lymphoid population or metastatic malignant cells are seen."
-}
-]
-},
-"IMPRESSION": {
-"1.0": [
-{
-"label": "Right posterior cervical lymph node, FNAC:",
-"text": "Benign – reactive lymphoid hyperplasia. Sydney System (2020): Category II – Benign (approximate risk of malignancy low, <5%)."
-}
-]
-},
-"COMMENT": {
-"1.0": [
-{
-"label": "",
-"text": "Polymorphous lymphoid population with tingible body macrophages; ancillary studies are not required."
-},
-{
-"label": "",
-"text": "Clinical correlation and follow-up. Re-aspiration or excision biopsy if the node persists beyond 4–6 weeks or enlarges."
-}
-]
-}
-}
-},
-{
-"id": "cyto-5448bc7f69",
-"type": "cyto",
-"name": "Metastatic Keratinising Squamous Cell Carcinoma",
-"group": "Lymph Node",
-"nature": "Neoplastic",
-"path": "Cytopathology/FNAC/Lymph Node/Neoplastic/Metastatic Keratinising Squamous Cell Carcinoma.dotx",
-"values": {
-"PROCEDURE DETAILS": {
-"1.0": "Fine needle aspiration (22G needle, 2 passes). Aspirate: greyish-white, partly necrotic material.",
-"2.0": "Right level II cervical lymph node.",
-"3.0": "6 (MGG and Pap stained smears)."
-},
-"MICROSCOPIC DESCRIPTION": {
-"1.0": [
-{
-"label": "",
-"text": "Adequacy: Adequate."
-},
-{
-"label": "",
-"text": "Tumour cells: Smears are cellular and show malignant squamous cells in sheets, clusters and singly. Cells show marked pleomorphism, including polygonal, tadpole and spindle forms, with hyperchromatic, irregular nuclei with coarse chromatin."
-},
-{
-"label": "",
-"text": "Keratinisation and background: Keratinised cells with dense orangeophilic cytoplasm on Pap stain, keratin pearls and anucleate squames are seen. The background shows necrosis, keratinous debris and an inflammatory infiltrate."
-},
-{
-"label": "",
-"text": "Lymphoid cells: Residual lymphoid cells are scanty."
-}
-]
-},
-"IMPRESSION": {
-"1.0": [
-{
-"label": "Right level II cervical lymph node, FNAC:",
-"text": "Positive for malignancy – metastatic keratinising squamous cell carcinoma. Sydney System (2020): Category V – Malignant (approximate risk of malignancy high, >95%)."
-}
-]
-},
-"COMMENT": {
-"1.0": [
-{
-"label": "",
-"text": "Probable primary: oral cavity (tongue), on clinical correlation. p16 / HPV testing is advised if an oropharyngeal primary is suspected."
-},
-{
-"label": "",
-"text": "Biopsy of the tongue lesion and staging work-up."
-}
-]
-}
-}
-},
-{
-"id": "cyto-f6c539098c",
-"type": "cyto",
-"name": "Rosai-Dorfman Disease",
-"group": "Lymph Node",
-"nature": "Neoplastic",
-"path": "Cytopathology/FNAC/Lymph Node/Neoplastic/Rosai-Dorfman Disease.dotx",
-"values": {
-"PROCEDURE DETAILS": {
-"1.0": "Fine needle aspiration (non-guided, 23G needle, 2 passes); needle rinse for cell block. Aspirate: whitish-grey, blood-mixed material.",
-"2.0": "Left cervical lymph node.",
-"3.0": "6 (3 MGG, 2 Pap, 1 H&E); cell block prepared."
-},
-"MICROSCOPIC DESCRIPTION": {
-"1.0": [
-{
-"label": "",
-"text": "Adequacy: Adequate and representative."
-},
-{
-"label": "",
-"text": "Cellularity and background: Highly cellular smears with a polymorphous population of small lymphocytes, many mature plasma cells, scattered neutrophils and occasional eosinophils. No necrosis, granulomas or caseation."
-},
-{
-"label": "",
-"text": "Histiocytes: Numerous large histiocytes, singly and in loose clusters, with abundant pale to foamy, finely vacuolated cytoplasm and round to oval vesicular nuclei with a small distinct nucleolus. Binucleate and occasional multinucleate forms are present."
-},
-{
-"label": "",
-"text": "Emperipolesis: Many histiocytes contain intact lymphocytes and plasma cells within the cytoplasm, several surrounded by a clear halo (emperipolesis), best seen on MGG."
-},
-{
-"label": "",
-"text": "Atypical cells: Occasional large binucleate cells are present. No convincing Reed–Sternberg cells with macronucleoli, no sheets of atypical lymphoid cells and no cohesive epithelial clusters."
-},
-{
-"label": "",
-"text": "Cell block immunohistochemistry: S100 positive (nuclear and cytoplasmic in large histiocytes, highlighting engulfed lymphocytes); CD68 / CD163 positive; OCT2 positive; CD1a / Langerin negative; CD30 / CD15 negative in large cells; PAX5 / CD20 / CD3 mixed B and T cells with no aberrant population; pan-CK (AE1/AE3) negative; IgG4+ cells < 10/HPF, IgG4/IgG ratio < 40%."
-}
-]
-},
-"IMPRESSION": {
-"1.0": [
-{
-"label": "Left cervical lymph node, FNAC:",
-"text": "Histiocytic proliferation with emperipolesis, consistent with Rosai–Dorfman disease (sinus histiocytosis with massive lymphadenopathy). S100+, CD68+, OCT2+, CD1a−. Sydney system: Benign (category II), with recommendation for excision."
-}
-]
-},
-"COMMENT": {
-"1.0": [
-{
-"label": "",
-"text": "The cytomorphology and immunoprofile support Rosai–Dorfman disease. As RDD is uncommon at this age and RDD-like changes may coexist with lymphoma (including Hodgkin lymphoma) or other neoplasms, a coexisting process cannot be fully excluded on FNA."
-},
-{
-"label": "",
-"text": "Excision biopsy of the most accessible node (preferably an inguinal node) is recommended to confirm the diagnosis and exclude a coexisting lymphoma. Suggest CBC, ESR, serum immunoglobulins and imaging to assess extranodal involvement."
-}
-]
-}
-}
-},
-{
-"id": "cyto-8bd49a875d",
-"type": "cyto",
-"name": "Tuberculous Granulomatous Lymphadenitis",
-"group": "Lymph Node",
-"nature": "Non-neoplastic",
-"path": "Cytopathology/FNAC/Lymph Node/Non-neoplastic/Tuberculous Granulomatous Lymphadenitis.dotx",
-"values": {
-"PROCEDURE DETAILS": {
-"1.0": "Fine needle aspiration (23G needle, 2 passes). Aspirate: cheesy, creamy-white material; part sent for CBNAAT / GeneXpert.",
-"2.0": "Left supraclavicular / lower cervical matted lymph nodes.",
-"3.0": "6 (MGG, Pap and Ziehl–Neelsen stained smears)."
-},
-"MICROSCOPIC DESCRIPTION": {
-"1.0": [
-{
-"label": "",
-"text": "Adequacy: Adequate."
-},
-{
-"label": "",
-"text": "Granulomas: Smears show multiple epithelioid cell granulomas: cohesive clusters of epithelioid histiocytes with elongated, slipper-shaped nuclei and pale cytoplasm."
-},
-{
-"label": "",
-"text": "Giant cells and background: Occasional Langhans-type multinucleated giant cells are present. The background shows abundant amorphous, granular eosinophilic caseous necrosis with degenerated inflammatory cells and a mixed lymphoid population."
-},
-{
-"label": "",
-"text": "Atypical cells: No atypical or malignant cells are seen."
-},
-{
-"label": "",
-"text": "Special stain: Ziehl–Neelsen (AFB) positive: occasional acid-fast bacilli (AFB 1+)."
-}
-]
-},
-"IMPRESSION": {
-"1.0": [
-{
-"label": "Left cervical lymph node, FNAC:",
-"text": "Necrotising granulomatous lymphadenitis with acid-fast bacilli, consistent with tuberculous lymphadenitis. Sydney System (2020): Category II – Benign."
-}
-]
-},
-"COMMENT": {
-"1.0": [
-{
-"label": "",
-"text": "Epithelioid granulomas with caseous necrosis, AFB positive (ZN); CBNAAT sent."
-},
-{
-"label": "",
-"text": "Correlate with CBNAAT / culture and clinical findings; manage per national TB programme guidelines."
-}
-]
-}
-}
-},
-{
 "id": "cyto-b22fa3e932",
 "type": "cyto",
 "name": "Benign Follicular Nodule (Colloid - Adenomatoid Nodule), Bethesda II",
@@ -1651,7 +1754,7 @@
 "name": "PAP Smear",
 "engine": "generic",
 "desc": "Adequacy, findings, Bethesda 2014 synoptic",
-"layout": "templates/pap-smear-template.dotx",
+"layout": "templates/pap.dotx",
 "template": "PAP Smear Template.dotx",
 "schema": {
 "title": [
@@ -3692,7 +3795,7 @@ null,
 "name": "Serous Effusion Cytology",
 "engine": "generic",
 "desc": "Ascitic, peritoneal wash, pleural, pericardial fluid",
-"layout": "templates/serous-effusion-cytology-template.dotx",
+"layout": "templates/serous.dotx",
 "template": "Serous Effusion Cytology Template.dotx",
 "schema": {
 "title": [
@@ -3848,7 +3951,7 @@ null,
 "k": "ghead",
 "r": 1,
 "cols": [
-"Marker",
+"Marker (clone)",
 "Result",
 "Interpretation"
 ]
@@ -4277,11 +4380,231 @@ null,
 ]
 },
 {
+"id": "fluid-cytology",
+"name": "Fluid Cytology",
+"engine": "generic",
+"desc": "Routine body fluid cytology",
+"layout": "templates/fluid-cytology.dotx",
+"template": "Fluid Cytology Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Fluid Cytology Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Clinical findings:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Specimen:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Volume:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Colour:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Appearance:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Coagulum:"
+}
+]
+},
+{
+"heading": "CELL COUNTS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Total cell count:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Differential Counts:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Neutrophils:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 1,
+"label": "Lymphocytes:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 2,
+"label": "Eosinophils:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 3,
+"label": "Monocytes:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 4,
+"label": "Atypical cells:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 5,
+"label": "Others:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "CYTOLOGICAL DIAGNOSIS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "COMMENT",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": []
+},
+{
+"id": "fluid-malignant",
+"name": "Fluid for Malignant Cell",
+"engine": "generic",
+"desc": "Fluid cytology for malignant cells",
+"layout": "templates/fluid-malignant.dotx",
+"template": "Fluid for Malignant Cell Template.dotx",
+"schema": {
+"title": [
+"DEPARTMENT OF PATHOLOGY",
+"Fluid Cytology for Malignant Cells Report"
+],
+"sections": [
+{
+"heading": "CLINICAL DETAILS",
+"parts": [
+{
+"k": "label",
+"r": 1,
+"p": 0,
+"label": "Clinical findings:"
+},
+{
+"k": "label",
+"r": 2,
+"p": 0,
+"label": "Specimen:"
+},
+{
+"k": "label",
+"r": 3,
+"p": 0,
+"label": "Volume:"
+},
+{
+"k": "label",
+"r": 4,
+"p": 0,
+"label": "Colour:"
+},
+{
+"k": "label",
+"r": 5,
+"p": 0,
+"label": "Appearance:"
+},
+{
+"k": "label",
+"r": 6,
+"p": 0,
+"label": "Coagulum:"
+}
+]
+},
+{
+"heading": "MICROSCOPIC DESCRIPTION",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+},
+{
+"heading": "CYTOLOGICAL DIAGNOSIS",
+"parts": [
+{
+"k": "free",
+"r": 1
+}
+]
+}
+]
+},
+"blankOnPick": [
+"CLINICAL DETAILS"
+],
+"cases": []
+},
+{
 "id": "fluid",
 "name": "Other Fluid Cytology",
 "engine": "generic",
 "desc": "CSF, urine, BAL, synovial, cyst fluid…",
-"layout": "templates/other-fluid-cytology-template.dotx",
+"layout": "templates/fluid.dotx",
 "template": "Other Fluid Cytology Template.dotx",
 "schema": {
 "title": [
@@ -4537,10 +4860,10 @@ null,
 },
 {
 "id": "bma",
-"name": "Bone Marrow Aspiration",
+"name": "BM Aspiration",
 "engine": "generic",
 "desc": "PB findings, aspirate morphology, differential count",
-"layout": "templates/bm-aspiration-template.dotx",
+"layout": "templates/bma.dotx",
 "template": "BM Aspiration Template.dotx",
 "schema": {
 "title": [
@@ -5666,10 +5989,10 @@ null
 },
 {
 "id": "bmb",
-"name": "Bone Marrow Biopsy",
+"name": "BM Biopsy",
 "engine": "generic",
 "desc": "Trephine: gross, microscopy, special stains",
-"layout": "templates/bm-biopsy-template.dotx",
+"layout": "templates/bmb.dotx",
 "template": "BM Biopsy Template.dotx",
 "schema": {
 "title": [
@@ -6124,10 +6447,10 @@ null
 },
 {
 "id": "ps",
-"name": "Peripheral Smear Comment",
+"name": "PS Comment",
 "engine": "generic",
 "desc": "RBC, WBC, platelets, haemoparasites, impression",
-"layout": "templates/ps-comment-template.dotx",
+"layout": "templates/ps.dotx",
 "template": "PS Comment Template.dotx",
 "schema": {
 "title": [
