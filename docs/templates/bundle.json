@@ -1,8 +1,8 @@
 {
 "app": "Path Reporter WS",
 "schema": 2,
-"version": "20261024211412",
-"generated": "2026-10-24T21:14:12",
+"version": "20261025002951",
+"generated": "2026-10-25T00:29:51",
 "layouts": {
 "histo": "templates/histo.dotx",
 "cap": "templates/cap.dotx",
@@ -1314,6 +1314,33 @@
 "CLINICAL DETAILS"
 ],
 "cases": [
+{
+"id": "ws-72e27257c3",
+"type": "fnac",
+"name": "Lipoma (WS)",
+"group": "My reports",
+"nature": "",
+"path": "WS/FNAC Template/Lipoma (WS).docx",
+"values": {
+"MICROSCOPIC DESCRIPTION": {
+"1.0": [
+{
+"label": "",
+"text": "Smears show low-to-moderate cellularity and comprises of loose fragments of mature adipocytes. These are large cells with a single clear univacuolated cytoplasm, thin peripheral rim, and small, bland, dark nuclei displaced to the edge. No nuclear atypia, pleomorphism, lipoblasts, or mitoses identified. Background appears oily/lipid-rich."
+}
+]
+},
+"IMPRESSION": {
+"1.0": [
+{
+"label": "Swelling; FNAC:",
+"text": "Lipoma."
+}
+]
+}
+},
+"ws": true
+},
 {
 "id": "fnac-442c3f0719",
 "type": "fnac",

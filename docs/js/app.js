@@ -32,7 +32,7 @@ async function loadBundle(fromNetwork){
   $('#bundleInfo').textContent=`${S.bundle.specimens.length} specimens · ${allDx().length} diagnoses · ${ihcDx().length} IHC panels · ${(S.bundle.reportTypes||[]).length} report types · templates ${S.bundle.version.slice(0,8)}`;
 }
 const dxType=d=>d.type||'histo';
-function ihcDx(cur){ const ids=new Set((S.bundle.reportTypes||[]).filter(t=>t.engine==='ihc').map(t=>t.id)); ids.add('ihc'); const m=new Map(); for(const id of ids) for(const d of allDx(id)) m.set(d.id,d); return [...m.values()].sort((a,b)=>((dxType(b)===cur)-(dxType(a)===cur))||a.name.localeCompare(b.name)); }
+function ihcDx(cur){ const ids=new Set((S.bundle.reportTypes||[]).filter(t=>t.engine==='ihc').map(t=>t.id)); ids.add('ihc'); const m=new Map(); for(const id of ids) for(const d of allDx(id)) m.set(d.id,d); return [...m.values()].sort((a,b)=>((dxType(b)===cur)-(dxType(a)===cur))||(!!b.ws-!!a.ws)||a.name.localeCompare(b.name)); }
 function allDx(type='histo',ut0){ const gen=(S.bundle.reportTypes||[]).flatMap(t=>t.cases||[]); const m=new Map([...S.bundle.diagnoses,...(S.bundle.ihcPanels||[]),...gen].map(d=>[d.id,d])); for(const u of S.userDx) m.set(u.id,u); const ut=ut0!==undefined?ut0:(S.report&&S.report.utype)||null; return [...m.values()].filter(d=>dxType(d)===type&&(d.utype||null)===ut); }
 
 // ---------- screens ----------
@@ -132,9 +132,9 @@ function editor(){
     if(sp&&!R.clinical[0].text) { R.clinical[0].text=sp.organ+'.'; renderClin(); }
     renderDx(); };
   const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const sp=specs.find(s=>s.id===R.specimenId); const all=$('#dxall').checked||!sp;
-    let L=allDx().filter(d=>(!S.report.capOnly||d.layout==='cap')&&(all||d.userOrgan===sp?.organ||new RegExp(sp.match,'i').test(d.path||''))&&(!q||(d.name+' '+(d.path||'')).toLowerCase().includes(q)));
-    if(sp&&!all){ const want=sp.kind==='Cancer'?'Neoplastic':'Non-neoplastic'; L.sort((a,b)=>((a.nature===want?0:1)-(b.nature===want?0:1))||a.name.localeCompare(b.name)); } else L.sort((a,b)=>a.name.localeCompare(b.name));
-    $('#dxl').innerHTML=L.length?L.slice(0,300).map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.layout==='cap'?'<span class="tag purple">CAP</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')} · ${esc((d.path||'').split('/').slice(0,2).join(' / '))}</small></div>`).join(''):`<p class="hint" style="padding:10px">No diagnoses for this specimen yet${sp?' — tick "all organs" to see everything':''}.</p>`;
+    let L=allDx().filter(d=>(!S.report.capOnly||d.layout==='cap')&&(all||d.ws||d.userOrgan===sp?.organ||new RegExp(sp.match,'i').test(d.path||''))&&(!q||(d.name+' '+(d.path||'')).toLowerCase().includes(q)));
+    if(sp&&!all){ const want=sp.kind==='Cancer'?'Neoplastic':'Non-neoplastic'; L.sort((a,b)=>(!!b.ws-!!a.ws)||((a.nature===want?0:1)-(b.nature===want?0:1))||a.name.localeCompare(b.name)); } else L.sort((a,b)=>(!!b.ws-!!a.ws)||a.name.localeCompare(b.name));
+    $('#dxl').innerHTML=L.length?L.slice(0,300).map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.layout==='cap'?'<span class="tag purple">CAP</span>':''}${d.ws?'<span class="tag green">My reports</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')} · ${esc((d.path||'').split('/').slice(0,2).join(' / '))}</small></div>`).join(''):`<p class="hint" style="padding:10px">No diagnoses for this specimen yet${sp?' — tick "all organs" to see everything':''}.</p>`;
     $$('[data-dx]').forEach(el=>el.onclick=()=>pickDx(el.dataset.dx)); };
   const pickDx=id=>{ const d=allDx().find(x=>x.id===id); if(!d) return;
     if((R.micro.length||R.finalDiagnosis.length)&&!confirm('Replace microscopic, diagnosis and comment with "'+d.name+'"?')) return;
@@ -244,8 +244,8 @@ function genericEditor(T){
   $$('[data-gs]').forEach(e=>e.onchange=()=>{const[a,k,c]=e.dataset.gs.split('|');V(sec(a))[k].containers[+c].gross=e.value;});
   $$('[data-ga]').forEach(e=>e.onclick=()=>{const[a,k]=e.dataset.ga.split('|');V(sec(a))[k].containers.push({text:'',gross:''});genericEditor(T);});
   $$('[data-gsec]').forEach(e=>e.oninput=()=>{const[a,k]=e.dataset.gsec.split('|');V(sec(a))[k].sections=e.value;});
-  const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const L=cases.filter(d=>!q||(d.name+' '+(d.group||'')).toLowerCase().includes(q)).sort((a,b)=>(a.group||'').localeCompare(b.group||'')||a.name.localeCompare(b.name));
-    $('#dxl').innerHTML=L.map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')}${d.group?' · '+esc(d.group):''}</small></div>`).join('')||'<p class="hint" style="padding:10px">No case templates for this report type yet — fill the sections below and use Save → new template.</p>';
+  const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const L=cases.filter(d=>!q||(d.name+' '+(d.group||'')).toLowerCase().includes(q)).sort((a,b)=>(!!b.ws-!!a.ws)||(a.group||'').localeCompare(b.group||'')||a.name.localeCompare(b.name));
+    $('#dxl').innerHTML=L.map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.ws?'<span class="tag green">My reports</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')}${d.group?' · '+esc(d.group):''}</small></div>`).join('')||'<p class="hint" style="padding:10px">No case templates for this report type yet — fill the sections below and use Save → new template.</p>';
     $$('[data-dx]').forEach(el=>el.onclick=()=>pick(el.dataset.dx)); };
   const pick=id=>{ const d=cases.find(x=>x.id===id); if(!d) return;
     const has=Object.entries(R.values).some(([h,v])=>!(T.blankOnPick||[]).includes(h)&&Object.keys(v).length);
@@ -303,7 +303,7 @@ function ihcEditor(){
     $('#addScR').onclick=()=>{sc.rows.push(sc.cols.map(()=>''));renderScore();}; $('#delSc').onclick=()=>{R.scoring=null;renderScore();}; };
   renderScore();
   const renderDx=()=>{ const q=$('#dxq').value.toLowerCase(); const L=ihcDx(R.type).filter(d=>!q||(d.name+' '+(d.site||'')).toLowerCase().includes(q)); 
-    $('#dxl').innerHTML=L.map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.scoring?'<span class="tag purple">scoring</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')} · ${esc(d.site||'')} · ${(d.results||[]).length} markers</small></div>`).join('')||'<p class="hint" style="padding:10px">No panels found.</p>';
+    $('#dxl').innerHTML=L.map(d=>`<div class="dx ${d.id===R.dxId?'sel':''}" data-dx="${d.id}"><b>${esc(d.name)}</b> ${d.scoring?'<span class="tag purple">scoring</span>':''}${d.ws?'<span class="tag green">My reports</span>':''}${d.user?'<span class="tag blue">mine</span>':''}<br><small>${esc(d.nature||'')} · ${esc(d.site||'')} · ${(d.results||[]).length} markers</small></div>`).join('')||'<p class="hint" style="padding:10px">No panels found.</p>';
     $$('[data-dx]').forEach(el=>el.onclick=()=>pick(el.dataset.dx)); };
   const pick=id=>{ const d=ihcDx(R.type).find(x=>x.id===id); if(!d) return;
     if(R.results.some(r=>r.some(v=>v))&&!confirm('Replace the IHC sections with "'+d.name+'"?')) return;

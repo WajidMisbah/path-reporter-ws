@@ -148,10 +148,20 @@ def _ihc_type(c):
     mk={str(r[0]).upper().split(' (')[0].replace('-','').strip() for r in c.get('results',[])}
     if 'ihc-breast' in _ihc_ids and {'ER','PR','HER2','KI67'}<=mk: return 'ihc-breast'
     return 'ihc' if 'ihc' in _ihc_ids else sorted(_ihc_ids)[0]
+# ---------- Wajid's own sample reports (OneDrive 'WS Case Based Templates', mirrored by sync_ws_cases.py) ----------
+_sp=_iu.spec_from_file_location('ws_cases',os.path.dirname(os.path.abspath(__file__))+'/ws_cases.py'); WS=_iu.module_from_spec(_sp); _sp.loader.exec_module(WS)
+_wsd,_wsi,_wss,_wsu=WS.build(RTYPES,BASIC,schema)
+diagnoses+=_wsd
+for t in RTYPES:
+    if t.get('cases'): t['cases']=sorted(t['cases'],key=lambda x:(not x.get('ws'),x['group'],x['name']))
+print('WS case templates: %d used, %d skipped'%(len(_wsu),len(_wss)))
+for r,tn in _wsu: print('  ws ok  ',tn,'<-',r)
+for r,why in _wss: print('  ws SKIP',r,'--',why)
+json.dump({'used':_wsu,'skipped':_wss},open(ROOT+'/build_cache/ws_cases_report.json','w'),indent=1)
 _lay=lambda tid:next((t['layout'] for t in RTYPES if t['id']==tid),None)
 bundle={'app':'Path Reporter WS','schema':2,'version':datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
  'generated':datetime.datetime.now().isoformat(timespec='seconds'),
- 'layouts':{k:v for k,v in {'histo':_lay('histo'),'cap':_lay('cap'),'ihc':_lay('ihc')}.items() if v},'ihcPanels':ihc_panels(_ihc_type),'reportTypes':RTYPES,
+ 'layouts':{k:v for k,v in {'histo':_lay('histo'),'cap':_lay('cap'),'ihc':_lay('ihc')}.items() if v},'ihcPanels':_wsi+ihc_panels(_ihc_type),'reportTypes':RTYPES,
  'specimens':specimens,'diagnoses':diagnoses}
 json.dump(bundle,open(OUTDIR+'/bundle.json','w'),ensure_ascii=False,indent=0)
 [print('  type %-28s %-8s %d cases'%(t['name'],t['engine'],len(t.get('cases',[])))) for t in bundle['reportTypes']]

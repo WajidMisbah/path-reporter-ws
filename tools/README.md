@@ -75,3 +75,30 @@ Stored in `secLayout.secs[].img` as `{"t.<tplRow>.<col>"|"a.<addedRow>.<col>": {
   `Dept./Ward` and `Dept/Ward`. Rows are kept from wrapping (no-wrap value runs, fixed widths). Filename rule is unchanged.
 * Tests: `test/hdrcheck.py` (template header structure, unique paraIds), `test/e2e_header.py` + `test/header_layouts.js` (fill both layouts).
 * SW cache `prws-shell-v15`.
+
+## Wajid's own sample reports – "WS Case Based Templates" (2026-10-25)
+OneDrive *Pathology Reporting Assets/WS Case Based Templates* (folder id `AC50180E099A9DD6!s58a8e2faf3b1431a99f99c27e5e2591b`) has one sub-folder
+per Basic Template, named like the template file minus `.dotx` (e.g. `IHC Breast Panel Template`). Every `.docx`/`.dotx` in it (sub-folders allowed)
+becomes a case template of that report type, listed first in the normal case picker with a green **My reports** tag (group `My reports[ / sub folder]`).
+Case name = file name without extension. A folder for a future Basic Template works automatically (matched by name in `ws_cases.folder_type`).
+OneDrive is only read, never written.
+
+```bash
+# 1. list the folder recursively with the OneDrive connector (list_drive_items, select id,name,folder,file) and write
+#    /tmp/ws_listing.json = [{"id":<item id>,"path":"<type folder>/[sub/]<file>.docx","sha1":<file.hashes.sha1Hash>}, ...]
+# 2. mirror: removes local files deleted/renamed on OneDrive, prints what to download
+python3 tools/sync_ws_cases.py plan /tmp/ws_listing.json      # -> "DOWNLOAD <id> -> /workspace/casetemplates/ws_cases/..."
+#    DownloadFile each line (connection user-Onedrive, source.fileId=<id>, destination.path=<path>)
+python3 tools/sync_ws_cases.py check /tmp/ws_listing.json     # must say 0 problems
+# 3. bundle: prints "ws ok" / "ws SKIP <file> -- reason" (also build_cache/ws_cases_report.json)
+python3 tools/gen_bundle.py
+```
+Parsing (`tools/ws_cases.py`) = `schema.detect(<Basic Template>)` + `schema.extract(<report>)`, the same reader as the other case templates, so wording
+and bold labels stay as written. generic types → `reportTypes[].cases` (`values`); Histopathology → `diagnoses` (micro / final diagnosis / comment /
+gross); Histopathology CAP → `diagnoses` with `layout:'cap'` (SYNOPTIC REPORT table parsed, identical to the built-in CAP cases); IHC types →
+`ihcPanels` (block, results, extra table = scoring, controls, impression, comment). All carry `ws:true`.
+**Privacy (repo is public):** the page header (Name, UHID, Age, Gender, Lab No, Sample No, Ref. Doctor, Dept./Ward, Received/Reported on) is never read,
+CLINICAL DETAILS is dropped, and any line whose label is an identifier (name, age/sex, IP/OP no, dates, referring doctor…) is removed.
+Free text inside other sections is kept as written – don't type patient names into Microscopy/Diagnosis of a sample report.
+Files that fail (not a zip, no sections of that layout, folder with no matching template, CAP without a filled synoptic table) are skipped and listed.
+Test: `python3 test/e2e_ws.py /tmp/wstest` (test mirror outside the repo; builds a throw-away copy of docs/, the shipped bundle is untouched).
